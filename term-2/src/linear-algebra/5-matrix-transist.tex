@@ -1,0 +1,50 @@
+\section{Матрица перехода}
+
+\begin{definition}
+    $V-n$-мерное пространство; $v_1,...,v_n\ -$ старый базис, 
+$v'_1,...v'_n\ -$ новый базис
+
+    $a_1,...,a_n\in K:(v_1,...,v_n)\cdot\ \begin{pmatrix} a_1\\...\\a_n 
+\end{pmatrix}=a_1v_1+...+a_nv_n$.
+
+    Рассмотрим матрицу $C:([v_1]_{\{v'_1\}}\ |\ [v_2]_{\{v'_2\}}\ |\ ...\ 
+|\ [v_n]_{\{v'_n\}})\in M_{n}(K).\ C$ называется \textbf{\textit{матрицей 
+перехода}} от $v_i$ к $v'_i.$ 
+\end{definition}
+
+\begin{statement}
+    $x\in V,\mathcal{X}=[x]_{\{v_i\}};$ тогда $C\cdot\mathcal{X}-$ это 
+$[x]_{\{v'_i\}}.$
+\end{statement}
+
+\begin{proof}
+    Рассмотрим $(u'_1,...,u'_n)(C\mathcal{X})=(\text{по 
+ассоциативности})=(u'_1,...,u'_n)(C\mathcal{X})=(u_1,...,u_n)\cdot 
+\mathcal{X}=x\Rightarrow C\mathcal{X}\ -$ координатыты $x$ в 
+$(u'_1,...,u'_n)$.
+\end{proof}
+
+\begin{corollary}
+    $C\ -$ матрица перехода от $(u_1,...,u_n)$ к $(u'_1,...,u'_n)$.
+
+    $C'\ -$ матрица перехода от $(u'_1,...,u'_n)$ к $(u''_1,...,u''_n)$.
+
+    $C'C\ -$ матрица перехода от $(u_1,...,u_n)$ к $(u''_1,...,u''_n)$.
+\end{corollary}
+
+
+\begin{proof}
+    $\forall$ столбца $\mathcal{X}\leadsto x\in V:$ 
+
+    $C\mathcal{X}\ -$  координаты $x$ в $(u_1',...,u_n')$
+
+    $C'(C\mathcal{X})\ -$  координаты $x$ в $(u_1'',...,u_n'')$
+
+    $(C'C)\mathcal{X}\Rightarrow C'C\ -$ часть матрицы перехода от 
+$(u_1,...,u_n)$ к $(u_1'',...,u_n'')$
+
+    \textit{Частный случай:} $u_1''=...=u_n''=u_1=...=u_n$
+
+    $C'C=E$ и $CC'=E$, т.е. $C'=C^{-1}$; в частности матрица перехода 
+обратима.    
+\end{proof}

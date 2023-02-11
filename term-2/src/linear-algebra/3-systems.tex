@@ -1,0 +1,31 @@
+\section{Системы линейных уравнений}
+
+\begin{definition}
+    \textbf{\textit{Система линейных уравнений}} 
+$S:\begin{cases}a_{1,1}x_1+a_{1,2}x_2+...+a_{1,m}x_m=b_1\\ 
+a_{2,1}x_1+a_{2,2}x_2+...+a_{2,m}x_m=b_2 \\ ... \\ 
+a_{n,1}x_1+a_{n,2}x_2+...+a_{n,m}x_m=b_n \end{cases}$
+\end{definition} 
+
+\begin{designation}
+    $A_i=\begin{pmatrix} a_{1,i} \\ a_{2,i} \\ ... \\a_{n,i} 
+\end{pmatrix}\in K^n$, $B=\begin{pmatrix} b_{1} \\ b_{2} \\ ... \\b_{n} 
+\end{pmatrix}$   
+\end{designation}
+ 
+\begin{definition}
+    Что значит, что $S$ \textbf{\textit{имеет решение}} ? $\rightarrow\ 
+B\in \langle A_1,A_2,..,A_m\rangle$.  
+\end{definition}
+
+\begin{definition}
+    \textbf{\textit{Однородная СЛУ}}: $B=0=\begin{pmatrix} 0 \\ 0 \\ ... 
+\\0 \end{pmatrix}$; всегда есть тривиальное решение $x_1=x_2=..=x_m=0$     
+\end{definition}
+
+\begin{definition}
+    У $S$ есть нетривиальное решение $\Leftrightarrow A_1,A_2,..,A_m-$ ЛЗ. 
+\\
+    \textit{Частный случай:} $m>n:A_1,...,A_{n+1}\in K^n\Rightarrow$  ЛЗ 
+$\Rightarrow$  ОСЛУ имеет нетривальное решение.
+\end{definition}

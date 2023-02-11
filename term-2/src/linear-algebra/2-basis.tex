@@ -1,0 +1,429 @@
+\section{Базис и размерность}
+\subsection{Линейная комбинация}
+
+\begin{definition}
+    $v_1,...,v_n\in V$ — векторное пространство над $K;\ a_1,...,a_n\in 
+K$. $a_1v_1+...+a_nv_n$ $—$ \textbf{\textit{линейная комбинация}} 
+$v_1,..,v_n$ с коэффициентами $a_1,...,a_n$.
+\end{definition}
+
+\begin{definition}
+    $v_1,...,v_n\in V$ — множество линейных комбинаций, замкнутых 
+относительно $+,\cdot\Rightarrow$  является векторным пространством. Оно 
+называется \textbf{\textit{линейной оболочкой}} $v_1,...,v_n - \langle 
+v_1,...,v_n \rangle$. \\
+    $\sum a_iv_i+\sum b_iv_i=\sum (a_i+b_i)v_i;\ k\cdot \sum a_iv_i=\sum 
+(ka_i)\cdot v_i$
+\end{definition}
+
+\begin{remark}
+    Все тоже для бесконечных систем $\{v_i\}_{i\in I}$. 
+\textbf{\textit{Линейная комбинация}} — это $a_1v_1+...+a_nv_n$ или $\sum 
+a_iv_i,$ где почти все $a_i=0$ (все, кроме конечного числа)
+\end{remark}
+
+\begin{example}
+    $v, u$ — неколлинеарные векторы. 
+    
+    $\langle v \rangle =\{kv \}$ — прямая, содержащая $v$.
+    
+    $\langle v,u \rangle$  — плоскость, натянутая на $u$ и $v$.
+\end{example}
+
+\begin{definition}
+    $\{v_i\}$ $-$ \textbf{\textit{линейно независимое множество 
+векторов}}, если выполнено одно из двух равносильных условий:
+    \begin{enumerate}
+        \item $\forall i\ v_i\neq \sum\limits_{j\neq i}a_jv_j$
+        \item $\sum\limits_{j}a_jv_j=0\Rightarrow \forall i\ a_i=0$, то 
+есть никакая линейная комбинация $v_i$ не равна 0.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    $\{\overline{0}\}$ — линейно независимое 
+    \begin{enumerate}
+        \item $\overline{0} =\overline{0}=\sum\limits_{\varnothing}$
+        \item $1\cdot \overline{0}=\overline{0}$
+    \end{enumerate}
+\end{example}
+\begin{proof}
+\begin{enumerate}
+    \item[]
+    \item[\circ] $2\Rightarrow 1$ \\
+    Пусть $v_1=\sum\limits_{i\neq 1}a_iv_i\Rightarrow (-1)\cdot 
+v_1+\sum\limits_{i\neq 1}a_iv_i=0$, но не все коэффициенты = 0.
+    \item[\circ] $1\Rightarrow 2$ \\
+    $\sum a_iv_i=0$ и $\exist i$ (НУО $i=1$): $a_i\neq 0;$ тогда 
+$v_1=-\frac{a_2}{a_1}-...$
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+    Здесь важно, что $K$ — поле $(\frac{a_i}{a_1})$.
+\end{remark}
+
+\begin{definition}
+    $R$ — ассоциативное кольцо; тогда тройка $(V,+,\cdot)$ т.ч. выполнены 
+8 аксиом, называется $R$\textbf{\textit{-модулем}}.
+\end{definition}
+
+\begin{definition}
+    $V$ — векторное пространство над $K;\ \{v_i\}$ — 
+\textbf{\textit{порожденная система}}, если $\lang\{v_i\} \rang =V$ (т.е. 
+$\forall v\in V$ — линейная комбинация).
+\end{definition}
+
+\begin{remark}
+    Пусть $M\subset V=\{v_i\}$ — система векторов.
+    \begin{enumerate}
+        \item $M$  — линейно независимое, $N\subset M\Rightarrow N$ — 
+линейно независимое.
+        \item $M$  — порожденная система, $N\supset M\Rightarrow N$ — 
+порожденная система.
+    \end{enumerate}
+\end{remark}
+
+\subsection{Базис}
+
+\begin{definition}
+    $V$ — векторное пространство, $\{v_i\}\in V;\ \{v_i\}_{i\in I}$ — 
+\textbf{\textit{базис}}, если выполнены 4 равносильных условия:
+    \begin{enumerate}
+        \item $\{v_i\}$ — лин. нез. и пор.
+        \item $\{v_i\}$ — макс. лин. нез., т.е. $\forall v\in V\ 
+\{v_i\}\cup\{v\}$ — лин. зав.
+        \item $\{v_i\}$ — мин. пор., т.е. $\forall i\in I\ \{v_j\}_{j\in 
+I}\setminus\{v_i\}$ — не пор.
+        \item $\forall v\in V$ представляется единственным образом как 
+линейная комбинация $\{v_i\}$ 
+    \end{enumerate}
+\end{definition}
+
+\begin{proof} Докажем равносильность:
+    \begin{enumerate}
+        \item[\circ] $1\Rightarrow 2$ 
+        
+        $\{v_i\}\cup\{v\}\ \ \ \ \lang\{v_i\}\rang =V\Rightarrow v$ — л.к. 
+$\{v_i\}\Rightarrow \{v_i\}\cup\{v\}$ лин.зав.
+        \item[\circ] $2\Rightarrow 1$ 
+        
+        $v\in V\ \{v_i\}\cup\{v\}$ — л.з. по условию: $\exists 
+a_{i_1},...,a_{i_k},a:\ a_{i_1}v_{i_1}+...+a_{i_k}v_{i_k}+av=0$ и не все 
+коэффициенты $=0$.
+        \begin{enumerate}
+            \item[I.] Пусть $a\neq 0\Rightarrow v=-\sum 
+\frac{a_{i_l}}{a}v_{i_l}$, т.е. $v\in\langle \{v_i\}\rangle$
+            \item[II.] $\sum a_{i_l}v_{i_l}=0$ не все $a_{i_l}=0,$ против. 
+с ЛНЗ $\{v_i\}$
+        \end{enumerate}
+        \item[\circ] $1\Rightarrow 4$ 
+        
+        $v\in V\ \ \ \{v_i\}\Rightarrow v=\sum a_iv_i$, осталось доказать 
+единственность.
+        
+        Пусть $v=\sum a_iv_i=\sum b_iv_i\Rightarrow 0=\sum 
+(a_i-b_i)v_i\Rightarrow^{\text{ЛНЗ}}a_1=b_i\ \forall i$
+        \item[\circ] $4\Rightarrow 1$ 
+        
+        $\{v_i\}$ пор. по усл., осталось доказать ЛНЗ 
+        
+        $v_1=\sum\limits_{I\neq 1} a_iv_i=1\cdot v_1+0\cdot v_2+...$ 
+разные разложения ???
+    \end{enumerate}
+TODO
+\end{proof}
+
+
+\begin{statement}
+    $f:V\rightarrow\ ^nK\ (v\rightarrow (a_1,...,a_n))$ — изоморфизм
+\end{statement}
+
+\begin{proof}
+    Kорректность и биективность $-$ по определению базиса. 
+    
+    Гомоморфность очев.
+\end{proof}
+
+\begin{designation}
+    Базис — строка, координаты — столбец.
+\end{designation}
+
+\begin{example}
+    $K[x]_2\ \ \ 1,\ x,\ x^2\ |\ x^2+1,\ x^2-x,\ x^2+x+3 \rightarrow$  
+базисы. \\
+    $2x^2+3\leadsto(2,0,3)\ |\ (0,1,1)\rightarrow$ представление в разных 
+базисах.
+    
+\end{example}
+
+\begin{definition}
+    $V$ называют \textbf{\textit{конечномерным}}, если в $V \ \exists$ 
+конечная порождающая система $(V=\langle v_1,...,v_n \rangle)$.
+\end{definition}
+
+\begin{lemma}
+    Из любой конечной порождающей системы можно выбрать базис.
+\end{lemma}
+
+\begin{proof}
+    Пусть $v_1,...,v_n$ — порожденная система; если она ЛНЗ, то вот и 
+базис.
+    
+    Иначе $\exists v_i$ (НУО $v_n$)$:\ v_n=\sum\limits_{i=1}^{n-1}a_iv_i$
+    
+    Но тогда $\forall$  линейная комбинация $v_1,...,v_n$ это 
+$\sum\limits_{i=1}^{n}b_iv_i=\sum\limits_{i=1}^{n-1}b_iv_i+b_n(\sum\limits_{i=1}^{n-1}a_iv_i)\in 
+\langle v_1,...,v_{n-1} \rangle$ 
+    
+    Значит, $v_1,...,v_n$ — порождающая система. 
+    
+    Будем продолжать этот процесс, пока система не станет линейно 
+независимой (что когда-нибудь случится, так как система была конечной).
+\end{proof}
+
+\begin{corollary}
+    В любом конечном пространстве есть базис.
+\end{corollary}
+
+\begin{remark} \textbf{Лемма Цорна} \\
+    На самом деле в любом пространстве есть базис.
+\end{remark}
+
+\begin{example}
+    $K[x]\ \ \ \{1, x, x^2, ...\}$ — базис
+
+    $K[[x]]\ -$  базис существует, но конструктивно его не предъявить
+
+    $\R$ над $\mathbb{Q}\ -$ базис есть, но…
+\end{example}
+
+\begin{definition}
+     $V$ — векторное пространство (конечномерное); 
+\textbf{\textit{размерность}} $V\ (dim\ V)$  — это количество векторов в 
+его базисе.
+\end{definition}
+
+\begin{theorem}
+    В двух любых базисах $V$ поровну элементов.
+\end{theorem}
+
+ \begin{proof}
+    Это следует из леммы.
+ \end{proof}
+
+ \subsection{Лемма о линейной зависимости линейных комбинаций}
+
+\begin{lemma} \textbf{о линейной зависимости линейных комбинаций (ЛЗЛК)} 
+\\
+    Пусть $u_1,...,u_n\in \lang v_1,...,v_m\rang, \ m>n$. Тогда 
+$u_1,...,u_m$ линейно зависима.
+\end{lemma}
+
+\begin{proof}
+    \textit{Лирическое отсутупление:}
+    
+    В теореме: пусть $v_1,...,v_m$ — базис min размера 
+    
+    $\exists$ базис $u_1,...,u_{n+1}$ 
+    
+    Все $u_i$ — л.к. $\{v_i\}$, т.к. $\{v_i\}$ — базис $\Rightarrow 
+\{u_i\}$ — л.з. ??? \\
+    \textit{Само доказательство:}
+    
+    НУО: $n=m+1\ \ \ (u_1,...,u_{m+1}$ — л.з. $\Rightarrow u_1,...,u_{n}$ 
+— л.з.$)$ \\
+    Индукция по $m$:
+    \begin{enumerate}
+        \item База: $m=1;\ \ u_1=a_1v_1,\ u_2=a_2v_1$ 
+        
+        \textit{Два случая:}
+        \begin{enumerate}
+            \item[1)] $a_1$ или $a_2=0\Rightarrow \{u_1,u_2\}$ — л.з.
+            \item[2)] $a_1,a_2\neq 0\Rightarrow \frac{a_2}{a_1}\cdot u_1,$ 
+т.е. опять л.з.
+        \end{enumerate}
+        \item Переход: $m\rightarrow m+1$ 
+        
+        $u_1,...,u_{m+2}\ \ \ v_1,...,v_{m+1}$ 
+        
+        $u_i=\sum\limits_{j=1}^{m+1}a_{i_j}v_j$ — л.к.. Далее возможны 
+случаи:
+        \begin{enumerate}
+            \item[1)] Пусть $a_{i_{m+1}}=0\ \forall i\Rightarrow 
+u_1,...,u_{m+2}\in\langle 
+v_1,...,v_{m}\rangle\Rightarrow^{\text{и.п.}}u_1,...,u_{m+1}$ — л.з.
+            \item[2)] Пусть $\exist i:a_{i_{m+1}}\neq 0,$ НУО 
+$a_{1_{m+1}}\neq0$ \\            $u_1=a_{1_1}v_1+...+a_{1_{m+1}}v_{m+1}$
+            
+            $u_2=a_{2_1}v_1+...+a_{2_{m+1}}v_{m+1}$
+            
+            …
+            
+            $u_{m+2}=a_{{m+1}_1}v_1+...+a_{{m+1}_{m+1}}v_{m+1}$ 
+            
+            $\forall k=2...m+2$ из $k$-ого равенства вычтем 1-ое, 
+умноженное на $\frac{a_{k_{m+1}}}{a_{1_{m+1}}}$.
+            
+            $\tilde{u}_i=u_i-\frac{a_{k_{m+1}}}{a_{1_{m+1}}}\cdot 
+u_1=(a_{i_1}-\frac{a_{1_1}\cdot a_{i_{m+1}}}{a_{1_{m+1}}})\cdot 
+v_1+...+(a_{i_{m}}-\frac{a_{1_m}\cdot a_{i_{m+1}}}{a_{1_{m+1}}})\cdot 
+v_m-(a_{i_{m+1}}-a_{i_{m+1}})\cdot v_{m+1}$
+            
+            Получили $\tilde{u}_2,...,\tilde{u}_{m+1}\in \langle v_1, 
+...,v_m\rangle$. Тогда по и.п. $\tilde{u}_{2},...,\tilde{u}_{m+2}$ — л.з.
+            
+            То есть $\exists b_2,...,b_{m+2}$ не все равные 0:
+            
+            $0=\sum\limits_{i=2}^{m+2}b_i\tilde{u}_i=\sum 
+b_i(u_i-...u_{1})=(-\sum\frac{a_{i_{m+1}}}{a_{1_{m+1}}})\cdot 
+u_1+b_2u_2+...+b_{m+2}u_{m+2}$ — нетривиальная линейная комбинация.
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    $u$ — конечномерное векторное пространство; $u_1,...,u_k\in U$ — ЛНЗ 
+система $\Rightarrow \exists u_{k+1},...,u_n-$ базис $U$
+    
+    (любую ЛНЗ систему можно дополнить до базиса)
+\end{lemma}
+
+\begin{proof}
+    $u_1,...,u_k\ -$ ЛНЗ $\Rightarrow \left[\begin{gathered} \text{макс. 
+ЛНЗ}\Rightarrow \text{это базис}; \\ \exists u_{l+1}:u_1,...,u_{l+1}\ 
+-\text{ЛНЗ} \end{gathered}\right.$
+    
+    Будем добавлять к $u_1,...,u_k$ по вектору. $l$ не может стать больше 
+$n$* $\Rightarrow$  в какой-то момент получим базис.
+    
+    *$u_1,...,u_n,u_{n+1}\ -$ ЛЗ по ЛЗНК $($рассмотрим $v_1,...,v_n\ -$ 
+базис $U;u_1,...,u_{n+1}\in\langle v_1,...v_n\rangle\Rightarrow 
+u_1,...,u_{n+1}\ -$  ЛЗ$)$
+\end{proof}
+
+\begin{corollary}
+    $U,V-$ конечномерное векторное пространство над $K$ и $U\leq 
+V\Rightarrow \dim U\leq \dim V$ и если $\dim U=\dim V\Rightarrow U=V$ 
+\end{corollary}
+
+\begin{proof}
+    $u_1,...,u_k-$ базис $U;$ по лемме можем дополнить до $u_1,...,u_n\ -$ 
+базис $V\Rightarrow k\leq n$ 
+    
+    Если $k=n,$ то дополняем 0 векторов $\Rightarrow$  базис $U$ = базис 
+$V\Rightarrow$ оба пространства — линейные комбинации одних и тех же 
+векторов
+\end{proof}
+
+\subsection{Алгебраические числа}
+
+\begin{definition}
+    $\mathbb{Q};\ \alpha\ -$ алгебраическое число, если $\exists f\in 
+\mathbb{Q}[x]:f(\alpha)=0$
+\end{definition}
+
+\begin{example}
+    $\sqrt[7]{3}-$ алг., т.к. $\exists f(x)=x^7-3$ 
+    
+    $\pi, e-$не алг. (не знаем)
+\end{example}
+
+\begin{theorem}
+    $\alpha\ -$  алгебраическое, $P\in\Z[x]\Rightarrow 
+P(\alpha)-$алгебраическое
+\end{theorem}
+
+\begin{proof}
+    Рассмотрим $V_{\alpha}-$ в.п. над $\mathbb{Q}:\{P(\alpha)\ |\ 
+P\in\mathbb{Q}[x]\}-$ замкнуто относительно $+$ и $\cdot$    на 
+рациональные числа (т.е. это в.п.)
+    \begin{statement}
+        Это пространство конечномерное.
+    \end{statement}
+    \begin{proof}
+        $\exists 
+a_0,...,a_{n-1}\in\mathbb{Q}:\alpha^n+a_{n-1}\alpha^{n-1}+...+a_1\alpha+a_0=0$
+        
+        
+$\alpha^n=-\sum\limits_{i=0}^{n-1}a_i\alpha^{i}\in\langle1,\alpha,...,\alpha^{n-1}\rangle 
+\Rightarrow 
+\langle1,\alpha,...,\alpha^n\rangle=\langle1,\alpha,...,\alpha^{n-1}\rangle$ 
+        
+        
+$\alpha^{n+1}=-\sum\limits_{i=0}^{n-1}a_i\alpha^{i+1}\in\langle1,\alpha,...,\alpha^{n}\rangle\in\langle1,\alpha,...,\alpha^{n-1}\rangle 
+\Rightarrow 
+\langle1,\alpha,...,\alpha^{n+1}\rangle=\langle1,\alpha,...,\alpha^{n-1}\rangle$ 
+        
+        Продолжим так делать и получаем, что $\forall N\ 
+\alpha^{N}\in\langle 1,\alpha,..., \alpha^{n-1}\rangle$, т.е. $\text{dim 
+}V_{\alpha}\leq n$        
+    \end{proof}
+    $\exists P\in\Z[x]:1,P(\alpha),...,(P(\alpha))^n\in V_{\alpha}$, их 
+$n+1,\dim V_{\alpha}\Rightarrow1,...,(P(\alpha))^n-$ ЛЗ, т.е. $\exists 
+q_0,...,q_n:q_0\cdot1+q_1\cdot  P(\alpha)+...+q_n\cdot (P(\alpha))^n=0$, 
+т.е. $P(\alpha)-$ корень многочлена $q_nx^n+...+q_1x+q_0,$ т.е. 
+$P(\alpha)$ — алг.
+\end{proof}
+
+\begin{remark}
+    Аналогично доказывается, что $\alpha,\ \beta-$ алгебраические 
+$\Rightarrow \alpha+\beta,\ \alpha\beta-$ алгебраические.
+\end{remark}
+
+\begin{theorem}
+    $V\ -$ конечномерное векторное пространство над $K;$ тогда 
+$\exists!n:V\cong K^n$
+\end{theorem}
+
+\begin{proof} 
+    \underline{Единственность:}
+    
+    ясно; $n=\dim K^n=\dim V$
+    
+    \underline{Существование:} 
+    
+    Пусть $u_1,u_2,...,u_n\ -$ базис $V$.
+    
+    Рассмотрим отображение $i:K^n\rightarrow V$:
+    $\begin{pmatrix}
+    a_1\\...\\ a_n
+    \end{pmatrix}\rightarrow a_1u_1+...+a_nu_n$
+    
+    Это биекция (т.к. $u_1,...,u_n,$ а координаты единственны) и 
+гомоморфизм (по очеву).
+\end{proof}
+
+\begin{designation}
+    $u\in V,\ \mathcal{U}=\begin{pmatrix}
+    a_1\\...\\ a_n
+    \end{pmatrix}=[u]_{\{u_i\}}$ — столбец координат в базисе $\{u_i\}$. 
+    
+    $[u]$ зависит от $\{u_i\}.$
+\end{designation}
+
+\begin{example}
+    Фибоначчиева последовательность: \\
+    $(1,0,1,1,2,3,...)=v_1$ 
+    
+    $(0,1,1,2,3,5,...)=v_2$ 
+    
+    $(a,b,a+b,2b+a,...)=av_1+bv_2\leadsto \begin{pmatrix} a \\ b 
+\end{pmatrix}$ \\
+    Классическое: $(1,1,2,3,...)\leadsto \begin{pmatrix} 1 \\ 1    
+\end{pmatrix}$ 
+\end{example}
+
+\begin{example}
+    Пример хорошего базиса: 
+    
+    $(1,\varphi,\varphi^2,...)=u_1$
+    
+    $(1,-\frac{1}{\varphi},-(\frac{1}{\varphi})^2,...)=u_2$ 
+    
+    Найти явную формулу для фибоначчиевой последовательности 
+$\Leftrightarrow$  найти координаты в базисе $\{u_1,u_2\}:$ 
+    
+    $(c_1,c_2,...,c_n)=ku_1+lu_2\Rightarrow 
+c_n]k\varphi^n+l\cdot(-\frac{1}{\varphi})^n$    
+\end{example}

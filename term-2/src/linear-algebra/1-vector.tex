@@ -1,0 +1,144 @@
+\section{Векторные пространства}
+\subsection{Определение}
+
+\begin{definition} 
+    $K$ — поле; \textbf{\textit{векторное пространство над}} $K$ — это 
+тройка $(V,+,\cdot)$, где $V$ — множество, $+:V\times V\rightarrow V; 
+\cdot :K\times V\rightarrow V$. Элементы $V$ — векторы, элементы $K$ — 
+скаляры. \\
+    При этом выполняются \textit{аксиомы}:
+    \begin{enumerate}
+        \item[1-4)] $(V,+)$ — абелева группа.
+        \item[5)]  $\forall k_1, k_2\in K,\ \forall v\in V:\ (k_1\cdot 
+k_2)\cdot v = k_1\cdot (k_2\cdot v)$
+        \item[6)]  $\forall k_1,k_2\in K,\ \forall v\in V:\ 
+k\cdot(v_1+v_2) = k\cdot v_1+ k\cdot v_2$
+        \item[7)] $\forall k\in K,\ \forall v_1,v_2\in V:\ (k_1+k_2)\cdot 
+v = k_1\cdot v+ k_2\cdot v$
+        \item[8)] $\forall v\in V,\ 1\in K:\ 1\cdot v=v$
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}Очевидные свойства:
+    \begin{enumerate}
+        \item $0\cdot v= \overline{0}$
+        \item $(-1)\cdot v=-v$
+        \item $a+b=b+a$ следует из 7-ми аксиом.
+    \end{enumerate}
+\end{remark}
+
+\begin{proof} 
+    $2)\ 1\cdot v+(-1)\cdot v=(1+(-1))\cdot v=0\cdot 
+v=\overline{0}\Rightarrow (-1)\cdot v$ — противоположный к $v$.
+    
+    1, 3 TODO proof
+\end{proof}
+\begin{example}
+\begin{enumerate}
+    \item[]
+    \item векторы на плоскости — класс эквивалентности направленных 
+отрезков $\rightarrow$ в.п.
+    \item арифметическое векторное пространство  
+$K^n=\bigg\{\begin{pmatrix}
+    k_1\\ k_2 \\...\\ k_n
+    \end{pmatrix}\ \bigg |\ k_i\in K\bigg\}$
+
+    Для него выполняются операции:
+
+    $\begin{pmatrix}
+        a_1\\...\\ a_n 
+    \end{pmatrix}+\begin{pmatrix}
+        b_1\\...\\ b_n
+    \end{pmatrix}=\begin{pmatrix}
+    a_1+b_1\\...\\ a_n+b_n
+    \end{pmatrix}$
+    
+    $k\begin{pmatrix}
+        a_1\\...\\ a_n
+    \end{pmatrix}=\begin{pmatrix}
+        ka_1\\...\\ ka_n
+    \end{pmatrix}$
+    
+    $^nK=\{(k_1,...,k_n)\|\ k_i\in K\}$
+    
+    $K^n$ и $^nK$ изоморфны: $\exists$ биекция $f:K^n\rightarrow\  ^nK$, 
+является гомоморфизмом.
+    
+\end{enumerate}
+\end{example}
+
+\begin{definition}$u$ и $v$ — векторные пространства над K; 
+$f:u\rightarrow v$ называется \textbf{\textit{гомоморфизмом (линейным 
+отображением)}}, если:
+\begin{enumerate}
+    \item $f(a+b)=f(a)+f(b)$  
+    \item $f(k\cdot b)=k\cdot f(b)$
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item $K[x]$ — векторное пространство над $K$
+        \item $K[x^n]=\{f\ |\ deg\ f\leq n\}$ — в.п. над $K$
+        \item Пусть $R$ — кольцо, $K_{\text{поле}}\subset R$ — подкольцо; 
+если $r_1+r_2$ и $kr$ определено $\forall r\in R$, то $R$ — векторное 
+пространство над $K$
+        \item $\mathbb{C}$ — векторное пространство над $\R$
+        \item $\mathbb{C}$ — векторное пространство над $\mathbb{Q}$
+        \item $M$ — множествово; $V=\{f:M\rightarrow K\}$ — векторное 
+пространство над $K$ (так как можно определить 
+$(f_1+f_2)(m):=f_1(m)+f_2(m)$ и $(k\cdot f)(m):=k\cdot f(m))$
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item[] $M=k=\R$; 
+        \item $\text{Func}(\R,\R)$
+        \item $\text{Func}_c(\R,\R)$ — непрерывные функции, в.п. над $\R$
+    \end{enumerate}
+\end{example}
+
+\subsection{Фибоначчиевы последовательности}
+
+\begin{definition}
+    \textbf{\textit{Последовательность фибоначчиева}}, если для нее 
+выполняется, что $\forall n\ a_n =a_{n-1}+a_{n-2}$. При этом $a_n+b_n$ и 
+$ka_n$ тоже фибоначчиевы $\Rightarrow$  фибоначчиевы последовательности 
+векторного пространства.
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item $M$ — множество; $V=2^M; K=\Z/_2\Z$ — в.п. \\
+        $X+Y:=(X\cup Y)\setminus (X\cap Y)$ \\    $\varnothing$ — 
+нейтральный, $0\cdot x:=0,\ 1\cdot x:=x$ \\
+        Замкнуто: $(1+1)\cdot x=1\cdot x+ 1\cdot x=x+x=\varnothing$. 
+Важно, что $1+1=0$ в $K$, т.е. $char\ K=2$
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item[] \textit{Как ввести координаты:}
+        \item $K[x]_n=\{a_0+a_1x+...+a_nx^n\}=(a_0,...,a_n)$ 
+        
+        $K[x]_n\cong K^{n+1}$
+        \item $\mathbb{C}$ над $\R:z=a+bi\leadsto (a,b)$
+        
+        $\mathbb{C}\cong\R^2$
+        \item Пример плохих координат: \\ $z\leadsto (r,\varphi)$ — не 
+согласуется с операциями
+        \item $\text{Func}(\N,\R)\cong \R^n\leadsto (a_0,...,)$
+        \item  фиб. пос-ти $(a_1,a_2,...,)\leadsto(a_1,a_2)$
+        
+        фиб. пос-ти $\cong \R^2$
+        \item $N\subset M=\{a_1,...,a_n\}$ \\    $N\leadsto 
+(\varepsilon_1,..., \varepsilon_n),\ \varepsilon_i=\begin{cases}1,a_i\in N 
+\\ 0,a_i\notin N\end{cases}$
+    \end{enumerate}
+\end{example}

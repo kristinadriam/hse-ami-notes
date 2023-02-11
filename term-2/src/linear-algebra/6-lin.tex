@@ -1,0 +1,707 @@
+\section{Линейные отображения}
+
+\subsection{Определение}
+
+\begin{definition}
+    $U$ и $V\ -$ векторное пространство над $K$; $\mathcal{A}:U\rightarrow 
+V$  \textbf{\textit{линейно}} (гомоморфизм), если $\mathcal{A}(u+\alpha 
+v)=\mathcal{A}(u)+\alpha \mathcal{A}(v)\ \forall u,v\in U,\ \forall \alpha 
+\in K$.
+\end{definition}
+
+\begin{example}
+    $\mathcal{A}(x)=x\ -$ линейно, $\mathcal{A}(x)=0\ -$ линейно.
+\end{example}
+
+\begin{example}
+    $\mathcal{A}:K^n\rightarrow K,\ \dim_K K=1,\ (\langle1\rangle=K)$
+
+    $\mathcal{A}\cdot 
+\begin{pmatrix}x_1\\...\\x_n\end{pmatrix}=a_1x_1+...+a_nx_n;\ a_1,...,a_n\ 
+-$ фиксированы.
+
+    Более общо: $A\in M_{m,n}:A(x)=\mathcal{A}\cdot x\ -$ линейное 
+отображение $\mathcal{A}:K^n\rightarrow K$.
+\end{example}
+
+\begin{remark}
+    На самом деле, все линейные отображения таковы (т.е. представляют из 
+себя домножение на матрицу).
+\end{remark}
+
+\begin{theorem}
+    $u_1,...,u_n\ -$ базис $U;\ v_1,...,v_n\in V;$  тогда $\exists !\text{ 
+линейное отображение }\mathcal{A}:U\rightarrow V \text{ т.ч. } 
+\mathcal{A}(u_i)=v_i$.
+\end{theorem} 
+
+\begin{proof}
+    \underline{Единственность:}    
+
+    Пусть $\mathcal{A}(u_i)=v_i=\mathcal{B}(u_i)$.
+
+    Пусть $\forall u\in U: u=\sum a_iu_i\Rightarrow 
+\mathcal{A}(u)=\mathcal{A}(\sum a_iu_i)=\sum a_i\mathcal{A}(u_i)=\sum 
+a_i\mathcal{B}(u_i)=B(\sum a_iu_i)=\mathcal{B}(u)$
+
+    \underline{Существование:}
+
+    Для каждого $u=\sum a_iu_i$ положим $\mathcal{A}(u)=\sum a_iv_i$:
+
+    $\mathcal{A}\ -$ линейно: $\mathcal{A}(\alpha\cdot (\sum a_iu_i)+\sum 
+b_iu_i)=\mathcal{A}(\sum(\alpha\cdot a_i+b_i)u_i)=\alpha\cdot \sum 
+a_iv_i+\sum b_iv_i=\alpha \cdot \mathcal{A}(\sum a_iu_i)+(\sum b_iu_i)$
+\end{proof}
+
+\subsection{Ядро и образ линейного отображения}
+
+\begin{definition}
+    $A:U\rightarrow V-$ линейное отображение.
+
+    $\text{Ker }\mathcal{A}=\{u\in U\ |\ \mathcal{A}(u)=0\}\ -$ 
+\textit{\textbf{ядро}} $\mathcal{A}$.
+
+    $\text{Im }\mathcal{A}=\{v\in V\ |\ \exists u\in U:\mathcal{A}(u)=v\}\ 
+-$ \textbf{\textit{образ}} $\mathcal{A}$.
+\end{definition}
+
+\begin{lemma}
+    $\text{Ker } \mathcal{A}\ -$ подпространство в  $U;\text{ Im 
+}\mathcal{A}-$ подпространство в $V$.
+\end{lemma}
+
+\begin{proof}
+    Проверка замкнутости:
+
+    $1)\ u,v\in \text{Ker }\mathcal{A}\Rightarrow \mathcal{A}(u)=0\And 
+\mathcal{A}(v)=0\Rightarrow \mathcal{A}(u+kv)=\mathcal{A}(u)+k\cdot 
+\mathcal{A}(v)=0\Rightarrow u+v,\ ku\in \text{Ker }\mathcal{A}$
+
+    $2)\ u=\mathcal{A}(x),\ v=\mathcal{A}(y)$
+
+    $u+v=\mathcal{A}(x)+\mathcal{A}(y)=\mathcal{A}(x+y)\Rightarrow x+y\in 
+\text{Im }\mathcal{A}$
+
+    $ku=k\cdot A(x)=\mathcal{A}(kx)\Rightarrow kx\in \text{Im 
+}\mathcal{A}$
+\end{proof}
+
+\begin{example}
+    $V=U=\R^2$
+    \begin{enumerate}
+        \item [$\circ$] $\mathcal{A}(x)=0$ 
+
+        $\text{Ker }\mathcal{A}=\{0\},\ \text{Im }\mathcal{A}=V$
+
+        \item[$\circ$]$\mathcal{A}(x)=0$
+    
+        $\text{Ker }\mathcal{A}=\{V\},\ \text{Im }\mathcal{A}=0$
+    
+        \item[$\circ$]$u\ -$ вектор
+    
+        $u\leadsto u_0-$ проекция на ОХ
+    
+        $\text{Ker 
+}\mathcal{A}=\bigg\langle\begin{pmatrix}0\\1\end{pmatrix}\bigg\rangle,\ 
+\text{Im 
+}\mathcal{A}=\bigg\langle\begin{pmatrix}1\\0\end{pmatrix}\bigg\rangle$
+    \end{enumerate}
+\end{example}
+
+\begin{theorem}
+    $\mathcal{A}:U\rightarrow V\ -$ линейное отображение; тогда $\dim 
+\text{Ker }\mathcal{A}+\dim \text{Im }\mathcal{A}=\dim U$.
+\end{theorem}
+
+\begin{proof}
+    $\dim \text{Ker }\mathcal{A}=m;\ u_1,..,u_n\ -$ базис $U; \dim U=n$
+
+    Применим $\mathcal{A}:\mathcal{A}(u_1)=...=\mathcal{A}(u_m)=0$
+
+    Сначала докажем следующее утверждение:
+    
+    \begin{statement}
+        $\mathcal{A}(u_{m+1}),...,\mathcal{A}(u_n)\ -$ базис $\text{Im 
+}\mathcal{A}$.
+    \end{statement}
+    \begin{proof}
+        $1)$ Докажем, что $\mathcal{A}(u_{m+1}),...,\mathcal{A}(u_n)\ -$ 
+ЛНЗ
+
+        Пусть 
+$\alpha_{m+1}\mathcal{A}(u_{m+1})+...+\alpha_n\mathcal{A}(u_n)=0$
+
+        $\mathcal{A}(\sum\alpha_{m+i}u_{m+i})=0\Rightarrow \sum 
+\alpha_{m+i}u_{m+i}\in \text{Ker }\mathcal{A}\Rightarrow \sum 
+\alpha_{m+i}u_{m+i}=\sum\limits_{i=1}^m\alpha_{i}u_{i}\ (\text{т.к. 
+}u_1,...,u_m\ -\text{базис Ker }\mathcal{A})\  ??$
+
+        $\sum \alpha_{m+i}u_{m+i}-\sum\alpha_{i}u_{i}=0;$ т.к. $\{u_i\}\ 
+-$ ЛЗ, то все $\alpha_i=0$.
+    \end{proof}
+    TODO
+\end{proof}
+
+\subsection{Формула Грассмана}
+\textbf{Применение:} Формула Грассмана. В множествах есть базовые операции 
+$\cup,\ \cap$. В пространствах $-$ $\cap,\ +$.
+
+\begin{definition}
+     $V_1+V_2=\{v_1+v_2\ |\ v_1\in V_1,v_2\in V_2\}\ -$ 
+\textbf{\textit{сумма подпространств}} (сумма Минковского).
+\end{definition}
+
+\begin{theorem}
+    $V\ -$ векторное пространство над $K$; $V_1,V_2$ $-$ подпространства 
+$(V_1,V_2\leq V)$. 
+    \begin{enumerate}
+        \item $V_1\cap V_2\ -$ подпространство $V$ (очев).
+        \item $V_1+V_2\ -$ тоже подпространство.
+    \end{enumerate}    
+\end{theorem}
+\begin{proof}
+     $v_1\in V_1+V_2\Rightarrow v=v_1+v_2\And v'_1\in V_1+V_2\Rightarrow 
+v'=v'_1+v'_2\Rightarrow v+v'=(v_1+v'_1)+(v_2+v'_2)\in V\ (v_1+v'_1\in 
+V_1,\ v_2+v'_2\in V_2\ $т.к. $V_1,V_2\leq V)$
+
+    $k\cdot v=k\cdot (v_1+v_2)=k\cdot v_1+k\cdot v_2\in V,\ kv_1\in V_1,\ 
+kv_2\in V_2$
+\end{proof}
+
+\begin{remark}
+    $v_1,...,v_n\ -$ базис $V_1$, $v'_1,...,v'_m\ -$ базис $V_2\Rightarrow 
+\{v_1,...,v_n,v'_1,...,v'_m\}\ -$ порождающая система $V_1+V_2$.
+\end{remark}
+
+\begin{remark}
+    Многие формулы про $+$ и $\cap \-$ аналог формул про $\cap$ и $\cup$. 
+Но $(V_1+V_2)\cap V_3\neq(V_1\cap V_3)+(V_2\capV_3)$.
+\end{remark}
+
+\begin{definition}
+    $V_1,V_2$ $-$ векторное пространство над $K$, 
+\textbf{\textit{внешняя/прямая сумма}} $V_1$ и $V_2$ $-$ это $V_1\oplus 
+V_2=\{(v_1,v_2)\ |\ v_1\in V_1,v_2\in V_2\}$ с операциями:
+    \begin{enumerate}
+        \item $(v_1,v_2)+(v'_1,v'_2)=(v_1+v'_1,v_2+v'_2)$
+        \item $k(v_1,v_2)=(kv_1,kv_2)$
+    \end{enumerate}
+\end{definition}
+
+\begin{statement}
+    $\dim (V_1\oplus V_2)=\dim V_1 + \dim V_2$
+\end{statement}
+
+\begin{proof}
+    Это векторное пространство (очев).
+
+    $v_1,...,v_k\ -$ базис $V_1$, $v'_1,...,v'_m\ -$ базис $V_2$; тогда 
+$\{(v_i,0)\}\cup \{(0,v'_i)\}\ -$ базис $V_1+V_2$.
+
+    И вправду: $\forall (v,v')=(\sum a_iv_i, \sum b_iv'_i)=\sum 
+a_i(v_1,0)+\sum b_i(0,v'_i)\ -$ доказали порождаемость.
+
+    Доказательство линейной независимости: $\sum a_i(v_i,0)+\sum 
+b_i(0,v'_i)=0=(\sum a_iv_i,\sum b_iv'_i)=(0,0)\Rightarrow \sum 
+a_iv_i=0,\sum b_iv'_i\Rightarrow $ т.к. $v_i$ и $v'_i\ -$ базисы: все 
+$a_i=0$ и все $b_i=0\Rightarrow $ доказали ЛНЗ-ть.
+\end{proof}
+
+\begin{theorem} \textbf{Формула Грассмана}
+
+    $\dim(V_1+ V_2)=\dim V_1+\dim V_2-\dim (V_1\cap V_2)$
+\end{theorem}
+
+\begin{proof}
+    Зададим $\mathcall{A}:V_1\oplus V_2\rightarrow V,\ 
+(v_1,v_2)\rightarrow v_1+v_2$
+    
+    $\Im \mathcal{A}=V_1+V_2\ ($по определению $V_1+V_2)$
+
+    $\Ker \mathcal{A}=\{(v,-v)\ |\ v\in V_1,\ -v\in V_2\}=\{(v,-v)\ |\ 
+v\in V_1\cap V_2\}\cong V_1\cap V_2$
+
+    Тогда по теореме о ядре и образе: $\dim 
+(V_1+V_2)=\dim(\Im\mathcal{A})=\dim(V_1\oplus V_2)-\dim (V_1\cap V_2)=\dim 
+V_1+\dim V_2-\dim (V_1\cap V_2)$
+\end{proof}
+
+\subsection{Множество линейных отображений}
+
+\begin{definition}
+    $U,V$ $-$ векторные пространства над $K$; определим $\Lin(U,V)$ $-$ 
+\textbf{\textit{множество отображений}} $\mathcal{A}:U\rightarrow V$.
+
+    Это векторное пространство: 
+    
+    $(\mathcal{A}+\mathcal{B})(u)=\mathcal{A}(u)+\mathcal{B}(u)$
+
+    $(k\mathcal{A})(u)=k\cdot \mathcal{A}(u)$
+\end{definition}
+
+\begin{definition}
+    Пусть $\mathcal{A}\in \Lin(U,V),\ u_1,...,u_m\ -$ базис $U,\ 
+v_1,...,v_n\ -$ базис $V$.
+
+    $\mathcal{A}(u_1)=a_{11}v_1+...a_{n1}v_n$
+
+    $\mathcal{A}(u_2)=a_{12}v_1+...a_{n2}v_n$
+
+    ...
+
+    $\mathcal{A}(u_m)=a_{1m}v_1+...a_{nm}v_n$
+
+    Тогда $A=(a_{ij})_{i=1..n, j=1..m}\ - $ матрица отображения 
+$\mathcal{A}$ в базисе $\{v_i\}\{u_i\}$.
+\end{definition}
+
+\begin{designation}
+    $A=[\mathcal{A}]_{\{u_i\}\{v_i\}}$.
+\end{designation}
+
+\begin{lemma}
+    $\mathcal{A}\in \Lin (U, B),\ \{u_i\},\{v_i\}\ -$ базисы.
+    
+    $A=[\mathcal{A}]_{\{u_i\}\{v_i\}};\ \mathcal{A}:U\rightarrow V$ 
+
+    $u\in U: \textbf{\mathbm{u}}=\begin{pmatrix}
+        x_1 \\ ... \\ x_n
+    \end{pmatrix}\ -$ координаты $u$ в $\{u_i\}$.
+
+    Аналогично $v\in V: \textbf{\mathbm{v}}\ -$ координаты $v$ в 
+$\{v_i\}$.
+
+    Тогда $\textbf{\mathbm{v}}=A\cdot \textbf{\mathbm{u}}$.
+    
+\end{lemma}
+
+\begin{proof}
+    $\mathcal{A}(u)=\mathcal{A}(\sum 
+x_iu_i)=\sum_{i=1}^mx_i(\sum_{j=1}^na_{ji}v_j)=\sum_{j=1}^n(\sum_{i=1}^mx_ia_{ji})v_j$ 
+$-$ координаты $\textbf{\mathbm{v}}$ в базисе $\{v_i\}$ $-$ это 
+$\begin{pmatrix}
+        \sum_{i=1}^mx_ia_{1i} \\
+        ... \\
+        \sum_{i=1}^mx_ia_{mi}
+    \end{pmatrix}=A\cdot \textbf{\mathbv{u}}$.
+\end{proof}
+
+\begin{corollary}
+    
+$U_{\{u_i\}}\xrightarrow{\mathcal{B}}V_{\{v_i\}}\xrightarrow{\mathcal{A}}W_{\{w_i\}}\ 
+\mathcal{A}, \mathcal{B}\in \Lin$
+
+    $B=[\mathcal{B}]_{\{u_i\}\{v_i\}},\ A=[\mathcal{A}]_{\{v_i\}\{w_i\}}$
+
+    Тогда:\begin{enumerate}
+        \item $A\circ B\in \Lin(U, W)$ (очев)
+        \item $[A\circ B]_{\{u_i\}\{w_i\}}=A\cdot B$
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    $u\in U,\ v\in \mathcal{B}(u),\ w\in \mathcal{A}(v)$
+
+    $\textbf{\mathbv{u}}, \textbf{\mathbv{v}}, \textbf{\mathbv{w}}$ $-$ 
+координаты $u,v,w$
+
+    $w=(A \circ B)(u)$ и $\textbf{\mathbv{w}}=A\cdot 
+\textbf{\mathbv{u}}=A\cdot B\cdot \textbf{\mathbv{v}}\Rightarrow A\cdot B$ 
+$-$ матрица отображение $A\circ B$. 
+\end{proof}
+
+\begin{statement}
+    $AX=BX\ \forall x\Rightarrow A=B$.
+\end{statement}
+
+
+\textbf{Резюме:}
+\begin{enumerate}
+    \item $U, V$ $-$ векторное пространство $K$ $\dim U=m,\ \dim V=m$. 
+Тогда $\exists$ изоморфизм:
+
+    $f:M_{n,m}(K)\cong \Lin (U, V)$ как векторные пространства.
+    \item $n=m\ M_n(K)\cong \Lin (U, U)$ как кольца.
+\end{enumerate}
+
+\begin{remark}
+    $\Lin (U, U)$ $-$ кольцо с операциями $+$ и $\circ$:
+
+     $(\mathcal{A}+\mathcal{B})\circ \mathcal{C}=\mathcal{A}\circ 
+C+\mathcal{B}\circ \mathcal{C}$ $-$ по определению $+$.
+
+     $(\mathcal{A}+\mathcal{B})(\mathcal{C}(x))=\mathcal{A} 
+(\mathcal{C}(x))+\mathcal{B}(\mathcal{C}(x))$ $-$ по определению $+$.
+
+     $\mathcal{A}\circ(\mathcal{B}+ \mathcal{C}=\mathcal{A}\circ 
+\mathcal{B}+\mathcal{A}\circ \mathcal{C}$ $-$ по определению $+$ и 
+линейности $\mathcal{A}$.
+\end{remark}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item Фиксируем базисы $\{u_i\}$ и $\{v_i\}$ и рассмотрим $f:\Lin 
+(U, V)\rightarrow M_{n,m}(K),\ \mathcal{A}\rightarrow 
+[A]_{\{u_i\},\{v_i\}}$
+
+        Очев, что это биекция (по теореме о задании линейного отображения 
+на базисе). Очев, что операции сохраняются:
+
+        $[\mathcal{A}+\mathcal{B}]=[\mathcal{A}]+[\mathcal{B}];\ 
+[k\mathcal{A}]=k[\mathcal{A}]$
+        \item Фиксируем базис $\{u_i\}$ и сопоставляем 
+$\mathcal{A}\rightarrow [A]_{\{u_i\},\{u_i\}}$.
+    \end{enumerate}
+\end{proof}
+
+\subsection{Матрица перехода}
+
+Напоминание: $u_1,...,u_n$ $-$ старый базис, $u'_1,...,u'_n$ $-$ новый 
+базис и $u_i=\sum a_{ji}u'_j$; тогда $A=(a_{ij})$ $-$ матрица перехода.
+
+\begin{remark}
+    $u_1=u_1,...,u_n=u_n\Rightarrow E=\begin{pmatrix}
+        1 & 0 & ... & 0 \\
+        0 & 1 & ... & ... \\
+        ... & ... & 1 & 0 \\
+        0 & ... & 0 & 1
+    \end{pmatrix},\ E=[id]_{\{u_i\},\{v_i\}}$
+\end{remark}
+
+\subsection{Формула замены матрицы отображения при замене базиса}
+$U\xrightarrow{\mathcal{A}}V,\ \{u_i\},\{v_i\}\ -$ старые базисы, 
+$\{u'_i\},\{v'_i\}\ -$ новые базисы.
+
+Знаем: $A=[\mathcal{A}]_{\{u_i\},\{v_i\}}$
+
+Хотим: $\tilde{A}=[\mathcal{A}]_{\{u'_i\},\{v'_i\}}$
+
+$U_{\{u'_i\}}\xrightarrow{id}U_{\{u_i\}}\xrightarrow{\mathcal{A}}V_{\{v_i\}}\xrightarrow{id}V_{\{v'_i\}}$
+
+По следствию: 
+$[\mathcal{A}]_{\{u_i\},\{v_i\}}=[id]_{\{v_i\},\{v'_i\}}\cdot 
+[\mathcal{A}]_{\{u_i\},\{v_i\}}\cdot [id]_{\{u_i\},\{u'_i\}}=D\cdot A\cdot 
+C^{-1}$, где $D\ -$ матрица перехода от $v_i$ к $v'_i$, а $C^{-1}\ -$ 
+матрица перехода от $u_i$ к $u'_i$.
+
+\textbf{Частный случай:} $U=V,\ \{u_i\}=\{v_i\},$ тогда 
+$\tilde{A}=CAC^{-1}.$ \\
+
+
+
+\textbf{Вопрос:} $\mathcal{A}\in \Lin (U,V),\ 
+A=[\mathcal{A}]_{\{u_i\},\{v_i\}}$. Насколько простой можно сделать $A$ за 
+счет замены базиса? 
+
+\textbf{Ответ:} в теореме о $\Im$ и $\Ker$ доказали: $\exists$ базис 
+$u:u_1,...,u_m,...,u_n;\ u_1,...,u_n\ -$ базис $\Ker\mathcal{A},\ 
+\mathcal{A}(u_{m+1}),...,\mathcal{A}(u_n)\ -$ базис $\Im \mathcal{A}$.
+
+Обозначим $\mathcal{A}(u_{m+1})=v_1,...,\ \mathcal{A}(u_n)=v_{n-m};\ 
+v_1,...,v_{n-m}\ -$ базис $\IM \mathcal{A}$. Дополним до базиса 
+$V:v_1,...,v_{n-m},...,v_l$. Тогда:
+
+$\mathcal{A}(u_1)=0\cdot v_1+...+0\cdot v_l$
+
+...
+
+$\mathcal{A}(u_m)=0\cdot v_1+...+0\cdot v_l$
+
+$\mathcal{A}(u_{m+1})=1\cdot v_1+...+0\cdot v_l$
+
+...
+
+$\mathcal{A}(u_n)=0\cdot v_1+...+1\cdot v_{n-m}+...+0\cdot v_l$
+
+Получим: $\begin{pmatrix}
+    0 & ... & 0 & | & 1 & 0 & ... & 0 & 0 \\
+    0 & ... & 0 & | & 0 & 1 & ... & 0 & 0 \\
+    \\
+    0 & ... & 0 & | & 0 & 0 & ... & 1 & 0 \\
+    0 & ... & 0 & | & 0 & 0 & ... & 0 & 1 \\
+    \\
+    0 & ... & 0 & | & 0 & 0 & ... & 0 & 0 
+\end{pmatrix}$ $-$ матрица, где первые $m$ столбцов - нулевые, а верхний 
+левый блок размера $(n-m)\times(n-m)$ представляет из себя нулевую матрицу 
+с единицами на диагонали. Поменяем местами блоки $(u_1,...,u_m)$ и 
+$(u_{m+1},...,u_n)$. Получили теорему:
+
+\begin{theorem}
+    $\forall \mathcal{A}\in \Lin (U,V)\ \exists $ базисы 
+$\{u_i\},\{v_i\}:\ [A]_{\{u_i\}\{v_i\}}=\left(\begin{array}{c|c}E_s & 
+0\\\hline 0 & 0\end{array}\right)$ 
+\end{theorem}
+
+\subsection{Ранг матрицы}
+\begin{definition}
+    Переформулировка: $\forall A\in M_{l,k}(K)\ \exists$ такие обратные 
+матрицы $D$ и $C$, что $DAC=\left(\begin{array}{c|c}E_s & 0\\\hline 0 & 
+0\end{array}\right)$.
+
+    Число $s$ равно $\dim\Im \mathcal{A}$. Оно называется 
+\textbf{\textit{рангом отображения}} или \textbf{\textit{рангом матрицы}}.
+\end{definition}
+
+
+\begin{definition}
+    Матричное определение: $A\in M_{l,n}(K);$ столбцы $K^l:A=(C_1\ |\ ...\ 
+|\ C_n)\ C_i\in K^l$.
+
+    $\text{rank } A=\text{rk } A=\text{rg } A = \dim \langle 
+C_1,...,C_n\rangle$
+\end{definition}
+
+\begin{remark}
+    Это то же самое, что и ранг отображения, т.к. $C_i\ -$ столбец 
+координат для $\mathcal{A}(u_i),$ где $u_i\ -$ $i$ый базовый вектор.
+\end{remark}
+
+\begin{example}
+    $\rk \begin{pmatrix}
+        1 & 2 \\
+        2 & 4
+    \end{pmatrix}= \rk \bigg\langle \begin{pmatrix}
+        1  \\
+        2
+    \end{pmatrix}, \begin{pmatrix}
+        2  \\
+        4
+    \end{pmatrix}\bigg\rangle = \rk \begin{pmatrix}
+        1  \\
+        2
+    \end{pmatrix}, 2 \begin{pmatrix}
+        1  \\
+        2
+    \end{pmatrix}\bigg\rangle = \rk \bigg\langle \begin{pmatrix}
+        1  \\
+        2
+    \end{pmatrix} \bigg\rangle = 1$
+\end{example}
+
+\begin{definition}
+    $U=V,\ \dim U=n, \ \rk \mathcal{A}=k;\ n-k\ -$ 
+\textbf{\textit{дефект}} $\mathcal{A};\ n-k=n=\dim\Im \mathcal{A}=\dim\Ker 
+\mathcal{A}$.
+\end{definition} 
+
+\subsection{Решение СЛУ}
+Что такое $\dim \Ker \mathcal{A} = \dim \Ker A$?
+
+$\{x\in K^n\ |\ AX=0\}$ $-$ множество решений однородных СЛУ с матрицей 
+$A\in M_{m,n}$: 
+
+$A\cdot\begin{pmatrix}
+     x_1 \\
+     ... \\
+     x_n
+\end{pmatrix}=\begin{pmatrix}
+    0 \\
+    ... \\
+    0
+\end{pmatrix}\ k^n\rightarrow K^m,\ n$ неизвестных, $m$ уравнений.
+
+$\dim \Ker A\ -$ размерность пространства решений; $\dim \Ker A = n - \dim 
+\Im A \geq n - m$.
+
+Эти рассуждения подвели нас к формулированию теоремы:
+
+\begin{theorem}
+    ОСЛУ с $n$ неизвестными и $m$ уравнениями $(m<n)$ имеет пространство 
+решений размерности хотя бы $n-m$; в частности, если $K$ бесконечно, то 
+бесконечно много решений; если же $|K|=q\Rightarrow q^{n-m}$ решений.
+\end{theorem}
+
+Теперь рассмотрим частный случай:
+
+\begin{theorem}
+    Пусть $n=m$. Тогда: $\dim\Ker A = n - \dim \Im A, \dim \Ker 
+A=0\Leftrightarrow \dim \Im A = n$, т.е. система $AX=B$ имеет решение 
+$\forall B\Leftrightarrow AX=0$ имеет только тривиальное решение.
+
+    На языке линейных отображений: $\mathcal{A}:U\rightarrow V$ линейное, 
+$\dim U, \dim V<\infty$; тогда $\mathcal{A}$ сюръективно $\Leftrightarrow 
+\mathcal{A}$ инъективно.
+\end{theorem}
+
+\begin{proof}
+    Сюръективность $\mathcal{A}\Leftrightarrow \Im A=V$
+    
+    Докажем следующее утверждение:
+    \begin{statement}
+        $\mathcal{A} $ инъективно $ \Leftrightarrow \Ker A=\{0\}$
+    \end{statement}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item[\circ] $\Rightarrow$: $\mathcal{A}(x)=0\And 
+\mathcal{A}(0)=0; \mathcal{A}$ инъективно $\Rightarrow x=0$
+            \item[\circ] $\Leftarrow$: Пусть $\Ker \mathcal{A}=0$ и 
+$\mathcal{A}(x)=\mathcal{A}(y)\Leftrightarrow 
+\mathcal{A}(x)-\mathcal{A}(y)=0\Leftrightarrow 
+\mathcal{A}(x-y)=0\Rightarrow x-y\in \Ker \mathcal{A} \Rightarrow x-y =0$, 
+т.е. $x=y$
+        \end{enumerate}
+    \end{proof}
+    Теперь вернемся к доказательству теоремы: инъективность 
+$\Leftrightarrow \dim \Ker \mathcal{A}=0\Leftrightarrow \dim \Im 
+\mathcal{A}=\dim V \Leftrightarrow \IM \mathcal{A} = V \Leftrightarrow $ 
+сюръективность.
+\end{proof}
+
+\subsection{Вид общего решения}
+
+Рассмотрим СЛУ $AX=B$ или $\mathcal{A}(x)=b$. Пусть знаем частное решение 
+$X_0$ $($т.е. $AX_0=B)$. Тогда: 
+
+$AX=B \Leftrightarrow AX=AX_0 \Leftrightarrow A(X-X_0)=0 \Leftrightarrow 
+X-X_0\in \Ker \mathcal{A}$
+
+Значит, знаем общий вид решения: $X=X_0+Y, Y\in \Ker \mathcal{A}$ $($или 
+$\mathcal{X}=\mathcal{X}_0+\Ker \mathcal{A})$
+
+\subsection{Транспонирование}
+
+\begin{definition}
+    Пусть $A\in M_{m,n}(K)=(a_{i,j})_{^{i=1..m}_{j=1..n}}$; тогда 
+\textbf{транспонирование} $A\ -\ A^{T}\in M_{n,m}(K);\ 
+A^T=(a'_{i,j})_{^{i=1..m}_{j=1..n}},\ $где $ (a'_{i,j})=a_{j,i}$ 
+(отражение относительно главной диагонали).  
+\end{definition}
+
+\begin{statement}
+    \textbf{Свойства:}
+
+    \begin{enumerate}
+        \item[\circ] $(A+B)^T=A^T+B^T;\ (kA)^T=k\cdot A^T\ -$ это линейное 
+отображение.
+        \item[\circ] $(A\cdot B)^T=B^T\cdot A^T$
+
+        Если $\exists A^{-1}$, то $\exists (A^T)^{-1}=(A^{-1})^T$.
+    \end{enumerate}
+\end{statement}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item Пусть $A\cdot B=C=(c_{i,j}),\ (A\cdot B)^T=(c'_{i,j})$
+
+        $c'_{i,j}=c_{j,i}=\sum\limits_{s}a_{j,s}\cdot 
+b_{s,i}=\sum\limits_{s}a'_{s,j}\cdot b_{i,s}=\sum\limits_{s}b'_{i,s}\cdot 
+a'_{s,j}=(B^T\cdot A^T)_{i,j}$
+
+        \item $\begin{cases} A\cdot B = E \\ B\cdot A = E
+        \end{cases},\ B=A^{-1}\Rightarrow B^T\cdot A^T=(A\cdot B)^T=E^T=E$
+    \end{enumerate}
+\end{proof}
+
+\begin{statement}
+    \textbf{Свойства ранга:}
+
+    \begin{enumerate}
+        \item $\rk A= \rk A^T$ (если строки и столбцы поменять ролями, то 
+поменяем ролями, то $\rk$ не изменится)
+        \item $\rk A\cdot B\leq \min(\rk A, \rk B)$
+        \item $\rk (A+B)\leq \rk A+ \rk B$
+        \item $A\in M_n(K),\ \rk A=n\Leftrightarrow A\ -$ обратима.
+    \end{enumerate}
+\end{statement}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item[2.] $\rk A=\dim \Im (X\rightarrow AX)$
+
+        $U\xrightarrow{\mathcal{B}}V\xrightarrow{\mathcal{A}}W$
+
+        \begin{enumerate}
+            \item[a)] $\rk AB=\dim \Im \{(AB)X\mid X\in U \}\leq \dim 
+\{AY\mid Y\in V\}=\rk A\ (\{ABX\}\subset\{AY\})$
+            \item[b)] $\rk AB=\dim \Im (A\circ B)=\dim (A\circ B(U))=\dim 
+(A(\underbrace{B(U)}_{=\Im B}))=\dim (\Im A\mid_{\Im B})\leq \dim \Im B$
+        \end{enumerate}
+        \item[1.] Знаем, что $\exists C,D:\ 
+CAD=\left(\begin{array}{c|c}E_r & 0\\\hline 0 & 0\end{array}\right)$
+
+        $D^T\cdot A^T\cdot C^T=(CAD)^T=\left(\begin{array}{c|c}E_r & 
+0\\\hline 0 & 0\end{array}\right)^T=\left(\begin{array}{c|c}E_r & 
+0\\\hline 0 & 0\end{array}\right)$ (размеры строки и столбца из нулей 
+поменялись местами)
+
+        $\rk A=r,\ \rk A^T=r,$ т.к.:
+        \begin{enumerate}
+            \item[1)] $\rk (D^T\cdot A^T\cdot C^T)\leq \rk A^T$ по 
+свойству 2.
+            \item[2)] $\rk A^T=\rk ((D^T)^{-1}(D^T\cdot A^T\cdot 
+C^T)(C^T)^{-1})\leq \rk (D^T\cdot A^T\cdot C^T)$ по свойству 2.
+        \end{enumerate}
+        \item[3.] упр.
+        \item[4.] $\Rightarrow:\ A$ обратима $\Rightarrow n=\rk 
+E=\rk(A\cdot A^{-1})\leq \rk A\Rightarrow \rk A=n$ (т.к. $\rk A\leq n$)
+
+        $\Leftarrow:\ \rk A=n,\ \exists C,D:\ 
+CAD=\left(\begin{array}{c|c}E_r & 0\\\hline 0 & 0\end{array}\right),$ где 
+$r=\rk A\Rightarrow CAD=E\Rightarrow CA=D^{-1}\Rightarrow DCA=E$
+
+        Аналогично $ADC=E\Rightarrow DC=A^{-1}$.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Ранг по строкам равен рангу по столбцам (по первому свойству).
+\end{corollary}
+
+\begin{statement}
+    $A\in M_n(K)$; следующие условия равносильны:
+    \begin{enumerate}
+        \item $A\ -$ обратима.
+        \item $\Ker A=\{0\}$
+        \item $\Im A=K^n$
+        \item Строки $A$ линейно независимы.
+        \item Столбцы $A$ линейного независимы.
+    \end{enumerate}
+\end{statement}
+
+\begin{designation}
+    $(M_n(K))^*=GL(n,K)\ -$ полная линейная группа.
+\end{designation}
+
+\begin{statement}
+    Все есть матрица.
+\end{statement}
+
+\begin{example}
+\textbf{Матричная реализация: $\R,\ \C$}
+
+\begin{statement}
+    Подмножество $M_2(\R),$ состоящее из матриц вида $\begin{pmatrix}
+        a & b \\ b & a
+    \end{pmatrix}$ является подкольцом и полем.
+\end{statement}
+
+Оно изоморфно $\C:\ P(a+bi)=\begin{pmatrix}
+    a & b \\ -b & a
+\end{pmatrix}$
+
+Объяснение: $\C\ -$ векторное пространство над $\R$ размерности 2 $\langle 
+1,i\rangle $
+
+$a+bi\leadsto \begin{pmatrix}
+    a \\ b
+\end{pmatrix},\ x_1+x_2i\mapsto \begin{pmatrix}
+    x_1 \\ x_2
+\end{pmatrix}$
+
+Умножение на $z\in \C\ -$ линейное отображение: $(x_1+x_2)i=-x_2+x_1i$
+
+$\begin{pmatrix}
+    x_1 \\ x_2
+\end{pmatrix}\leadsto \begin{pmatrix}
+    -x_2 \\ x_1
+\end{pmatrix}=\begin{pmatrix}
+    0 & -1 \\ 1 & 0
+\end{pmatrix}\begin{pmatrix}
+    x_1 \\ x_2
+\end{pmatrix}$
+
+\end{example}

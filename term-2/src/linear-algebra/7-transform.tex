@@ -1,0 +1,220 @@
+% $\left(\begin{array}{c|c}A & B\\\hline C & D\end{array}\right)$
+\section{Элементарные преобразования}
+
+\begin{definition}
+    $\mathcal{A}:K^n\rightarrow K^n\ -$ линейное отображение 
+$(\mathcal{A}(X)=AX)$; $\mathcal{A}\ -$ \textbf{элементарное 
+преобразование}, если $\exists i_0:\ \mathcal{A}(X)_i=x_i\ \forall i\neq 
+i_0,\ X=\begin{pmatrix}
+    x_1 \\ ... \\ x_n
+    \end{pmatrix}$ и $\mathcal{A}\ -$ обратимо (меняется только одна 
+координата).
+\end{definition}
+
+\begin{example}
+    $\mathcal{A}\begin{pmatrix}
+        x_1 \\ x_2 \\ x_3
+    \end{pmatrix}=\begin{pmatrix}
+        x_1 \\ \sqrt{2}x_2 + x_3 - x_1 \\ x_3
+    \end{pmatrix}\ -$ элементарно.
+\end{example}
+
+\begin{statement}
+    \textbf{Виды элементарных преобразований:}
+
+    \begin{enumerate}
+        \item \textbf{Трансвекция}: $t_{i,j}(a)\begin{pmatrix}
+    x_1 \\ ... \\ x_n
+    \end{pmatrix}=\begin{pmatrix}
+    x_1 \\ ... \\ x_i+a\cdot x_j \\ ... \\ x_n
+    \end{pmatrix}$
+
+    $t_{i,j}(a)\ -$ обратимо.
+
+    $t_{i,j}(a)^{-1}=t_{i,j}(-a)$
+
+    Матрица: $E+a\cdot e_{i,j}$
+        \item \textbf{Дилатация:} $m_i(a),\ \a\in K\setminus \{0, 1\}$
+
+        $m_i(a)\begin{pmatrix}
+    x_1 \\ ... \\ x_n
+    \end{pmatrix}=\begin{pmatrix}
+    x_1 \\ ... \\ a\cdot x_i \\ ... \\ x_n
+    \end{pmatrix}$
+
+    $m_{i}(a)\ -$ обратимо.
+
+    $m_{i}(a)^{-1}=m_{i}(\frac{1}{a})$
+
+    Матрица: $E+(a-1)\cdot e_{i,i}$
+
+    \item Часто рассматривается третий тип $-$ \textbf{транспозиция}: 
+$s_{i,j}=\begin{pmatrix}
+    x_1 \\ ... \\ x_i \\ ... \\ x_j \\ ...\\ x_n
+    \end{pmatrix}\rightarrow \begin{pmatrix}
+    x_1 \\ ... \\ x_j \\ ... \\ x_i \\ ...\\ x_n
+    \end{pmatrix}$
+
+    Не нужна: $\begin{pmatrix}
+        x \\ y
+    \end{pmatrix}\rightarrow \begin{pmatrix}
+        x + y \\ y
+    \end{pmatrix}\rightarrow \begin{pmatrix}
+        x + y \\ -x
+    \end{pmatrix}\rightarrow \begin{pmatrix}
+        y \\ -x
+    \end{pmatrix}\rightarrow \begin{pmatrix}
+        y \\ x
+    \end{pmatrix} $
+
+    $s_{1,2}=m_2(-1)\cdot t_{1,2}(1)\cdot t_{2,1}(-1)\cdot t_{1,2}(1)$ (то 
+есть транспозиция $-$ это композиция трансвекций и дилатаций)
+    \end{enumerate}
+\end{statement}
+
+\begin{statement}
+    $A\ -$ матрица:
+    \begin{enumerate}
+        \item $t_{i,j}(a)\cdot A$ получается из $A$ прибавлением к $i-$ой 
+строке $j-$ой строки, умноженной на $a$.
+        \item $m_{i}(a)\cdot A$ получается из $A$ умножением $i-$ой строки 
+на $a$.
+        \item $A\cdot t_{i,j}(a)$ получается из $A$ прибавлением к $j-$ому 
+столбцу $i-$ого столбца, умноженного на $a$.
+        \item $A\cdot m_{i}(a)$ получается из $A$ умножением $i-$ого 
+столбца на $a$.
+    \end{enumerate}
+\end{statement}
+
+\begin{theorem}
+    \begin{enumerate}
+        \item[]
+        \item[1)] $A\in M_{n,m}\Rightarrow \exists e_1,...,e_k\ -$ 
+трансвекции/дилатации.
+
+        $e_1...e_kA=\begin{pmatrix}
+            a_{11} & * & * & * \\ 0 & a_{22} & * & * \\ ...  & ... & ... & 
+... \\ 0 & ... & .. & ...
+        \end{pmatrix}$ (треугольная матрица)
+        \item[2)] $m=n$ и $A$ обратима, то $\exists 
+e_1,...,e_k:e_1...e_kA=E$ 
+        \item[2')] $m=n$ и $A$ обратима, то $A\ -$ произведение 
+трансвекций/дислатаций.
+        \item[3)] $A\ -$ произведение $\Rightarrow \exists e_1,...,e_k$ и 
+$d_1,...,d_l\ -$ трансвекции/дилатации 
+$e_1...e_kAd_1...d_k=\left(\begin{array}{c|c}E_r & 0\\\hline 0 & 
+0\end{array}\right)$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+
+\begin{enumerate}
+    \item[1)] Индукция по $n$
+
+    Переход $n\rightarrow n + 1$: рассмотрим первый столбец 
+$\begin{pmatrix}
+        a_{11} \\ ... \\ a_{m1}
+    \end{pmatrix}$
+
+    \begin{enumerate}
+        \item[I.] Все $a_{i1}=0;\ A=\begin{pmatrix}
+            0 \\ ... \\ 0
+        \end{pmatrix}\underbrace{\Tilde{A}}_{n}$
+
+        Применим к $\Tilde{A}$ индукционное предположение: $\exists$ 
+элементарные матрицы (порядка $m$) $e_1,...,e_k\Tilde{A}=\begin{pmatrix}
+            a_{11} & ... & * \\ ... & a_{22} & ... \\ 0 & ... & ...
+        \end{pmatrix}$
+
+        Тогда $e_1...e_kA=\begin{pmatrix}
+            0 & a_{11} & ... &  * \\ 0 & 0 & a_{22} \\ ... \\\ 0
+        \end{pmatrix}$
+        \item[II.] $a_{11}\neq 0:$ применим 
+$t_{i,1}(-\frac{a_{i1}}{a_{11}})$ для каждого $i=2..m$.
+
+        $e_2...e_mA=\left(\begin{array}{c|c}a & b\\ \hline 0  \\ ... & 
+\Tilde{A} \\ 0 \end{array}\right)$
+
+        Применим индукционное предположение к $\Tilde{A}:\ \exists 
+\Tilde{e_{m+1}},...,\Tilde{e_s}:$ 
+        
+        $ \Tilde{e_{m+1}},...,\Tilde{e_s}\Tilde{A}=\begin{pmatrix}
+            \Tilde{a_{11}} & .. & * \\ 0 & \Tilde{a_{22}} & ... \\ 0
+        \end{pmatrix}$
+
+        Заменим $\Tilde{e_k}$ на $e_k:\left(\begin{array}{c|c}1 & 0 \\ 
+\hline 0  \\ ... & \Tilde{e_k} \\ 0 \end{array}\right)$
+
+        Тогда $e_{m+1}...e_sA=\left(\begin{array}{c|c c}a & b\\ \hline 0 & 
+\Tilde{a_{11}} \\ ... & 0 & \Tilde{a_{22}} \\ 0 \end{array}\right)$
+        \item[III.] $A\ -$ квадратная обратимая матрица. По первому 
+пункту: $\exists$ элементарные преобразования: $a_1...a_kA=\begin{pmatrix}
+            a_{11} & ... & * \\ 0 & a_{22} \\ ... \\ 0 & ... & a_{nn}
+        \end{pmatrix}$
+
+        \underline{Утверждение:} $a_{ii}\neq 0$
+
+        \underline{Доказательство утверждения:} пусть $\exists 
+a_{ii}=0\Rightarrow $ 
+        
+        первые $i$ столбцов матрицы $\in \bigg\langle\begin{pmatrix}
+            1 \\ 0 \\ ... \\ 0
+        \end{pmatrix}, ..., \begin{pmatrix}
+            0 \\ ... \\ 1_{(i-1\text{ позиция})} \\... \\ 0
+        \end{pmatrix}\bigg\rangle \Rightarrow$ они ЛЗ (но у обратных 
+матриц столбцы линейно независимы)
+
+        $a_1...a_kA$ обратима, так как ранг не меняется при домножении на 
+обратимые матрицы.
+
+        Теперь применим 
+$\prod\limits_{i=1}^{n-1}t_{in}(-\frac{a_{in}}{a_{nn}})$:
+
+        $\begin{pmatrix}
+            a_{11} & * & a_{1n} \\ & & a_{2_n} \\ \\ & & a_{nn}
+        \end{pmatrix}\leadsto \begin{pmatrix}
+            a_{11} & * & 0 \\ & & 0 \\ \\ 0 & & a_{nn}
+        \end{pmatrix}$
+
+        Потом применим 
+$\prod\limits_{i=1}^{n-2}t_{i,n-1}(-\frac{a_{i,n-1}}{a_{n-1,n-1}})$ и так 
+далее...
+
+        В итоге получим: $\begin{pmatrix}
+            a_{11} & ... & 0 \\ ... \\ 0 & ... & a_{nn}
+        \end{pmatrix}$.
+
+        Применим $\prod m_i(\frac{1}{a_{ii}})$; получим $\begin{pmatrix}
+            1 & ... & 0 \\ ... \\ 0 & ... & 1
+        \end{pmatrix}=E$.
+        
+    \end{enumerate}
+    
+    \item[2')] $\exists e_1,...,e_k;\ e_1...e_kA=E$
+
+    $A=e^{-1}_k...e_!^{-1}$ (отметим, что $e_1...e_k=A^{-1}$)
+
+    $e_i\ -$ элементарные преобразования
+    \item[3)] $A\ -$ произвольная матрица, $\exists$ обратимые матрицы 
+$C,D:\ CAD=\left(\begin{array}{c|c}E_r & 0\\\hline 0 & 
+0\end{array}\right)$ 
+
+    $C=e_1....e_k$ по 2' $\And D=d_1....d_l\Rightarrow 
+e_1....e_kAd_1....d_l=\left(\begin{array}{c|c}E_r & 0\\\hline 0 & 
+0\end{array}\right)$
+\end{enumerate}
+
+\end{proof}
+
+\begin{corollary}
+    Из теоремы следует алгоритм нахождения обратной матрицы:
+
+    $e_k...e_1A=E\Rightarrow e_k...e_1=A^{-1}$
+
+    Создаем блочную матрицу: $(A \mid E)$; применяем одновременно 
+элементарные преобразования к $A$ и к $E$ (приводя $A$ к $E$)
+
+    $e_1...e_k(A\mid E)=(e_1...e_kA\mid e_1...e_kE)\Rightarrow (A \mid 
+E)\xrightarrow[]{\text{элементарные преобразования}}(E \mid A^{-1})$
+\end{corollary}

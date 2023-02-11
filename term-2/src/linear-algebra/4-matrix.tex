@@ -1,0 +1,123 @@
+\section{Матрицы}
+\subsection{Определение}
+
+\begin{definition}
+    $A\ -$ абелева группа; $I,J\ -$ множества (конечные); тогда 
+\textbf{\textit{матрица над}} $A\ -$ это отображение $I\times J\rightarrow 
+A, (i,j)\rightarrow a_{i,j}\in A$
+\end{definition}
+
+\begin{designation}
+    Часто $I=\{1,2,...,n\},\ J=\{1,2,...,m\}$. В этом случае множество 
+матриц обозначается как $M_{n,m}(A)$.
+\end{designation}
+
+\begin{definition}
+    Определим \textbf{\textit{операцию сложения}}: 
+$(a_{i,j})+(b_{i,j})=(a_{i,j}+b_{i,j})_{i=1..n,\  j=1...m}$. Тогда 
+$M_{n,m}(A)\ -$ абелева группа.    
+\end{definition}
+
+\begin{definition}
+    $A=R-$ кольцо; определим \textbf{\textit{операцию умножения}}:
+    \begin{enumerate}
+        \item $M_{1,m}(R)\times M_{m,1}(R)\rightarrow R$ \\
+         $(a_1,...,a_m)\cdot \begin{pmatrix} b_1\\... \\b_m 
+\end{pmatrix}=a_1b_1+a_2b_2+...+a_mb_m$
+         \item $M_{k,m}(R)\times M_{m,1}(R)\rightarrow M_{k,1}(R)$ \\
+         $\begin{pmatrix} r_1\\-\\r_2 \\... \\r_k \end{pmatrix}\cdot 
+c=\begin{pmatrix} r_1c\\r_2c \\... \\r_kc \end{pmatrix}\in M_{k,1}(R)=R^k$ 
+\\
+        $r_i\ -$ строка, $C\ -$ столбец
+        \item $M_{k,m}(R)\times M_{m,l}(R)\rightarrow M_{k,l}(R)$ \\
+        $A\cdot(c_1\ |\ c_2\ |\ ...\ |c_l)=(Ac_1)\cdot 
+(Ac_2)\cdot...\cdot(Ac_l)$
+    \end{enumerate}
+    Тогда: \\
+    $A\in M_{k,m},\ A=(a_{i,j})_{i=1...k,\ j=1...m}$ \\
+    $B\in M_{m,l},\ B=(b_{i,j})_{i=1...m,\ j=1...l}$ \\
+    $AB=C\in M_{k,l},\ C=(c_{i,j})_{i=1...k,\ j=1...l}$ \\
+    $c_{i,j}=\sum\limits_{s=1}^ma_{i,s}b_{s,j}$
+\end{definition}
+
+\begin{statement}
+    \textbf{Перефразировка СЛУ через матрицы:} \\
+    $S\leadsto A\cdot X=B$ \\
+    $(A_1\ |\ A_2\ |\ ...\ |\ A_m)\cdot\begin{pmatrix} x_1\\ ... \\ 
+x_m\end{pmatrix}=\begin{pmatrix} b_1\\ ... \\ b_n\end{pmatrix}$
+\end{statement}
+
+\subsection{Свойства матриц}
+\begin{statement}
+    \textbf{Свойства матриц:}
+    \begin{enumerate}
+        \item[1)] $A\in M_{m,k}(R);\ B,C\in M_{k,l}(R)$  \\
+        $A\cdot(B+C)=AB+BC$ \\
+        Аналогично (с точностью до перемены индексов матриц) доказывается, 
+что $(B+C)\cdot A=BA+CA$
+        \item[2)] $A\in M_{k,l}(R);\ B\in M_{l,n}(R);\ C\in M_{m,n}(R)$ \\
+        $(AB)\cdot C=A\cdot (BC)$ в частности, все эти произведения 
+существуют.
+    \end{enumerate}
+\end{statement}
+
+\begin{proof}
+    2. $((AB)\cdot C)_{i,j}=\sum\limits_{s=1}^{m}(AB)_{i,s}\cdot 
+C_{s,j}=\sum\limits_{s=1}^{m}(\sum\limits_{t=1}^{l}A_{i,t}B_{t,s})\cdot 
+C_{s,j}=\sum\limits_{t=1...l}^{m}A_{i,t}B_{t,s}C_{s,t}$ \\
+    $(A\cdot(BC))_{i,j}=...=$ тоже самое (честно)
+\end{proof}
+
+\begin{statement}
+    $M_{n,n}(R)\ -$ ассоциативное кольцо с 1, $n\in \N$.
+\end{statement}
+
+\begin{proof}
+    Умножение определено: $M_{n,n}\times M_{n,n}\rightarrow M_{n,n}$. 
+    
+    Абелева по сложению (знаем). Ассоциативность и дистрибутивность 
+доказали. 
+    
+    Рассмотрим $E=\begin{pmatrix} 1 &0 &..\\ 0 &1 &.. \\ ..&.. &1\\ 
+\end{pmatrix}$ $(0$ везде кроме главной диагонали, на которой стоят $1)$. 
+    
+    $\forall \begin{pmatrix} x_1\\ ...  \\ x_n 
+\end{pmatrix}:E\cdot\begin{pmatrix} x_1\\ ...  \\ x_n 
+\end{pmatrix}=\begin{pmatrix} (1,0,...)\cdot \begin{pmatrix} x_1\\ ...  \\ 
+x_n \end{pmatrix}\\(0,1,...)\cdot \begin{pmatrix} x_1\\ ...  \\ x_n 
+\end{pmatrix}\\ ...  \\ (0,..., 0, 1)\cdot \begin{pmatrix} x_1\\ ...  \\ 
+x_n \end{pmatrix} \end{pmatrix}=\begin{pmatrix} x_1\\ ...  \\ x_n 
+\end{pmatrix}\Rightarrow EA=A\ \forall A\in M_{m,n}(R),$ т.е. $E$ 
+нейтрален по умножению.
+\end{proof}
+
+\begin{remark}
+    Умножение матриц не коммунитативно.
+    
+    $\begin{pmatrix}0 &1 \\ 0&0\end{pmatrix}\cdot \begin{pmatrix}0 &0 \\ 
+1&0\end{pmatrix}=\begin{pmatrix}1 &0 \\ 0&0\end{pmatrix}$ 
+    
+    $\begin{pmatrix}0 &0 \\ 1&0\end{pmatrix}\cdot \begin{pmatrix}0 &1 \\ 
+0&0\end{pmatrix}=\begin{pmatrix}0 &0 \\ 0&1\end{pmatrix}$
+\end{remark}
+
+\begin{remark}
+    $R=K\ -$ поле
+    
+    $M_n(K)\ -$ векторное пространство над $K$ $(\text{т.к. }k\cdot 
+(a_{i,j})=(ka_{i,j}))$
+
+    $(M_{n,n}(K)=M_n(K))$
+
+    Самый простой базис: $E_{i,j}:(E_{i,j})_{k,l}=\begin{cases}1,&k=i,l=j 
+\\ 0, &\text{иначе}\end{cases}$
+
+    $a_{i,j}=\sum\limits_{i,j=1..n}a_{i,j}E_{i,j}$
+\end{remark}
+
+\begin{remark}
+    Умножение на $M_{n}(K)$ достаточно было бы задать на базисе:
+
+    $E_{i,j}\cdot E_{k,l}=\begin{cases} 0,&j\neq k \\ E_{i,l}, 
+&j=k\end{cases}$
+\end{remark}
