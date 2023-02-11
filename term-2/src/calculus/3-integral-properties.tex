@@ -1,0 +1,173 @@
+\section{Свойства интеграла}
+
+\begin{theorem}
+    \textbf{Аддитивность интеграла}
+
+    $f\int C[a,b]$ и $c\in[a,b]$; тогда $\int\limits_a^b f= \int\limits_a^c f + \int\limits_c^b f$.
+\end{theorem}
+
+\begin{designation}
+    $\cP _f(E)=\cP_{f|_E}$
+\end{designation}
+
+\begin{proof}
+    $\int\limits_a^b f = \sigma (\cP_{f_+}[a,b])-\sigma (\cP_{f_-}[a,b])=$
+
+    $=\bigg(\sigma (\cP_{f_+}[a,b])= \sigma (\cP_{f_+}[a,c])+\sigma (\cP_{f_+}[c,b])\bigg)-\bigg(\sigma (\cP_{f_-}[a,b])=\sigma (\cP_{f_-}[a,c])+\sigma (\cP_{f_-}[c,b])\bigg)=$
+
+    $=\bigg(\sigma (\cP_{f_+}[a,c])-\sigma (\cP_{f_-}[a,c])\bigg)+\bigg(\sigma (\cP_{f_+}[c,b])-\sigma (\cP_{f_-}[c,b])\bigg)=\int\limits_a^c f +\int\limits_c^b f$
+\end{proof}
+
+\begin{corollary}
+    $f\in C[a,b],\ a\leq c_1\leq...\leq c_n\leq b$; тогда $\int\limits_a^b f = \int\limits_a^{c_1} f + ... + \int\limits_{c_n}^b f$.
+\end{corollary}
+
+\begin{proof}
+    Индукция.
+\end{proof}
+
+\begin{theorem}
+    \textbf{Монотонность интеграла}
+
+    $f,g\int C[a,b]$, если $f(x)\leq g(x)\ \forall x \in  [a,b]$, то $\int\limits_a^b f\leq \int\limits_a^b g$.
+\end{theorem}
+
+\begin{proof}
+    $f_+(x)=\max \{f(x), 0\}\leq \max \{g(x), 0\}=g_+(x)\Rightarrow \cP _{f_+}\subset\cP _{g_+}\Rightarrow \sigma(\cP _{f_+})\leq\sigma(\cP _{g_+})$
+    
+    $f_+(x)\geq g_+(x)\Rightarrow \cP _{f_-}\supset\cP _{g_-}\Rightarrow \sigma(\cP _{f_-})\geq\sigma(\cP _{g_-})$
+
+    Следовательно $\int\limits_a^b f=\sigma(\cP _{f_+})-\sigma(\cP _{f_-})\leq \sigma(\cP _{g_+})-\sigma(\cP _{g_-})=\int\limits_a^b g$
+\end{proof}
+
+\begin{corollary}
+    \begin{enumerate}
+        \item[]
+        \item $f\in C[a,b]\Rightarrow \min\limits_{x\in[a,b]}f(x)\cdot (b-a) \leq \int\limits_a^b f \leq (b-a)\cdot \max\limits_{x\in[a,b]}f(x)$
+        \item $\bigg|\int\limits_a^b f\bigg|\leq \int\limits_a^b |f|$
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item $m:=\min f,\ M:= \max f\Rightarrow m\leq f(x)\leq M\ \forall x\in [a,b]\Rightarrow (b-a)\cdot m = \int\limits_a^b m \leq \int\limits_a^b f \leq \int\limits_a^b M = (b-a)\cdot M$
+        \item $-|f(x)|\leq f(x) \leq |f(x)|\Rightarrow -\int\limits_a^b |f|=\int\limits_a^b (-|f(x)|)\leq \int\limits_a^b f \leq \int\limits_a^b |f|$
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem} 
+    \textbf{Интегральная теорема о среднем}
+
+    $f\in C[a,b];$ тогда $\exists c\in [a,b]:\int\limits_a^b f(b-a)\cdot f(c)$.
+\end{theorem}
+
+\begin{proof}
+    $m:=\min f,\ M:=\max f\Rightarrow m\cdot (b-a)\leq \int\limits_a^b f\leq M\cdot (b-a)\Rightarrow \frac{1}{b-a}\cdot \int\limits_a^b f\in [m,M]$
+
+    Любое значение между $m$ и $M$ достигается $\Rightarrow \exists c\in [a,b]:\frac{1}{b-a}\cdot \int\limits_a^b f=f(c)$
+\end{proof}
+
+\begin{definition}
+    Среднее значение функции на $[a,b]\ I_f:=\frac{1}{b-a}\cdot \int\limits_a^b f$.
+\end{definition}
+
+\begin{definition}
+    $f:[a,b]\rightarrow \R$ непрерывная; $\Phi:[a,b]\rightarrow \R$ называется интегралом с переменным верхним пределом, если $\Phi(x):=\int\limits_a^x f$.
+\end{definition}
+
+\begin{definition}
+    $f:[a,b]\rightarrow \R$ непрерывная; $\Psi:[a,b]\rightarrow \R$ называется интегралом с переменным нижним пределом, если $\Psi(x):=\int\limits_x^b f$.
+\end{definition}
+
+\begin{remark}
+    $\Phi(x)+\Psi(x)=\int\limits_a^b f$
+\end{remark}
+
+\begin{theorem}
+    \textbf{Теорема Барроу}
+
+    Если $f\in C[a,b]$ и $\Phi(x)=\int\limits_a^x f$, то $\Phi\ -$ первообразная $f$.
+\end{theorem}
+
+\begin{proof}
+    Надо доказать, что $\lim \limits_{y\rightarrow x}\frac{\Phi(y)-\Phi(x)}{y-x}=f(x)$.
+
+    Проверим для предела справа $y>x$; $R(y):=\frac{\Phi(y)-\Phi(x)}{y-x}=\frac{1}{y-x}\cdot \bigg(\int\limits_a^y f - \int\limits_a^x f \bigg)=\frac{1}{y-x}\cdot \int\limits_x^y f\overset{\text{по th о среднем}}{=} f(c)$, где $x<c<y\ (c$ зависит от $y)$
+
+    Надо доказать, что $\lim\limits_{y\rightarrow x} R(y)=f(x)$. Берем последовательность $y_n\rightarrow,\ y_n>x$
+
+    $R(y_n)=f(c_n)$, где $x<c_n<y\Rightarrow c_n\rightarrow x$ и $f$ непрерывна в точке $x\Rightarrow R(y_n)=f(c_n)\rightarrow f(c)\Rightarrow \lim\limits_{y\rightarrow x} R(y)=f(x)$
+\end{proof}
+
+\begin{corollary}
+    \begin{enumerate}
+        \item[]
+        \item $\Psi'(x)=-f(x)$
+        \item Если $f\in C(\langle a,b \rangle)$, то у $f$ есть первообразная.
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item $\Psi(x)=\int\limits_a^b f-\Phi(x)=const -\Phi(x)\Rightarrow \Psi'(x)=-f(x)$
+        \item Возьмем $c\in (a,b)$ и определим $F(x):=\begin{cases} \int\limits_c^x f, &\text{если $x>c$} \\
+        -\int\limits_x^c f, &\text{если $x<c$}
+        \end{cases}$
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    \textbf{Теорема Ньютона-Лейбница}
+
+    Если $f\in C[a,b],\ F\ -$ первообразная $f$, то $\int\limits_a^b f =F(b)-F(a)$.
+\end{theorem}
+
+\begin{proof}
+    $\Phi(x):= \int\limits_a^x f\ -$ первообразная $f$ и все первообразные отличаются друг на друга на const $\Rightarrow \Phi(x)=F(x)+C\Rightarrow \int\limits_a^b f =\Phi(b) = F(b)+C,\ 0=\Phi(a)=F(a)+C\Rightarrow \int\limits_a^b f = F(b)-F(a)$
+\end{proof}
+
+\begin{designation}
+    $\int\limits_a^b f=\left. f\right|_a^b := F(b)-F(a)$.
+\end{designation}
+
+\begin{theorem}
+    \textbf{Линейность интеграла}
+
+    $f,g\in C[a,b];\ \alpha,\beta\in \R;$ тогда $\int\limits_a^b (\alpha f + \beta g)= \alpha \int\limits_a^b f + \beta \int\limits_a^b g$.
+\end{theorem}
+
+\begin{proof}
+    Знаем, что если $F$ и $G\ -$ первообразные $f$ и $g$, то $\alpha F + \beta G\ -$ первообразная $\alpha f + \beta g\Rightarrow \int\limits_a^b (\alpha f + \beta g)=\left.(\alpha F + \beta G)\right|_a^b=\left.\alpha F\right|_a^b+\left.\beta G\right|_a^b=\alpha \int\limits_a^b f + \beta \int\limits_a^b g$
+\end{proof}
+
+\begin{theorem}
+    \textbf{Формула интегрирования по частям}
+
+    $u,v\in C^1[a,b];$ тогда $\int\limits_a^b uv'=\left.uv\right|_a^b-\int\limits_a^b u'v$.
+\end{theorem}
+
+\begin{proof}
+    Знаем, что если $H\ -$ первообразная $uv'$, то $uv-H\ -$ первообразная для $uv'$.
+
+    $\int\limits_a^b uv'=\left.(uv-H)\right|_a^b=\left.uv\right|_a^b - \left.H\right|_a^b=\left.uv\right|_a^b-\int\limits_a^b u'v$
+\end{proof}
+
+\begin{theorem}
+    \textbf{Теорема о замене переменной}
+
+    $f:\langle a,b \rangle \rightarrow \R,\ f\in C(\langle a, b\rangle);\ \phi: \langle c, d\rangle\rightarrow \langle a, b\rangle,\ \phi\in C^{-1}(\langle a, b\rangle);\ p,q\in \langle c, d\rangle;$ тогда $\int\limits_p^q f(\phi(t))\cdot \phi '(t)dt=\int\limits_{\phi(p)}^{\phi(q)}f(x)dx$.
+
+    \underline{Соглашение:} если $a>b$, то $\int\limits_a^b f:=-\int\limits_b^a f$.
+\end{theorem}
+
+\begin{proof}
+    Пусть $F\ -$ первообразная для $f$; тогда $F\circ \phi \ -$ первообразная для $f(\phi(t))\cdot \phi'(t)$.
+
+    $\int\limits_p^q f(\phi(t))\cdot \phi '(t)dt=\left.F\circ \phi\right|_q^p=F(\phi(q))F(\phi(q))-F(\phi(p))=\left. F\right|_{\phi(p)}^\phi(q)=\int\limits_{\phi(p)}^{\phi(q)}f(x)dx$
+\end{proof}
+
+\begin{example}
+    $\int\limits_1^3\frac{x}{1+x^4}dx=\bigg[ t=x^2;\ dt=2xdx\bigg]=\frac{1}{2}\int\limits_1^9 \frac{dt}{1+t^2}=\left.\frac{1}{2}\arctan t\right|_1^9=\frac{1}{2}(\arctan 9 - \arctan 1)$
+\end{example}

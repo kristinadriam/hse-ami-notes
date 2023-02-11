@@ -1,0 +1,165 @@
+\section{Определенный интеграл}
+
+\begin{definition}
+    $\cF\ -$ ограниченные множества на $\R^2;\ \sigma:\cF\rightarrow \R\ -$ площадь, если:
+    \begin{enumerate}
+        \item $\sigma(\cF)\geq 0$.
+        \item $\sigma([a,b]\times[c,d])=(b-a)(d-c)$.
+        \item Если $F_1\cap F_2=\varnothing$, то $\sigma(F_1\cup F_2)=\sigma(F_1)+\sigma(F_2)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{statement} \textbf{Свойство площади:}
+
+    Если $\Tilde{F}\subset F$, то $\sigma(\Tilde{F})\geq \sigma(F)$.
+
+    $\sigma(\Tilde{F})=\sigma(F)+\underbrace{\sigma(\Tilde{F}\setminus F))}_{\geq 0}\geq \sigma(F)$
+\end{statement}
+
+\begin{definition}
+    $\sigma:\cF\rightarrow \R\ -$ квазиплощадь, если:
+    \begin{enumerate}
+        \item $\sigma(\cF)\geq 0$.
+        \item $\sigma([a,b]\times[c,d])=(b-a)(d-c)$.
+        \item Если $\Tilde{F}\subset F$, то $\sigma(\Tilde{F})\geq \sigma(F)$.
+        \item Пусть $l\ -$ горизонтальная или вертикальная прямая; $F_-$ левее, $F_+$ правее и $F_-\cup F_+=F$; тогда $\sigma(F)=\sigma(F_-)+\sigma(F_+)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{statement} \textbf{Свойства квазиплощади:}
+
+    \begin{enumerate}
+        \item Если $F\ -$ подмножество вертикального или горизонтального отрезка, то $\sigma(F)=0$.
+
+        Следует из $2$ и $3$ пунктов, $\sigma(F)\leq \sigma($отрезка$)=0$.
+
+        \item В $4$ не важно, где лежат точки с $l$:
+
+        Пусть $\Delta\ -$ множество отрезка, тогда $\sigma(F_-\setminus \Delta)=\sigma (F\cup \Delta),\ \sigma(F_-\setminus \Delta)=\sigma(F_-\setminus \Delta)+\sigma(\Delta)$.
+    \end{enumerate}
+\end{statement}
+
+\begin{designation}
+    $P\ -$ прямоугольник $[a,b]\times[c,d];\ |P|=(d-c)(b-a)$.
+\end{designation}
+
+\begin{example}
+    \textbf{Примеры квазиплощадей:}
+     \begin{enumerate}
+         \item $\sigma_1(F):=\inf \{\sum\limits_{k=1}^n|P_k|:P_k\ - $ прямоугольник, $F\subset \bigcup_{k=1}^n P_k \}$ 
+         \item $\sigma_2(F):=\inf \{\sum\limits_{k=1}^\infty|P_k|:P_k\ - $ прямоугольник, $F\subset \bigcup_{k=1}^\infty P_k \}$ 
+     \end{enumerate}
+\end{example}
+
+\begin{remark}
+     $\sigma_1(F)\geq \sigma_2(F)\ ($множество $\{...k\}\supset\{...\infty\})$
+\end{remark}
+
+\begin{theorem}
+    \begin{enumerate}
+        \item[]
+        \item $\sigma_1\ -$ квазиплощадь.
+        \item $\sigma_1$ инвариантна относительно сдвига.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[2.] Докажем, что $\sigma_1(F)=\sigma_1(F+a)$, где $a\ -$ произвольный вектор.
+
+        Действительно: $F\subset  \bigcup_{k=1}^n P_k \Leftrightarrow F+a\subset  \bigcup_{k=1}^n (P_k+a)$
+        
+        \item[1.] Проверим определение:
+        \begin{enumerate}
+            \item[1)] $\sigma_1(F)\geq 0\ -$ очевидно (инфимум множества неотрицательных чисел).
+            \item[3)] $\Tilde{F}\supset F\Rightarrow \sigma(\Tilde{F})\geq \sigma(F)$
+
+            $F\subset\Tilde{F}\subset \bigcup_{k=1}^n P_k\Rightarrow F\subset \bigcup_{k=1}^n P_k\Rightarrow $ у $F$ больше множество сумм $\Rightarrow\inf$ меньше.
+            \item[2)] $\sigma([a,b]\times [c,d])=(b-a)(d-c)$, необходимо доказать $\leq$ и $\geq$
+
+            $\leq$: поскольку прямоугольник покрывает сам себя
+
+            $\geq$: продлим каждую сторону каждого прямоугольника и получим разбиение на маленькие прямоугольники. Поскольку при подсчете $\sum\limits_{k=1}^n|P_k|$ площадь маленьких прямоугольников считается несколько раз, то $F\subset \bigcup_{k=1}^n P_k\geq (d-c)(b-a)\Rightarrow \inf \geq (d-c)(b-a)$
+            \item[4)] $\sigma_1(F_-)+\sigma_1(F_+)=\sigma_1(F)$, необходимо доказать $\leq$ и $\geq$
+
+            $\geq$: $F_-\subset \bigcup_{k=1}^n P_k$ и $F_+ \bigcup_{j=1}^m Q_j$; $F\subset \bigcup_{k=1}^n P_k$ и $\bigcup_{j=1}^m Q_j$
+
+            $\sigma_1(F)\leq \sum\limits_{k=1}^n|P_k|+\sum\limits_{j=1}^m|Q_j|$
+
+            Зафиксируем $Q_j$. Если заменить $\sum\limits_{k=1}^n P_k$ на $\inf:\sigma_1(F)\leq \sigma_{F_-}+\sum\limits_{j=1}^m|Q_j|\overset{\text{тоже самое верно для $\inf$}}{\rightarrow}\sigma_1(F)\leq \sigma_1(F_-)+\sigma_1(F_+)$
+            
+            $\geq:$ берем $F\subset \bigcup_{k=1}^n P_k$
+
+             Проведем вертикальную прямую $l$ и обозначим $P_k^-+P_k^+:$ $P_k=P^-_k+P_k^+,\ |P_k|=|P^-_k|+|P_k^+|$
+
+             $F_-\subset \bigcup_{k=1}^n P_k^-\Rightarrow \sigma_1(F_-)\leq \sum\limits_{k=1}^n|P_k^-|$
+             $F_+\subset \bigcup_{k=1}^n P_k^+\Rightarrow \sigma_1(F_-)\leq \sum\limits_{k=1}^n|P_k^+|$
+
+             $\Rightarrow \sigma_1(F_-)+\sigma_1(F_+)\leq \sum\limits_{k=1}^n|P_k^-|+\sum\limits_{k=1}^n|P_k^+|=\sum\limits_{k=1}^n|P_k|\Rightarrow \sigma_1(F_-)+\sigma_1(F_+)\leq\sigma_1(F)$ 
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    $f:[a,b]\rightarrow \R$; тогда:
+
+    $f_+(x)=\max\{f(x),0\}$
+    $f_-(x)=\max\{-f(x),0\}$
+\end{definition}
+
+\begin{statement}
+    \textbf{Свойства:}
+
+    \begin{enumerate}
+        \item $f_+(x),f_-(x)\geq 0$.
+        \item $f(x)=f_+(x)-f_-(x)$.
+        \item $|f(x)|=f_+(x)+f_-(x)$.
+        \item $f_+(x)=\frac{|f(x)|+f(x)}{2},\ f_-(x)=\frac{|f(x)|-f(x)}{2}$
+        \item $f\in C[a,b]$, то $f_\pm \in C[a,b]$
+    \end{enumerate}
+\end{statement}
+
+\begin{definition}
+    $f:[a,b]\rightarrow \R$ неоттрицательная; подграфик $\cP_f:=\{(x,y)\in \R^2:a\leq x\leq b,\ o\leq y\leq f(x)\}$
+\end{definition}
+
+\begin{remark}
+    $\cP_f,\ f\in C[a,b]\ -$ ограниченное множество.
+\end{remark}
+
+\begin{proof}
+    $f\in C[a,b]\overset{\text{Б.-В.}}{\Rightarrow}f\ -$ ограниченная $\Rightarrow \cP_f\subset [a, b]\times[m, M]\ (m\ -\ \min;\ M\ -\ \max)$
+\end{proof}
+
+\begin{definition}
+    Зафиксируем $\sigma\ -$ квазиплощадь и положим $\int\limits_a^b f:=\sigma(\cP_{f_+})-\sigma(\cP_{f_-})\ -$ определенный интеграл.
+\end{definition}
+
+\begin{statement}
+    \textbf{Свойства определенного интеграла:}
+
+    $f\ -$ непрерывная функция.
+
+    \begin{enumerate}
+        \item $\int\limits_a^a f = 0$.
+        \item $\int\limits_a^b 0 = 0$.
+        \item Если $f\leq 0$, то $\int\limits_a^b f = \sigma (\cP_f)$.
+
+        Комментарий: $f_-\equiv0\Rightarrow \sigma (\cP_{f_-})=0$
+        \item $ \int\limits_a^b (-f)=-\int\limits_a^b f$.
+
+        Комментарий: $(-f)_+=f_-\Rightarrow \cP_{f_+}=\cP_{(-f)_-}$
+
+        $(-f)_-=f_+\Rightarrow \cP_{f_-}=\cP_{(-f)_+}$
+        \item $\int\limits_a^b c = c\cdot (b-a)$
+
+        Комментарий: если $c>0$, то $\cP=[a,b]\times[0,c]$.
+
+        \item Пусть $f\geq 0$ и $\int\limits_a^b f = 0$, тогда $f\equiv 0$.
+        \begin{proof}
+            От противного.
+
+            Пусть $f(x_0)>0\Rightarrow\exists \delta >0:f(x)\geq \frac{f(x_0)}{2}$ при $x\in (x_0-\delta,x_0+\delta)\Rightarrow \cP_f\supset [x_0-\frac{\delta}{2},x_0+\frac{\delta}{2}]\Rightarrow \sigma(\cP_f)\geq |...|=\delta\cdot \frac{f(x_0)}{2}>0$ ??
+        \end{proof}
+    \end{enumerate}
+\end{statement}
