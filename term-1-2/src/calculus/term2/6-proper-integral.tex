@@ -1,14 +1,14 @@
 \section{Несобственные интегралы}
 
 \begin{definition}
-    $-\infty < a < b\leq +\infty,\ f\in C[a,b).$ Тогда \textbf{несобственный интеграл}: 
-    
+    $-\infty < a < b\leq +\infty,\ f\in C[a,b).$ Тогда \textbf{несобственный интеграл}:
+
     $\int\limits_a^{\rightarrow b}f:=\lim \limits_{B\rightarrow b_-}\int\limits_a^Bf$, если предел существует.
 \end{definition}
 
 \begin{definition}
-    $-\infty \leq a < b< +\infty,\ f\in C(a,b].$ Тогда \textbf{несобственный интеграл}: 
-    
+    $-\infty \leq a < b< +\infty,\ f\in C(a,b].$ Тогда \textbf{несобственный интеграл}:
+
     $\int\limits_{\rightarrow a}^b f:=\lim \limits_{A\rightarrow a_+}\int\limits_A^b f$, если предел существует.
 \end{definition}
 
@@ -33,7 +33,7 @@
     \textbf{Критерий Коши для несобственных интегралов}
 
     $-\infty <a<b\leq +\infty,\ f\in C[a,b)$; тогда $\int\limits_a^{\rightarrow b}f$ сходится $\Leftrightarrow\forall \varepsilon>0\ \exists C\in (a,b): $
-    
+
     $\forall A,B\in (c,b) \bigg|\int\limits_A^B f\bigg |<\varepsilon$.
 \end{theorem}
 
@@ -58,31 +58,31 @@
 
         Если $p=1$, то $F(x)=\ln x$ и $\lim\limits_{x\rightarrow +\infty}\ln x=+\infty\Rightarrow$ интеграл расходится.
 
-        Если $p\neq1$, то $F(x)=-\frac{1}{(p-1)\cdot x^{p-1}}$ и $\lim\limits_{x\rightarrow +\infty}\frac{1}{x^{p-1}}=\begin{cases} 
-        0, & \text{если $p>1\Rightarrow$ интеграл сходится} \\
-        +\infty & \text{если $p<1\Rightarrow$ интеграл расходится}
-        \end{cases}$ 
+        Если $p\neq1$, то $F(x)=-\frac{1}{(p-1)\cdot x^{p-1}}$ и $\lim\limits_{x\rightarrow +\infty}\frac{1}{x^{p-1}}=\begin{cases}
+                                                                                                                          0, & \text{если $p>1\Rightarrow$ интеграл сходится} \\
+                                                                                                                          +\infty & \text{если $p<1\Rightarrow$ интеграл расходится}
+        \end{cases}$
 
         \underline{Итог:} $\int\limits_1^{+\infty }\frac{dx}{x^p}$ сходится $\Leftrightarrow p>1$ и в этом случае $\int\limits_1^{+\infty }\frac{dx}{x^p}=\frac{1}{p-1}$.
         \item $\int\limits_0^1\frac{dx}{x^p}=F(1)-\lim\limits_{x\rightarrow 0_+}F(x)$, где $F(x)\ -$ первообразная $\frac{1}{x^p}$.
 
         Если $p=1$, то $F(x)=\ln x$ и $\lim\limits_{x\rightarrow 0_+}\ln x=-\infty\Rightarrow$ интеграл расходится.
 
-        Если $p\neq1$, то $F(x)=-\frac{1}{(p-1)\cdot x^{p-1}}$ и $\lim\limits_{x\rightarrow 0_+}\frac{1}{x^{p-1}}=\lim\limits_{x\rightarrow 0_+}x^{1-p}=\begin{cases} 
-        0, & \text{если $p<1\Rightarrow$ интеграл сходится} \\
-        +\infty & \text{если $p>1\Rightarrow$ интеграл расходится}
-        \end{cases}$ 
+        Если $p\neq1$, то $F(x)=-\frac{1}{(p-1)\cdot x^{p-1}}$ и $\lim\limits_{x\rightarrow 0_+}\frac{1}{x^{p-1}}=\lim\limits_{x\rightarrow 0_+}x^{1-p}=\begin{cases}
+                                                                                                                                                            0, & \text{если $p<1\Rightarrow$ интеграл сходится} \\
+                                                                                                                                                            +\infty & \text{если $p>1\Rightarrow$ интеграл расходится}
+        \end{cases}$
 
         \underline{Итог:} $\int\limits_0^1\frac{dx}{x^p}$ сходится $\Leftrightarrow p<1$ и в этом случае $\int\limits_0^1\frac{dx}{x^p}=\frac{1}{1-p}$.
     \end{enumerate}
 \end{example}
 
 \begin{definition}
-    $f$ непрерывно на $[a,b]$ за исключением точек $c_1,...,c_n$. 
-    
+    $f$ непрерывно на $[a,b]$ за исключением точек $c_1,...,c_n$.
+
     Рассмотрим $\int\limits_a^{d_1} f,\ \int\limits_{d_1}^{c_1} f,\ \int\limits_{c_1}^{d_2} f,..., \int\limits_{d_{n+1}}^{b} f$.
-    
-    Если все интегралы сходятся, то $\int\limits_a^b f$ сходится и $\int\limits_a^b f=\int\limits_a^{d_1} f+\int\limits_{d_1}^{c_1} f+ \int\limits_{c_1}^{d_2} f+...+ \int\limits_{d_{n+1}}^{b} f$. 
+
+    Если все интегралы сходятся, то $\int\limits_a^b f$ сходится и $\int\limits_a^b f=\int\limits_a^{d_1} f+\int\limits_{d_1}^{c_1} f+ \int\limits_{c_1}^{d_2} f+...+ \int\limits_{d_{n+1}}^{b} f$.
 
     В противном случае интеграл расходится.
 \end{definition}
@@ -105,9 +105,9 @@
 
         Если $\int\limits_a^b f$ и $\int\limits_a^b g$ сходятся, $\alpha, \beta\in \R$, то $\int\limits_a^b(\alpha f+\beta g)$ сходится и $\int\limits_a^b(\alpha f+\beta g)=\alpha\int\limits_a^b f\beta \int\limits_a^b g$.
         \begin{proof}
-            $F$ и $G\ -$ первообразные для $f$ и $g$; по условию $\lim\limits_{B\rightarrow b_-} F(B)$ и $\lim\limits_{B\rightarrow b_-} G(B)$ существуют и конечные $\Rightarrow\alpha F + \beta G\ -$ первообразные для $\alpha f + \beta g$ и $\lim\limits_{B\rightarrow b_-}(\alpha\cdot F(B) + \beta\cdot G(B))=\alpha\lim\limits_{B\rightarrow b_-}F(B) + \beta\lim\limits_{B\rightarrow b_-} G(B)\Rightarrow \int\limits_a^b (\alpha f + \beta g)$ сходится 
-            
-            и $\int\limits_a^b (\alpha f + \beta g)=\alpha\lim\limits_{B\rightarrow b_-}F(B) + \beta\lim\limits_{B\rightarrow b_-} G(B)-\alpha \cdot F(A) - \beta \cdot G(A)=\alpha \cdot \int\limits_a^b f+\beta \cdot \int\limits_a^b g$  
+            $F$ и $G\ -$ первообразные для $f$ и $g$; по условию $\lim\limits_{B\rightarrow b_-} F(B)$ и $\lim\limits_{B\rightarrow b_-} G(B)$ существуют и конечные $\Rightarrow\alpha F + \beta G\ -$ первообразные для $\alpha f + \beta g$ и $\lim\limits_{B\rightarrow b_-}(\alpha\cdot F(B) + \beta\cdot G(B))=\alpha\lim\limits_{B\rightarrow b_-}F(B) + \beta\lim\limits_{B\rightarrow b_-} G(B)\Rightarrow \int\limits_a^b (\alpha f + \beta g)$ сходится
+
+            и $\int\limits_a^b (\alpha f + \beta g)=\alpha\lim\limits_{B\rightarrow b_-}F(B) + \beta\lim\limits_{B\rightarrow b_-} G(B)-\alpha \cdot F(A) - \beta \cdot G(A)=\alpha \cdot \int\limits_a^b f+\beta \cdot \int\limits_a^b g$
         \end{proof}
         \begin{remark}
             Если $\int\limits_a^b f$ сходится и $\int\limits_a^b g$ расходится, то $\int\limits_a^b(f+g)$ расходится.
@@ -136,7 +136,7 @@
         \begin{proof}
             $F(y):=\int\limits_{\varphi(x)}^y f(x)dx,\ \Phi(\gamma):=\int\limits f(\varphi(t))\varphi'(t)dt,\ Phi(\gamma)=F(\varphi(y))$ при $\alpha<\gamma<\beta$.
 
-            Далее рассмотрим следующие случаи: 
+            Далее рассмотрим следующие случаи:
             \begin{enumerate}
                 \item[I.] Если $\exists \lim\limits_{y\rightarrow \varphi (\beta_-)} F(y)$.
 
@@ -146,10 +146,10 @@
 
                 Проверим, что $\exists \lim\limits_{y\rightarrow \varphi(\beta_-)} F(y)$.
 
-                При $\varphi(\beta_-)<b$ очевидно, поскольку $F\in C[a,b)$. Пусть $\varphi(\beta_-)=b$. Возьмем $b_n\uparrow b$. Считаем, что $b_n\in [\varphi(\alpha),b)$. Тогда $\exists \gamma_n\in [\alpha, \beta)$ т.ч. $\varphi(\gamma_n)=b)n$. 
-                
-                Докажем, что $\gamma_n\rightarrow \beta$. 
-                
+                При $\varphi(\beta_-)<b$ очевидно, поскольку $F\in C[a,b)$. Пусть $\varphi(\beta_-)=b$. Возьмем $b_n\uparrow b$. Считаем, что $b_n\in [\varphi(\alpha),b)$. Тогда $\exists \gamma_n\in [\alpha, \beta)$ т.ч. $\varphi(\gamma_n)=b)n$.
+
+                Докажем, что $\gamma_n\rightarrow \beta$.
+
                 От противного. Найдется $\gamma_{n_k}\rightarrow \Tilde{\beta}<\beta\Rightarrow b_{n_k}=\varphi(\gamma_n)\rightarrow \varphi(\Tilde{\beta})<b\ (\varphi$ непрерывна в $\Tilde{\beta})$. Противоречие с тем, что $b_n\rightarrow b$. Следовательно $\gamma_n\rightarrow \beta$.
 
                 $F(b_n)=F(\varphi(\gamma_n))=\Phi(\gamma_n)$ имеет предел $\overset{\text{по Гейне}}{\Rightarrow}\exists \lim\limits_{y\rightarrow b_-}F(y)$
@@ -206,8 +206,8 @@
 
 \begin{proof}
     $f(x)=\varphi(x)g(x),$ где $\varphi(x)\rightarrow 1\Rightarrow$ при $x$ близких к $b$; $\frac{1}{2}\leq \varphi(x)\leq 2\Rightarrow \begin{cases}
-        f(x) \leq 2 g(x) & \text{при $x$ близких к $b\Rightarrow$ если $\int\limits_a^b g$ сходящийся, то и $\int\limits_a^b f$ сходящийся} \\
-        g(x) \leq 2 f(x) & \text{при $x$ близких к $b\Rightarrow$ если $\int\limits_a^b f$ сходящийся, то и $\int\limits_a^b g$ сходящийся} \\
+                                                                                                                                            f(x) \leq 2 g(x) & \text{при $x$ близких к $b\Rightarrow$ если $\int\limits_a^b g$ сходящийся, то и $\int\limits_a^b f$ сходящийся} \\
+                                                                                                                                            g(x) \leq 2 f(x) & \text{при $x$ близких к $b\Rightarrow$ если $\int\limits_a^b f$ сходящийся, то и $\int\limits_a^b g$ сходящийся} \\
     \end{cases}$
 \end{proof}
 
@@ -216,3 +216,92 @@
 
     $\frac{1}{2}\sum\limits_{n=0}^\infty\frac{1}{2^n}=1$
 \end{remark}
+
+\begin{definition}
+    $f:[a,b]\rightarrow \R$ непрерывна. $\int\limits_a^b f$ называется \textit{абсолютно сходящимся}, если $\int\limits_a^b |f|<+\infty$.
+\end{definition}
+
+\begin{theorem}
+    Если $\int\limits_a^b f$ абсолютно сходящийся, то он сходится.
+\end{theorem}
+
+\begin{proof}
+    $|f|=f_++f_-,\ f_\pm \geq 0\Rightarrow 0\leq f_\pm\leq |f|\Rightarrow \int\limits_a^b f_\pm\ -$ сходящийся $\Rightarrow \int\limits_a^b f=\int\limits_a^b f_++\int\limits_a^b f_-\ -$ сходящийся.
+\end{proof}
+
+\begin{theorem}
+    \textbf{Признак Дирихле}
+
+    $f,g\in C[a,+\infty)$
+    $\begin{cases}
+         1)\ f\text{ имеет первообразную.} \\
+         2)\ g\text{  монотонна.} \\
+         3)\lim\limits_{x\rightarrow +\infty} g(x)=0
+    \end{cases}$ $\Rightarrow \int\limits_a^{+\infty} f(x)g(x)dx$ сходится.
+\end{theorem}
+
+\begin{proof}
+    \textit{Только для $g\in C^1[a,+\infty$}.
+
+    $F(y):=\int\limits_a^y f(x)g(x)dx\ -$ ограниченная функция.
+
+    $\int\limits_a^y f(x)g(x)dx = \int\limits_a^y F'(x)g(x)dx = \left. F(x)g(x)\right\bigg|_a^y -int\limits_a^{+\infty}F(x)g'(x)dx$
+
+    $F(y)g(y)\underset{y\rightarrow +\infty}{\rightarrow} 0$ (ограниченная на бесконечно малую) $\Rightarrow$ надо доказать, что $\int\limits_a^{+\infty}F'(x)g(x)dx$ сходится. Докажем, что он абсолютно сходящийся.
+
+    $\int\limits_a^{+\infty}|F'(x)||g(x)|dx\leq M\int\limits_a^{+\infty}|g(x)|dx=M\bigg|\int\limits_a^{+\infty}g(x)dx\bigg|=M|\left.g(x)\right|_a^{+\infty}|=M|g(a)|<+\infty$
+\end{proof}
+
+\begin{theorem}
+    \textbf{Признак Абеля}
+
+    $f,g\in C[a,+\infty)$
+    $\begin{cases}
+         1)\ \int\limits_a^{+\infty} f(x)dx\text{ сходится} \\
+         2)\ g\text{  монотонна.} \\
+         2)\ g\text{  ограничена.}
+    \end{cases}$ $\Rightarrow \int\limits_a^{+\infty} f(x)g(x)dx$ сходится.
+\end{theorem}
+
+\begin{proof}
+    Пусть $b:=\lim\limits_{x\rightarrow +\infty} g(x)\in \R;\ \Tilde{g}(x):=g(x)-b\ -$ монотонна и $\lim\limits_{x\rightarrow +\infty}\Tilde{g}(x)=0$.
+
+    $F(y):=\int\limits_a^y f(x)dx$ и $\lim\limits_{y\rightarrow +\infty}F(y)=\int\limits_a^{+\infty}f(x)dx\in \R\Rightarrow F(y)$ ограничена при больших $y\Rightarrow F\ -$ ограниченная функция.
+
+    Тогда $f$ и $\Tilde{g}$ удовлетворяют признаку Дирихле $\Rightarrow\int\limits_a^{+\infty} f(x)\Tilde{g}(x)dx$.
+
+    $\int\limits_a^{+\infty} f(x)g(x)dx=\underbrace{\int\limits_a^{+\infty} f(x)\Tilde{g}(x)dx}_{\text{доказали, что сходится}}+b\underbrace{\cdot \int\limits_a^{+\infty} f(x)dx}_{\text{сходится по условию}}\Rightarrow \int\limits_a^{+\infty} f(x)g(x)dx$ сходится.
+\end{proof}
+
+\begin{corollary}
+    $f,g\in C[a,+\infty),\ f$ периодична с периодом $T$, $g$ монотонна, $g(x)\underset{x\rightarrow +\infty}{\rightarrow}0$ и $\int\limts_a^{+\infty} g(x)dx$ расходится. Тогда $\int\limits_a^{+\infty}\ -$ сходится $\Leftrightarrow \int\limits_a^{a+T} f(x)dx=0$.
+\end{corollary}
+
+\begin{proof}
+    $\Leftarrow:\ F(y):=\int\limits_a^y f(x)dx\ -$ периодична с периодом $T$.
+    $F(y+T)=F(y)+\underbrace{\int\limits_y^{y+T}f(x)dx}_{=0}\Rightarrow$ все значения $F$ принимает на $[a,a+T]$, а там она ограничена по th В. $\Rightarrow$ можно применить принцип Дирихле.
+
+    $\Rightarrow:$ от противного.
+
+    Пусть $b:=\int\limitsa^{a+T}f(x)dx\neq 0$. Расссмотрим $\Tilde{f}(x):=f(x)-\frac{b}{T}\Rightarrow \int\limits_a^{a+T}\Tilde{f}(x)dx=0\Rightarrow\int\limits_a^{+\infty}\Tilde{f}(x)g(x)dx$ сходится $\Rightarrow\underbrace{\int\limits_a^{+\infty}f(x)g(x)dx}_{\text{сходится}}-\underbrace{\int\limits_a^{+\infty}\Tilde{f}(x)g(x)dx}_{\text{сходится}}=\frac{b}{T}\int\limits_a^{+\infty} g(x)dx\ -$ сходится. Противоречие.
+\end{proof}
+
+\begin{example}
+    $\int\limits_p^{+\infty}\frac{\sin x}{x^p}dx$
+
+    \begin{enumerate}
+        \item Если $p>1:\ |\frac{\sin x}{x^p}|\leq \frac{1}{x^p},\ \int\limits_1^{+\infty}\frac{1}{x^p}dx$ сходится при $p>1\Rightarrow$ абсолютно сходящийся.
+        \item Если $0<p\leq 1:\ \int\limits_1^{+\infty}\ -$ расходится $\frac{1}{x_p}\searrow$ при $x\rightarrow +\infty$
+
+        $\int\limits_0^{2\pi}\sin xdx=0\overset{\Rightarrow}{\text{по следствию}}\int\limits_0^{\infty}\frac{\sin x}{x^p}$ сходится.
+
+        $\int\limits_0^{2\pi}|\sin x|dx>0\Rightarrow\int\limits_0^{\infty}\frac{\sin x}{x^p}$ расходится.
+
+        Т.е. сходится, но не абсолютно.
+        \item Если $p\leq 0:\ a_n=\frac{\pi}{6}+2\pi n,\ b_n=\frac{5\pi}{6}+2\pi n\Rightarrow \sin x\geq \frac{1}{2}$ при $x\in[a_n, b_n]$
+
+        $\int\limits_{a_n}^{b_n}\frac{\sin x}{x^p}dx\geq \frac{1}{2}\int\limits_{a_n}^{b_n}\frac{1}{x^p}dx\geq \frac{1}{2}(b_n-a_n)=frac{1}{2}\cdot \frac{2\pi}{3}=\frac{\pi}{3}$ т.е. сколь угодно далеко есть отрезок с $\int=\frac{\pi}{3}$.
+
+        Противоречие с критерием Коши: $\int\limits_1^{+\infty}f(x)dx$ сходится $\Leftrightarrow \forall \underbrace{\varepsilon}_{=\frac{\pi}{3}} >0\exists B\ \forall \underbrace{a}_{=a_n},\underbrace{b}_{=b_n}>B\ |\int\limits_a^b f(x)dx|<\varepsilon$
+    \end{enumerate}
+\end{example}

@@ -1,0 +1,152 @@
+\section{Разложение матриц}
+
+\subsection{PDQ-разложение}
+
+\begin{theorem}
+    $A\ -$ прямоугольная матрица, тогда $\exists$ обратные матрицы $P$ и $Q$ такие, что $A=P\begin{array}{c|c}E_r & 0\\\hline 0 & 0\end{array}Q$
+\end{theorem}
+
+\begin{proof}
+    Знаем, что $\exists$ обратимые $C,D$:
+    $CAD=\begin{array}{c|c}E_r & 0\\\hline 0 & 0\end{array}\Rightarrow A = \underbrace{C^{-1}}_{=P}\begin{array}{c|c}E_r & 0\\\hline 0 & 0\end{array}\underbrace{D^{-1}}_{=Q}$
+\end{proof}
+
+\begin{definition}
+    $A\in M_n(K);\ A$ называется \textbf{диагональной}, если $a_{ij}=0$ при $\forall i\neq j$. Обозначается как $D_n$.
+\end{definition}
+
+\begin{definition}
+    $A\in M_n(K);\ A$ называется \textbf{верхнетреугольной}, если $a_{ij}=0$ при $\forall i> j$. Обозначается как $LT_n$.
+\end{definition}
+
+\begin{definition}
+    $A\in M_n(K);\ A$ называется \textbf{нижнетреугольной}, если $a_{ij}=0$ при $\forall i< j$. Обозначается как $UT_n$.
+\end{definition}
+
+\begin{statement}
+    $D_n,LT_n, UT_n\ -$ кольца (подкольца в $M_n(K)$).
+
+    $D_n= LT_n\cap UT_n\ -$ коммунитативно (максимальное коммунитативное подкольцо в $M_n(K)$).
+
+    $D_n^*=K^*\times K^*\times ... \times K^*$.
+\end{statement}
+
+\begin{statement}
+    $A\in D_n(LT_n,UT_n);$ тогда $A\ -$ обратимая $\Leftrightarrow$ все диагональные элемента не равны 0 ($a_{ii}\neq0\ \forall i $).
+\end{statement}
+
+\begin{proof}
+    Пусть $a_i=\begin{pmatrix}
+                   0 \\ 0 \\ ... \\ 1 \\ ... \\ 0
+    \end{pmatrix}$;
+    \begin{cases}
+        $A\in UT_n\Leftrightarrow \forall i\ \mathcal{A}(\langle e_1, e_2,...e_i \rangle)\subseteq \langle e_1, e_2,...e_i \rangle$ \\
+        $A\in LT_n\Leftrightarrow \forall i\ \mathcal{A}(\langle e_i, e_{i+1},...e_n \rangle)\subseteq \langle e_1, e_2,...e_i \rangle$
+    \end{cases} $\Rightarrow LT_n$ и $UT_n\ -$  подкольца.
+
+    $\begin{pmatrix}
+         a_{11} & a_{12} & ... & a_{1n} \\
+         0 & a_{22} & ... & a_{2n} \\
+         & & ... & ... \\
+         0 & & a_{nn}
+    \end{pmatrix}\Leftrightarrow \begin{cases}
+                                     \mathcal{A}(e_1)=a_{11}e)1 \\
+                                     \mathcal{A}(e_2)=a_{12}e)1 + a_{22} e)2 \\
+                                     ...
+    \end{cases}$ (в образе $\mathcal{A}(\langle e_1, e_2,...e_i \rangle)$ не возникает $e-$шек с большим номером)
+
+    Легко видеть: $\begin{pmatrix}
+                       a_{11} & & * \\
+                       & \ddots &  \\
+                       0 & & a_{nn}
+    \end{pmatrix}$\cdot $\begin{pmatrix}
+                             b_{11} & & * \\
+                             & \ddots &  \\
+                             0 & & b_{nn}
+    \end{pmatrix} $ = $\begin{pmatrix}
+                           a_{11}b_{11} & & * \\
+                           & \ddots &  \\
+                           0 & & a_{nn}b_{nn}
+    \end{pmatrix} $
+
+    В частности: $\begin{pmatrix}
+                      a_{11} & & 0 \\
+                      & \ddots &  \\
+                      0 & & a_{nn}
+    \end{pmatrix}$\cdot $\begin{pmatrix}
+                             b_{11} & & 0 \\
+                             & \ddots &  \\
+                             0 & & b_{nn}
+    \end{pmatrix} $ = $\begin{pmatrix}
+                           a_{11}b_{11} & & 0 \\
+                           & \ddots &  \\
+                           0 & & a_{nn}b_{nn}
+    \end{pmatrix} $   $e_i\overset{\mathcal{B}}{\leadsto} b_ie_i \overset{\mathcal{A}}{\leadsto}b_i(a_ie_i)=b_ia_ie_i$
+
+    Очевидно, что коммунитативно и что $D_n=K\times K\times ... \times K$ и $D^*_n=K\times K^*\times ... \times K^*$.
+\end{proof}
+
+Критерий обратимости:
+\begin{enumerate}
+    \item для $A\in UT_n$: это было в доказательстве пункта 2 предыдущей теореме.
+    \item $A\in LT_n$: следует из обратимости для $UT_n$ ($A$ обратима $\Leftrightarrow A^T$ обратима).
+\end{enumerate}
+
+\subsection{LU-разложение}
+
+Было: $A\ -$ обратима; $A\overset{\text{э.п., Гаусс}}{\rightarrow}$ $\begin{pmatrix}
+                                                                         a_{11} & & 0 \\
+                                                                         & \ddots &  \\
+                                                                         0 & & a_{nn}
+\end{pmatrix}$ (см. пред. теорему)
+
+Пусть в ходе Гаусса не было исключений (перестановок строк) $\Rightarrow$ применяем только $t_{i,j}(a)$, где $i>j$.
+
+Заметим, что $t_{i,j}(a)=\begin{pmatrix}
+                             1 & ... & 0 & 0 \\
+                             ... & \ddots & ... & 0 \\
+                             0 & a & \ddots & ... \\
+                             0 & 0 & ..& 1
+\end{pmatrix}\in LT_n\Rightarrow U=\underbrace{e_1..e_k}_{\in LT_nA}\in UT_n\Rightarrow A = \underbrace{e_1^{-1}...e_k^{-1}}_{= L} U=LU$
+
+Итого: $A=LU,\ L\in LT^*_n,\ U\in UT^*_n\rightarrow LU-$разложение
+
+\begin{statement}
+    $LU-$разложение существует $\Leftrightarrow\begin{array}{c|c}
+                                                   A_k
+                                                   & 0\\\hline 0 & 0\end{array},\ A_k\ -$ обратимая квадратная матрица размера $k\times k$.
+\end{statement}
+
+\begin{proof}
+    $\Leftarrow:$ есть проблемы $\Leftrightarrow$ в какой-то момент получили
+
+    $\left(\begin{array}{c|c}\overbrace{
+        \begin{pmatrix}
+            a_{11} & & \\
+            & \ddots & \\
+            0 && 0
+        \end{pmatrix}}^{=\Tilde{A}_k}
+    & *\\\hline \begin{pmatrix}
+                    0 & ... & * \\
+                    ... & ... & ... \\
+                    0 & ... & *
+    \end{pmatrix} & *\end{array}\right) $
+
+    $ \Tilde{A}_k$ необратимая $\Leftrightarrow A_k$ необратимая
+
+    $\Rightarrow:$ упражнение - перемножить $L$ на $U$.
+\end{proof}
+
+\subsection{LPU-разложение}
+
+В общем случае: сделаем в начале перестановку строк так, чтобы выполнилось условие теоремы:
+
+TODO
+
+$\rk C_{k+1}=k+1$ (матрица обратима) $\Rightarrow \rk C_{k+1}$ по строке $=k+1$
+
+Первые $k$ строк ЛНЗ (знаем) $\Rightarrow \exists$ строка $r_i\in \langle r_1, r_2,...,r_n\rangle$. Переставим $r_i$ на $(k+1)$-ое место.
+
+Итого: $A\leadsto s_1...s_nA\ -$ удовлетворяет условию теоремы ($s_i\ -$ транспозиции) $\Rightarrow s_1...s_nA=LU\Rightarrow A = s_n....s_1LU=PLU,\  P\ -$ матрица перестановки.
+
+$P:\exists $ перестановка $ \pi \in S_n\ P_{i,\pi(i)}=1 $ и $ P_{i,j}=0$ иначе.

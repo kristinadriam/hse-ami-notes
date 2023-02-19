@@ -1,0 +1,208 @@
+\section{Французские теоремы о среднем}
+
+\begin{theorem}
+    \textbf{Теорема Ферма}
+
+    $f:\langle a,b\rangle\rightarrow \R;\ x_0\in (a,b),\ f$ дифференцируема в точке $x_0$и $f(x_0)\ -$ наибольшее (наименьшее) значение функции на $\langle a,b\rangle$. Тогда $f'(x_0)=0$.
+\end{theorem}
+
+\begin{proof}
+    Пусть $f'(x_0)\leq f(x)\ \forall x\in \langle a,b\rangle$.
+
+    $\begin{rcases} f_+'(x_0)=\lim\limits_{x\rightarrow x_0_+}\frac{\overbrace{f(x)-f(x_0)}^{\leq 0}}{\underbrace{x-x_0}_{>0}}\leq 0 \\
+    f_-'(x_0)=\lim\limits_{x\rightarrow x_0_-}\frac{\overbrace{f(x)-f(x_0)}^{\leq 0}}{\underbrace{x-x_0}_{<0}}\geq 0
+    \end{rcases} f'(x)=f'_+(x)=f'_-(x)\Rightarrow f'(x)=0$
+\end{proof}
+
+\begin{example}
+    Без дифференцирования неверно: $f(x)=|x|$ на $(-1,1)$.
+
+    $0\ -$ точка с наименьшим значением, $f'_-(0)=-1,\ f'_+(0)=1$.
+\end{example}
+
+\begin{remark}
+    \underline{Геометрический смысл:} касательная в точке наибольшего/наименьшего значения горизонтальна.
+\end{remark}
+
+\begin{theorem}
+    \textbf{Теорема Ролля}
+
+    $f:[a,b]\rightarrow \R$ непрерывна на $[a,b]$, дифференцируема на $(a,b),\ f(a)=f(b)$. Тогда $\exists c\in (a,b):\ f'(c)=0$.
+\end{theorem}
+
+\begin{proof}
+    $f$ непрерывна на $[a,b]\overset{\text{по th Вейр.}}{\Rightarrow}$ в каких-то точках достигается максимальное/минимальное значение.
+
+    \begin{enumerate}
+        \item Если точки $-$ это конца отрезка $\Rightarrow f=const\Rightarrow f'(x)=0\ \forall x$.
+        \item Если одна из точек не конец отрезка $\overset{\text{по th Ферма}}{\Rightarrow}f'$ в этой точке равна 0.
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item $f(x)=x\ -$ важно, что $f(a)=f(b)$.
+        \item $f(x)=|x|\ -$ важна непрерывность во всех точках.
+    \end{enumerate}
+\end{example}
+
+\begin{remark}
+    \underline{Геометрический смысл:} найдется точка с горизонтальной касательной.
+\end{remark}
+
+\begin{theorem}
+    \textbf{Теорема Лагранжа}
+
+    $f:[a,b]\rightarrow \R$ непрерывна на $[a,b]$, дифференцируема на $(a,b)$. Тогда $\exists c\in (a,b):\ f(b)-f(a)=f'(c)(b-a)$ (формула конечных приращений).
+\end{theorem}
+
+\begin{proof}
+    $g(x)=f(x)-kx\ -$ непрерывна на $[a,b]$, дифференцируема на $(a,b)$.
+
+    Подберем $k$ так, чтобы $g(a)=g(b):f(a)-ka=f(b)-kb\Rightarrow k=\frac{f(b)-f(a)}{b-a}$.
+
+    Тогда по теореме Ролля для функции $g\ \exists c\in (a,b): g'(c)=0\Leftrightarrow f'(c)=\frac{f(b)-f(a)}{b-a}$
+\end{proof}
+
+\begin{remark}
+    \underline{Геометрический смысл:} найдется точка, в которой касательная параллельная хорде, соединяющей значения на концах отрезка.
+\end{remark}
+
+\begin{theorem}
+    \textbf{Теорема Коши}
+
+    $f,g:[a,b]\rightarrow \R$ непрерывна на $[a,b]$, дифференцируема на $(a,b),\ g'(x)\neq 0 \ \forall x \in (a,b)$. Тогда $\exists c\in (a,b):\ \frac{f'(c)}{g'(c)} = \frac{f(b)-f(a)}{g(b)-g(a)}$.
+\end{theorem}
+
+\begin{proof}
+    $h(x)=f(x)-k\cdot g(x)\ -$ непрерывна на $[a,b]$, дифференцируема на $(a,b)$.
+
+    Подберем $k$ так, чтобы $h(a)=h(b):f(a)-a\cdot g(a)=f(b)-b\cdot g(b)\Rightarrow k=\frac{f(b)-f(a)}{b-a}$.
+
+    Тогда по теореме Ролля для функции $h\ \exists c\in (a,b):h'(c)=0=f'(c)-g'(c)\cdot k \Rightarrow k=\frac{f'(c)}{g'(c)}$
+\end{proof}
+
+\begin{remark}
+    \underline{Геометрический смысл:} $(g(t), f(t))\ -$ координаты точки в момент времени $t$. В какой-то момент вектор скорости параллелен хорде.
+\end{remark}
+
+\begin{corollary}
+    \textbf{Следствия из теоремы Лагранжа:}
+
+    $f:\langle a,b \rangle \rightarrow \R$
+
+    \begin{enumerate}
+        \item $f:[a,b]\rightarrow \R$ непрерывна на $[a,b]$, дифференцируема на $(a,b)$. Если $|f'(x)|\leq M\ \forall x\in (a,b)$, то $\forall x, y\in \langle a,b \rangle\ |f(x)-f(y)|\leq M\cdot |x-y|$.
+
+        \begin{proof}
+            Лагранж на $[x,y]\Rightarrow \exists c\in (x,y)\subset (a,b): f(x)-f(y)=f'(c)(x-y)\Rightarrow |f(x)-f(y)|=|f'(c)|\cdot|x-y|\leq M\cdot |x-y|$.
+        \end{proof}
+
+        \begin{definition}
+            $f:E\rightarrow \R$. \textbf{Липшицева с константой} $M$, если $\forall x,y\in E\ |f(x)-f(y)|\leq M\cdot |x-y|$.
+        \end{definition}
+
+        \item $f:[a,b]\rightarrow \R$ непрерывна на $[a,b]$, дифференцируема на $(a,b)$ и $f'(x)\leq 0\ \forall x\in (a,b)\Leftrightarrow $$f$ монотонно возрастает.
+
+        \begin{proof}
+            $\Rightarrow:$ Пусть $x<y$. Тогда $\exists c\in (x,y)\subset (a,b): f(y)-f(x)=\underbrace{f'(c)}_{\geq 0}\underbrace{(y-x)}_{>0}\geq 0\Rightarrow f(x)\leq f(y)$.
+
+            $\Leftarrow: f'(x)=f_+(x)=\lim\limits_{y\rightarrow x_+} \frac{\overbrace{f(y)-f(x)}^{\geq}}{\underbrace{y-x}_{>0}}\geq 0$
+        \end{proof}
+
+        \item $f:[a,b]\rightarrow \R$ непрерывна на $[a,b]$, дифференцируема на $(a,b)$ и $f'(x)> 0\ \forall x\in (a,b) $. Тогда $f$ строго возрастает.
+
+        \begin{proof}
+            $\Rightarrow:$ Пусть $x<y$. Тогда $\exists c\in (x,y)\subset (a,b): f(y)-f(x)=\underbrace{f'(c)}_{\geq 0}\underbrace{(y-x)}_{>0}\geq 0\Rightarrow f(x)< f(y)$.
+        \end{proof}
+
+        \begin{proof}
+            $f(x)=x^3$ строго возрастает, хотя $f'(0)=0$.
+        \end{proof}
+
+        \item $f'(x)\leq 0\ \forall x\in (a,b)\Leftrightarrow f$ нестрого убывает.
+
+        \item $f'(x) < 0\ \forall x\in (a,b)\Leftrightarrow f$ строго убывает.
+
+        \item $f$ непрерывна на $\langle a,b\rangle$, дифференцируема на $[a,b]$. Тогда если $f'(x)=0\ \forall x\in (a,b)$, то $f$ постоянно.
+
+        \begin{proof}
+            Пусть $x<y$. Тогда $\exists c\in (x,y)\subxet (a,b): f(y)-f(x)=f'(c)(y-x)=0\Rightarrow$ все значения равны.
+        \end{proof}
+    \end{enumerate}
+\end{corollary}
+
+\begin{theorem}
+    \textbf{Теорема Дарбу}
+
+    $f:[a,b]\rightarrow \R$ дифференцируема на $(a,b)$ во всех точках. Тогда если $C$ лежит между $f'(a)$ и $f'(b)$, то $\exists c\in (a,b):\ f'(c)=C$.
+\end{theorem}
+
+\begin{proof}
+    \underline{Случай $C=0$:} Пусть для определенности $f'(a)<f'(b)$.
+
+    $f$ непрерывна на $[a,b]\overset{\text{по th В.}}{\Rightarrow}\exists p, q:f(p)\leq f(x)\leq f(q)\ \forall x\in [a,b]$.
+
+    Если одна из точек $\in (a,b)$, то она подходит. Поймем, что $p\neq q$ и $p\neq b$.
+
+    Пусть $p=a:f'(a)=f_+(a)=\lim\limits_{h\rightarrow 0_+}\frac{\overbrace{f(a+h)-f(a)}^{\geq 0}}{\underbrace{h}_{>0}}\geq 0,$ но $f'(a)<0\ ?!$.
+
+    Пусть $p=b:f'(b)=f_-(b)=\lim\limits_{h\rightarrow 0_+}\frac{\overbrace{f(a+h)-f(a)}^{\geq 0}}{\underbrace{h}_{<0}}\leq 0,$ но $f'(b)>0\ ?!$.
+
+    Тогда $p\neq q$ и $p\neq b\Rightarrow f'(p)=0\ p\in (a,b)$.
+
+    \underline{Общий случай:} $g(x)=f(x)-c\cdot x\Rightarrow g'(x)=f'(x)-C\Rightarrow\exists c:0=f(c)-C$.
+    TODO
+\end{proof}
+
+\begin{corollary}
+    $f:\langle a,b\rangle\rightarrow \R$ дифференцируема во всех точках и $f'(x)\neq 0\ \forall x \langle a,b\rangle$. Тогда $f$ строго монотонна.
+\end{corollary}
+
+\begin{proof}
+    Проверим, что $f'$ одного знака (если нет, то $\exists c: f'(c)=0 ?!)\Rightarrow $ строгое возрастание/убывание.
+\end{proof}
+
+\begin{theorem}
+    \textbf{Правило Лопиталя}
+
+    $-\infty \leq a< b\leq +\infty,\ f,g:(a,b)\rightarrow\R$ дифференцируема на $(a,b)$, $g;(x)\neq 0\ \forall x\in(a,b)$ и $\lim\limits_{x\rightarrow a_+}f(x)=\lim\limits_{x\rightarrow a_+}g(x)=0$. Тогда если $\lim\limits_{x\rightarrow a_+}\frac{f'(x)}{g'(x)}=l\in \overline{\R},$ то и $\lim\limits_{x\rightarrow a_+}\frac{f(x)}{g(x)}=l$.
+\end{theorem}
+
+\begin{proof}
+    Проверяем по Гейне. Берем $x_n\searrow a$. Надо доказать, что $\lim\frac{f(x_n)}{g(x_n)}=l$. Восапользуемся теоремой Штольца:
+
+    $\lim f(x_)=\lim g(x_n)=0;\ g$ строго монотонна $\Rightarrow g(x_n)$ строго монотонна $\Rightarrow$ надо проверить, что $\lim\limits_{x\rightarrow a_+}\underbrace{\frac{f(x_{n+1})-f(x_n)}{g(x_{n+1})-g(x_n)}}_{=\frac{f(c_n)}{g(c_n)}\text{по th Коши для некоторого } c_n\in(x_n,x_{n+1})}=l$.
+
+    Тогда по Гейне $\lim \frac{f(c_n)}{g(c_n)}=l$, поскольку $c_n\rightarrow a$.
+\end{proof}
+
+\begin{theorem}
+    \textbf{Правило Лопиталя}
+
+    $-\infty \leq a< b\leq +\infty,\ f,g:(a,b)\rightarrow\R$ дифференцируема на $(a,b)$, $g;(x)\neq 0\ \forall x\in(a,b)$ и $=\lim\limits_{x\rightarrow a_+}g(x)=+\infty$. Тогда если $\lim\limits_{x\rightarrow a_+}\frac{f'(x)}{g'(x)}=l\in \overline{\R},$ то и $\lim\limits_{x\rightarrow a_+}\frac{f(x)}{g(x)}=l$.
+\end{theorem}
+
+\begin{proof}
+    Другой Штольц.
+\end{proof}
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item $\lim\limits_{x\rightarrow+\infty}\frac{\ln x}{x^p}=0$ при $p>0$.
+
+        $\frac{(\ln x)'}{(x^p)'}=\frac{1}{p\cdot x^{p-1}}\rightarrow 0$
+        \item $\lim\limits_{x\rightarrow+\infty}\frac{x^p}{a^x}=0$ при $a>1$ и $p\in \R$.
+
+        При $p\leq 0$ очевидно.
+
+        При $p>0:\frac{(x^p)'}{(a^x)'}=\frac{p\cdot x^{p-1}}{\ln a\cdot a^x}\rightarrow 0$ при $p\leq 1$ ... реккурсивно.
+        \item $\lim\limits_{x\rightarrow 0}x^x=\lim\limits_{x\rightarrow 0} e^{x\ln x}=exp(\lim\limits_{x\rightarrow 0} x\cdot \ln x)=exp(0)=1$
+
+        $\lim\limits_{x\rightarrow 0} x\cdot \ln x = \lim\limits_{x\rightarrow 0} \frac{\ln x}{\frac{1}{x}}=0$
+
+        $ \frac{(\ln x)'}{(\frac{1}{x})'}=\frac{\frac{1}{x}}{-\frac{1}{x^2}}=-x\rightarrow 0$
+    \end{enumerate}
+\end{example}

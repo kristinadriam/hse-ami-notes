@@ -1,0 +1,183 @@
+\section{Определитель}
+\subsection{Определитель}
+
+\begin{definition}
+    \textbf{Определитель} $-$ функция det: $M_n(K)\rightarrow K$.
+\end{definition}
+
+\begin{example}
+    Площадь/объем.
+
+    (картиночка)
+
+    Оказывается, что $S=|ad-bc|$. Как к этому прийти?
+
+    Свойства площади:
+    \begin{enumerate}
+        \item[1)] (еще картиночка)
+
+        $S(\Vec{u}, k\Vec{v})=kS(\Vec{u}, \Vec{v})$
+
+        \item[2)] (еще картиночка)
+
+        $S(\Vec{u}, \Vec{v}+\Vec{w})=S(\Vec{u}, \Vec{v})+S(\Vec{u}, \Vec{w})$
+
+        \item[2')] $S(\Vec{u}, \Vec{v}+ k\Vec{u})=S(\Vec{u}, \Vec{v})=S(\Vec{u}, \Vec{v})+kS(\Vec{u}, \Vec{u})$ (1 и 2 свойства)
+
+        \item[3)] $S(\Vec{u}, \Vec{u})=0$
+
+    \end{enumerate}
+
+    Теперь можно: (опяяяять картинки)
+
+    Воспользуемся еще одной аксиомой, что $S($квадрат 1 на 1$)=1:(ad-bc)S\begin{pmatrix}
+                                                                             1 & 0 \ 0 & 1
+    \end{pmatrix}=ad-bc$.
+\end{example}
+
+\subsection{Полилинейная функция}
+\begin{definition}
+    $K^n$ (или $V$) $-$ векторное пространство над $K$.
+
+    Функция $f:\underbrace{V\times V\times ... \times V}_{m}\rightarrow K$ называется \textit{полилинейной}, если:
+
+    $\forall i\ v_{1},...,v_{i-1}, v_{i+1},...,v_m\in K^n\ f(v_{1},...,v_{i-1}, v_{i+1},...,v_m):V\rightarrow K$ линейная, то есть:
+
+    $f(v_{1},...,v_{i-1}, v_i+b_iv'_i,...,v_m)=f(v_{1},...,v_{i},...,v_m)+bf(v_{1},...,v'_{i},...,v_m)$.
+\end{definition}
+
+\begin{example}
+    $m=1:$ полилинейное = линейное.
+
+    $m=2:$ пример: скалярное произведение векторов.
+\end{example}
+
+\begin{definition}
+    Полилинейная функция $f$ называется кососимметричной, если верно, что $v_i=v_j\Rightarrow f(v_1,..., v_m)=0$.
+\end{definition}
+
+\begin{remark} (покажем на случае функции от двух параметров, общий случай выводится аналогично)
+
+    $f(x, y)\ -$ полилинейная.
+    \begin{enumerate}
+        \item $f$ кососимметричная.
+        \item $f(x,y)=-f(y,x)\ \forall x, y$.
+    \end{enumerate}
+    Тогда $1\Rightarrow 2$ и $1\Leftrightarrow 2$, если $\text{char} K\neq 2$.
+\end{remark}
+
+\begin{proof}
+    $2\Rightarrow 1:\ f(x,x)=-f(x,x)\Rightarrow 2f(x,x)=0\overset{\text{если char} K\neq 2}{\Rightarrow} f(x,x)=0$.
+
+    $1\Rightarrow 2: 0=f(x+y, x+y)=\underbrace{f(x,x)}_{=0}+f(x,y)+f(y,x)+\underbrace{f(y,y)}_{=0}\Rightarrow f(x,y)=-f(y,x)$.
+\end{proof}
+
+\begin{statement}
+    Кососимметричная полилинейна функция однозначно задается значениями $f(e_{i_1},...,e_{i_m})$, где $i_1<...<i_n$.
+\end{statement}
+
+\begin{proof}
+    Достаточно вычислить $f_1(e_{i_1},...,e_{i_m})$ (по предыдущему утверждению).
+
+    $\exists k,l:\ i_l=i_k\Rightarrow f(...)=0$ (по определнию)
+
+    Пусть $i_1\neq i_2\neq ... \neq i_m;\ i_k\ -\ \min;\ f(e_{i_1},...,e_{i_k}...,e_{i_m})=-f(e_{i_k}, e_{i_1},...,e_{i_m})$. Продолжая это, получим $f(e_{i_1},...,e_{i_m})=\pm f(e_{j_1},...,e_{j_m})$, где $j_1<...<j_m$.
+\end{proof}
+
+\begin{definition}
+    Пусть $n=m$; тогда билинейная кососимметричная функция $f$ называется \textit{определителем порядка} $n$ ($f\neq 0$).
+\end{definition}
+
+\begin{theorem}
+    $f_1$ и $f_2\ -$ определители $\Rightarrow \exists c\in K^*:f_1=c\cdot f_2$.
+\end{theorem}
+
+\begin{proof}
+    Пусть $f_1(e_1,...,e_n)=c\cdot f_2(e_1,...,e_n)$.
+
+    Тогда: $\forall e_{i_1},...,e_{i_n}\ f_1(e_{i_1},...,e_{i_n})= c\cdot f_2(e_{i_1},...,e_{i_n})$.
+
+    Тогда по утверждению 1 $f_1\c\cdot f_2$ всегда.
+\end{proof}
+
+\begin{definition}
+    $V=K^n$; определителем будем называть такой определитель, что:
+
+    $f\bigg(\begin{pmatrix}
+                1 \\ 0 \\ .. 0
+    \end{pmatrix}, \begin{pmatrix}
+                       0 \\ 1 \\ .. 0
+    \end{pmatrix}, ..., \begin{pmatrix}
+                            0 \\ 0 \\ .. 1
+    \end{pmatrix} \bigg)=1$. Она обозначается $\det$.
+\end{definition}
+
+
+\subsection{Четность перестановки}
+\begin{definition}
+    Перестановка $s\in S_n,\ s_i:\{1,...,n\}\rightarrow \{1,...,n\}$ биекция.
+\end{definition}
+
+\begin{statement}
+    $s\ -$ композиция трансвеций.
+\end{statement}
+
+\begin{proof}
+    Индукция по $n$.
+
+    Переход: $n\rightarrow n + 1:\pi\in S_{n+1},\ \pi(n+1)=x$
+
+    Рассмотрим $s_{n+1, x}\circ \pi=\overline{\pi};\ \overline{\pi}(n+1)=\pi(x)=n+1\overset{\text{забываем про $n$}}{\Rightarrow}\overline{\pi}\mid_{\{1,...,n\}}$ по и.п. это $s_{i_1,j_1}\circ...\circ s_{i_k,j_k}\Rightarrow \pi = s_{n+1,x}\circ s_{i_1,j_1}\circ...\circ s_{i_k, j_k}$
+\end{proof}
+
+\begin{definition}
+    \textbf{Четность перестановки}
+
+    Если $\pi=s_1\circ ...\circ s_{2k},$ где $ s_i\ -$ транспозиции, то $\pi\ -$ \textit{четная} перестановка.
+
+    Если $\pi=s_1\circ ...\circ s_{2k+1},$ где $ s_i\ -$ транспозиции, то $\pi\ -$ \textit{нечетная} перестановка.
+\end{definition}
+
+\begin{theorem}
+    \textbf{Явная формула для определителя}
+    $A=(a_{i,j})_{i,j=1..n}$. Тогда функция $\det A=\sum\limits_{\pi\in S_n}(-1)^{\varepsilon(\pi)}a_{1,\pi(1)}\cdot a_{2,\pi(2)}\cdot...\cdot a_{n,\pi(n)}$, где $\varepsilon(\pi)\ -$ четность перестановки $\pi$ полилинейная, кососимметричная и нормальная (т.е. $\det$ в прежнем смысле).
+\end{theorem}
+
+\begin{remark}
+    Эта формула $-$ сумма ладейных произведеинй, взятых со знаком.
+\end{remark}
+
+\begin{example}
+    $n=2:+: \begin{vmatrix} * &  \\ & *
+    \end{vmatrix}, -: \begin{vmatrix} & *   \\ * &
+    \end{vmatrix}\Rightarrow \det \begin{pmatrix}
+                                      a & b  \\ c & d
+    \end{pmatrix}=ad-bc$ (в общем случае будет $n!$ слагаемых)
+\end{example}
+
+\begin{definition}
+    Четность через инверсии: $\Tilde{\varepsilon}(\pi)=\bigg|\{(i,j)\mid i<j \And \pi(i)<\pi(j)\}\bigg|$.
+\end{definition}
+
+\begin{example}
+    $\pi:\begin{vmatrix} 1 & 2 & 3 & 4 & 5 \\ 5 & 1 & 2 & 4 & 3
+    \end{vmatrix}\rightarrow 5$ инверсий $\Rightarrow 5$ нечетно.
+\end{example}
+
+\begin{theorem}
+    Два определения четности совпадают.
+\end{theorem}
+
+\begin{proof}
+    Это следует из леммы.
+
+    \begin{lemma}
+        Если $s\ -$ транспозиция, то $\Tilde{\varepsilon}(s\pi)$ и $\Tilde{\varepsilon}(\pi)$ различны.
+    \end{lemma}
+
+    \begin{proof}
+        По индукции: $\Tilde{\varepsilon}(s_1,...,s_{2k})= 0, \Tilde{\varepsilon}(s_1,...,s_{2k+1})= 0$
+
+        База: $\Tilde{\varepsilon}(id)=0$
+    \end{proof}
+\end{proof}
