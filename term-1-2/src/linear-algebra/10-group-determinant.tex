@@ -1,0 +1,119 @@
+\section{Групповые свойства определителя}
+
+\begin{theorem}
+    $\det\ -$ гомоморфизм, то есть:
+    \begin{enumerate}
+        \item $\det (A\cdot B)=\det A\cdot \det B$.
+        \item $\det E=1$.
+        \item $\exists A^{-1}\Rightarrow \det A^{-1}=\frac{1}{\det A}$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    2 знаем, 3 следует из 1. Докажем 1.
+
+    $B=(C_1\mid ...\mid C_n)$
+
+    $A\cdot B=(A\cdot C_1\mid ...\mid A\cdot C_n)$
+
+    Зафиксируем $A$. $B$, то есть $C_1,...,C_n\ -$ переменные. Тогда $\det (A\cdot B)\ -$ линейная кососимметричная функция от $C_1,...,C_n$.
+
+    \underline{Линейность:}
+
+    $\det (A(C'_1+C''_1\mid C_2\mid ...\mid C_n))=\det (A(C'_1+C''_1)\mid A\cdot C_2\mid ...\mid A\cdot C_n))=    \det (A\cdot C'_1+A\cdot C''_1\mid A\cdot C_2\mid ...\mid A\cdot C_n)\overset{\text{полилин-ть $\det$}}{=}\det(...)+\det(...)$
+
+    \underline{Кососимметричность:}
+
+    В $B$ одинаковые столбцы $\Rightarrow B$ необратима $\Rightarrow A\cdot B$ необратима $\det AB=0$.
+
+    Знаем: полилинейность, кососимметричность, единственность с точностью умножения на константу.
+
+    $\begin{cases} f(B)=\det(AB) \\ g(B)=\det(AB)
+    \end{cases}$ полилинейные кососимметричные $\Rightarrow \exists c\in K\ \forall B\ \det(AB)=c\cdot \det B$
+
+    Подставим $B=E$ и получим: $\det A=c\cdot \det E\Rightarrow c=\det A$. То есть $\det (AB)=\det A\cdot \det B$.
+\end{proof}
+
+\begin{theorem}
+    $n=m+l,\ A\in M_n(K),\ A=\begin{array}{c} m \\ l
+    \end{array}\left(\begin{array}{c|c} \overset{m}{B} & \overset{l}{D} \\
+    \hline
+    0 & B
+    \end{array}\right)$. Тогда $\det A=\det B\cdot \det C$.
+\end{theorem}
+
+\begin{proof}
+    Шаг 1: $B=C=E$. $\det\left(\begin{array}{c|c} E & * \\
+    \hline
+    0 & E
+    \end{array}\right)\overset{\text{эл. преобр.}}{=}\det E=1$
+
+    Шаг 2: $E, *$ фиксированы. $\det\left(\begin{array}{c|c} E & * \\
+    \hline
+    0 & B
+    \end{array}\right)\ -$ полилинейная функция от последних $l$ строк, т.е. от строк $B\Rightarrow\det\left(\begin{array}{c|c} E & * \\
+    \hline
+    0 & B
+    \end{array}\right)=\det B\cdot C$
+
+    $B=E\Rightarrow C=1=\det E$
+
+    Шаг 3: $B, *$ фиксированы. $\det\left(\begin{array}{c|c} A & * \\
+    \hline
+    0 & B
+    \end{array}\right)\ -$ полилинейная функция относительно столбцов $A\Rightarrow\det\left(\begin{array}{c|c} A & * \\
+    \hline
+    0 & B
+    \end{array}\right)=\det A\cdot C$
+
+    $A=E\Rightarrow \det B\overset{\text{по шагу 2}}{=}1\cdot C\Rightarrow C=\det B\Rightarrow \det\left(\begin{array}{c|c} A & * \\
+    \hline
+    0 & B
+    \end{array}\right)=\det A\cdot\det B$
+\end{proof}
+
+\subsection{Кольца частных}
+
+$R\ -$ коммунитативное кольцо. Вопрос: существует ли такое $K$, что $R\subset K\ -$ подкольцо и $K\ -$ поле?
+
+$R=\Z, \Z[i]\ -$ yes.
+
+$R=\Z/_6 \Z\ -$  no: $2\cdot 3=0\Rightarrow 2,3$ не обратимы.
+
+То есть делители нуля $-$ препятствие.
+
+\begin{theorem}
+    Пусть $R\ -$ область целостности. Тогда $\exists K:R\ -$ подкольцо в $K$ и $K\ -$ поле.
+\end{theorem}
+
+\begin{proof}
+    Рассмотрим $K=\{(a,b)\mid a,b\in R,\ b\neq 0\}$
+
+    Заведем отношение: $(a,b)\sim (c,d),$ если $ad=bc$.
+
+    \underline{Утверждение:} это отношение эквивалентности.
+
+    Рефлексивность и симметричность очевидны.
+
+    Транзитивность: $(a,b)\sim (c,d)\sim (e,f)$
+
+    $ad=bc\And cf=ed\Rightarrow adef=bced \And c,d\neq 0\Rightarrow af=bc,$ т.е. $(a,b)\sim (e,f)$.
+
+    $K/_\sim =K= K(R)$
+
+    Определим $+$ и $\cdot$:
+
+    $\overline{(a,b)}\cdot \overline{(c,d)}=\overline{(ac,bd)}$
+
+    $\overline{(a,b)}+ \overline{(c,d)}=\overline{(ad+bc,bd)}$
+
+    \underline{Корректность:} $(a,b)\sim (a',b')\Rightarrow (ad+bc,bd)\sim(a'd+b'c,b'd)$
+
+    $(ad+bc)b'd=(a'd+b'c)bd\Leftrightarrow ab'dd+bb'cd=a'bdd+bb'cd\Rightarrow ab'=a'b$
+
+    Аналогично доказывается корректность умножения.
+
+    \begin{designation}
+        $\frac{a}{b}=\overline{(a,b)}$
+    \end{designation}
+\end{proof}

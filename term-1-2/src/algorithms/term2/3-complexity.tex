@@ -1,15 +1,442 @@
-%! Author = kristina
-%! Date = 19.02.2023
+\section{Введение в теорию сложности}
+\subsection{Основные классы}
+Алгоритмы позволяют для какой-то задачи сказать, за сколько она решается: дана задача $A\rightarrow$ решим ее за $\mathcal{O}(2^n)$
 
-% Preamble
-\documentclass[11pt]{article}
+Теория сложности же позволяет сказать, что для какой-то задачи не существует алгоритма, решающего ее за какую-то асимптотику: дана задача $A\rightarrow$ не решается быстрее, чем за $\mathcal{O}(n\log n)$.
 
-% Packages
-\usepackage{amsmath}
+\subsection*{Алгоритмически не разрешимые задачи}
+Существуют ли неразрешимые задачи (то есть для которых нет решающих их алгоритмов)?
 
-% Document
-\begin{document}
+На самом деле, таких задач больше, чем алгоритмов.
 
+Рассмотрим следующие задачи: $A:\begin{cases} \text{input: } n\in \N \\
+\text{output: } true/false
+\end{cases}.$
 
+Любую такую задачу можно задать подмножеством натуральных чисел, на которых ответ true $A\subseteq \N$.
 
-\end{document}
+Задач по крайней мере столько, сколько множеств натуральных чисел — $|2^N|$. Алгоритмов счётное число (то есть $|N|$), ведь их всех можно пронумеровать: сначала выпишем все однобуквенные, затем все двухбуквенные, и так далее.
+
+$⃒|2^n| > |N|$ — тут можно либо сослаться на общую теорему Кантора (⃒$2^A > |A|$), либо вспомнить школьные доказательства того, что $|2N| = |R|$ и $|R| > |N|$. Так что на самом деле «почти все» задачи неразрешимы.
+
+\begin{example}
+    Неразрешимая задача: задача остановки HALTING: \textit{Дана программа, остановится ли она когда-нибудь на данном входе?}
+
+    $HALTING:\begin{cases} \text{input: код программы и вход для этой программы} \\
+    \text{output: остановится ли запуск?}
+    \end{cases}.$
+\end{example}
+
+\begin{theorem}
+    Halting problem алгоритмически не разрешима.
+\end{theorem}
+
+\begin{proof}
+    От противного. Пусть есть алгоритм terminates(code, x), всегда останавливающийся, и возвращающий true только если code(x) останавливается. Рассмотрим программу:
+
+    \begin{lstlisting}
+     def invert(code):
+        if terminates(code, code): while (true)
+    \end{lstlisting}
+
+    Запустим invert(invert), что может случится:
+    \begin{enumerate}
+        \item Он зависнет $\Rightarrow $ terminate(invert, invert)=$false\Rightarrow$ invert не зависает ?!
+        \item Он завершится $\Rightarrow $ terminate(invert, invert)=$true\Rightarrow$ invert зависает ?!
+    \end{enumerate}
+    Противоречие. Значит, такого terminate не существует.
+\end{proof}
+
+\begin{theorem}
+    \textbf{Теорема Успенского-Райса}
+
+    Любое нетривиальное свойство программ неразрешимо (то есть нет алгоритма, которые бы его проверял).
+\end{theorem}
+
+Поясним, что это значит. Будем говорить, что программы $A$ и $B$ эквивалентны ($A\sim B$), если для каждого входа $A$ либо они обе зависают, либо обе останавливаются и печатают одно и тот же ответ (время работы и память при этом могут отличаться).
+
+\begin{definition}
+    \textit{Свойство программы} $-$ это такой предикат $P(code)$ который для любых эквивалентных программ $\mathcal{A}$ и $\mathcal{B}$ выдаёт одно и то же: $\mathcal{A}\sim \mathcal{b}\Rightarrow P(\mathcal{A})= P(\mathcal{B})$. «Нетривиальное» означает, что хотя бы одна программа ему удовлетворяет, но не все программы.
+\end{definition}
+
+\begin{theorem}
+    \textbf{Теорема Гёделя о неполноте}
+
+    Если формальная система $S$ непротиворечива, то в ней невыводимы обе формулы $B$ и $!B$; иначе говоря, если система $S$ непротиворечива, то она неполна, и $B$ служит примером неразрешимой формулы.
+\end{theorem}
+
+Один из способов доказательства этой теоремы $-$ через неразрешимость.
+
+\subsection{Decision/search problem}
+
+\begin{definition}
+    Если в задаче ответ – true/false, то это \textit{decision problem} (задача распознавания). Иначе это \textit{search problem} (задача поиска).
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item Decision: проверить, есть ли $x$ в массиве $a$.
+        \item Search: Найти позицию $x$ в массиве $a$.
+        \item Decision: Проверить, есть ли путь из $a$ в $b$ в графе $G$.
+        \item Search: Найти сам путь.
+        \item Decision: Проверить, есть ли в графе клика размера хотя бы $k$.
+        \item Search: Найти максимальный размер клики (или саму клику).
+    \end{enumerate}
+\end{example}
+
+\begin{remark}
+    Decision problem $f$ можно задавать, как язык (множество входов) $L = \{x: f(x) = true\}$.
+\end{remark}
+
+\subsection{DTime, P, EXP (классы для decision задач)}
+
+\begin{definition}
+    DTime$[f(n)]$ – множество задач распознавания, для которых $∃C > 0$ и детерминированный алгоритм, работающий на всех входах не более чем $C \cdot f(n)$, где $n$ – длина входа.
+\end{definition}
+
+\begin{example}
+    IS\_SORTED $\in$ DTime[n]
+
+    IS\_SORTED $\in$ DTime[n^2]
+\end{example}
+
+\begin{definition}
+    P $= \bigcup\limits_{k>0} $DTime$[n^k]$. Т.е. задачи, имеющие полиномиальное решение.
+\end{definition}
+
+\begin{definition}
+    EXP$ = \bigcup\limits_{k>0} $DTime$[2^{n^k}]$. Т.е. задачи, имеющие экспоненциальное решение.
+\end{definition}
+
+\begin{example}
+    KNAPSACK: $n$ предметов, рюкзак размера $w$, можно ли уложить $\geq k$ предметов?
+
+    Умеем решать за $\mathcal{O}(2^n\cdot n)$, за $\mathcal{O}(nw)$ (не полиномиальное решение!).
+
+    Длина входа: $\mathcal{O}(n\log n+W\log W+k\log n + n\log W)=|x|$.
+\end{example}
+
+\begin{theorem}
+    \textbf{Об иерархии по времени}
+
+    DTime$[f(n)]\ \subsetneq\ $DTime$[f(n)\log^2 f(n)]$.
+\end{theorem}
+
+\begin{proof}
+    $\subset$ понятно, почему.
+
+    Но почему не $\subseteq$? Значит, существует задача, которая решает за $\mathcal{O}(f(n)\log^2 f(n))$ и не решается за $\mathcal{O}(f(n))$ шагов.
+
+    Задача: дана программа и вход. Завершится ли она на этом входе за $f(n)\log f(n)$ шагов?
+
+\end{proof}
+
+\begin{corollary}
+    P$\neq$ EXP.
+\end{corollary}
+
+\begin{proof}
+    P$\ \subseteq\ $DTime$[2^n]\ \subsetneq\ $DTime$[2^{2n}]\ \subseteq\ $EXP.
+\end{proof}
+
+\subsection{NP (non-deterministic polynomial)}
+Задача $\rightarrow$ да + сертификат / нет.
+
+\begin{definition}
+    $NP = \{L: \exists $ алгоритм $ M$, работающий за полином от $|x|,\ \forall x\ (\exists y:\ M(x,y) = 1) \Leftrightarrow (x \in L )\}$.
+\end{definition}
+
+Неформально: «NP – класс языков $L:\forall x\in L$, если нам дадут подсказку $y(x)$, то мы за полином сможем убедиться, что $x\in L$».
+
+Ещё более неформально: «NP $–$ класс задач, к которым ответ можно проверить за полином».
+
+\textit{Подсказку} $y$ так же называют \textit{свидетелем/сертификатом} того, что $x$ лежит в $L$.
+
+\begin{example}
+    \textbf{Примеры NP-задач:}
+    \begin{enumerate}
+        \item HAMPATH = $\{G\mid G$ – неорграф, в котором есть гамильтонов путь$\}$.
+
+        Подсказка $y$ – путь. $M$ получает вход $x=G$, подсказку $y$ проверяет, что $y$ прост, $|y|=n$ и $\forall (e\in y)\ e\in G$.
+        \item $k$-CLIQUE – проверить наличие в графе клики размером $k$.
+
+        Подсказка $y$ – клика.
+        \item IS-SORTED – отсортирован ли массив? Она даже лежит в P.
+    \end{enumerate}
+\end{example}
+
+\begin{remark}
+    P $\subseteq$ NP (можно взять пустую подсказку).
+\end{remark}
+
+\begin{definition}
+    coNP$=\{L\mid \overline{L}\in $NP$\}$
+\end{definition}
+
+\begin{definition}
+    coNP$ = \{L: \exists M,$ работающий за полином от $|x|, \forall x\ (\exists y \ M(x,y)=0)\Leftrightarrow (x\in L)\}$.
+\end{definition}
+
+\begin{definition}
+    coNP$ = \{L: \exists M,$ работающий за полином от $|x|, \forall x\ (\exists y \ M(x,y)=1)\Leftrightarrow (x\notin L)︀\}$.
+\end{definition}
+
+\begin{example}
+    Пример coNP задачи:
+
+    PRIME – является ли число простым. Подсказкой является делитель.
+
+    На самом деле PRIME $\in$ P, но этого мы пока не умеем понимать.
+\end{example}
+
+\begin{remark}
+    Вопрос P = NP или P $\neq$ NP остаётся открытым. Предполагают, что $\neq$.
+\end{remark}
+
+\subsection{NP-hard, NP-complete}
+
+\begin{definition}
+    $\exists$ \textit{полиномиальное сведение (по Карпу)} задачи $A$ к задаче $B$ $(A \leq_P B) \Leftrightarrow \exists$ алгоритм $f$, работающий за полином, $(x\in A) \Leftrightarrow (f(x) \in B)$.
+\end{definition}
+
+\begin{remark}
+    $f$ работает за полином $\Rightarrow |f(x)|$ полиномиально ограничена $|x|$.
+\end{remark}
+
+\begin{definition}
+    $\exists$ \textit{сведение по Куку} задачи $A$ к задаче $B$ $(A \leq_C B) \Leftrightarrow \exists M$, решающий $A$, работающий за полином, которому разрешено обращаться за $\mathcal{O}(1)$ к решению/оракулу $B$.
+\end{definition}
+
+Ещё говорят «задача $A$ сводится к задаче $B$».
+
+В обоих сведениях мы решаем задачу $A$, используя уже готовое решение задачи $B$.
+
+Другими словами доказываем, что «$A$ не сложнее $B$». Различие в том, что в первом случае решением $B$ можно воспользоваться только один раз (и инвертировать ответ нельзя), во втором случае – полином раз.
+
+\begin{definition}
+    NP-hard = NPh = $\{L:\forall A\in \text{NP}\Rightarrow A\leq_P L\}$.
+\end{definition}
+
+NP-трудные задачи – класс задач, которые не проще любой задачи из класса NP.
+
+\begin{definition}
+    NP-complete = NPc = NPh $\cap$ NP.
+\end{definition}
+
+NP-полные задачи – самые сложные задачи в классе NP.
+
+Если мы решим хотя бы одну из NPc за полином, то решим все из NP за полином. Хорошая новость: все NP-полные по определению сводятся друг к другу за полином.
+
+\begin{remark}
+    Когда хотите выразить мысль, что задача трудная в смысле решения за полином (например, поиск гамильтонова пути), неверно говорить «это NP задача» (любая из P тоже в NP) и странно говорить «задача NP-полна» (в этом случае вы имеете в виду сразу, что и трудная, и в NP). Логично сказать «задача NP-трудна».
+\end{remark}
+
+\begin{lemma}
+    $A\leq_P B, B\in P\Rightarrow A\in P$.
+\end{lemma}
+
+\begin{proof}
+    Сведение $f$ работает за $n^s$, $B$ решается за $n^t\Rightarrow A$ решается за $n^{st}$.
+\end{proof}
+
+\begin{lemma}
+    $A\leq_P B, A\in $NPh $\Rightarrow B\in $ NPh.
+\end{lemma}
+
+\begin{proof}
+    $\forall L \in $NP $(\exists f: L$ сводится к $A$ функцией $f(x))\vee (A\leq_P B$ функцией $g(x))\Rightarrow L$ сводится к $B$ функцией $g(f(x))$ за полином.
+\end{proof}
+
+\textbf{NP-полные задачи существуют!}
+
+Приведём простую и очень важную теорему. На экзамене доказательство можно сформулиро- вать в одно предложение, здесь же оно для понимания расписано максимально подробно.
+
+\begin{definition}
+    BH = BOUNDED-HALTING: вход $x = \langle \underbrace{11...1}_{k}, M x\rangle$, проверить, $\exists$ ли такой $y : M(x,y)$ остановится за $k$ шагов и вернёт $true$.
+\end{definition}
+
+\begin{theorem}
+    BH = BOUNDED-HALTING $\in$ NPc.
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item BH $\in$ NP
+
+        Подсказка – такой $y$. Алгоритм – моделирование $k$ шагов $M$ за $\mathcal{O}(\poly(k))$.
+
+        Важно, что если бы число $k$ было записано, используя $\log_2 k$ бит, моделирование работало бы за экспоненту от длины входа, и нельзя было бы сказать «задача лежит в NP».
+        \item  BH $\in$ NPh. То есть нужно доказать, что любой язык из NP к ней сводится.
+
+        $L\in$ NP: $\exists y:\ A(x,y)=1\Leftrightarrow x\in  L$
+
+        $A$ – полиномиальный алгоритм $\Rightarrow\exists P(x),$ ограничивающий время работы $A$. Программа $A$ всегда отрабатывает за $P(|x|)$, если ее запустить с ограничением $P(|x|)$, то ничего не поменяется.
+
+        Рассмотрим $f(x)=(\underbrace{11...1}_{P(|x|)}, A, x)$. Получили полиномиальное сведение:
+
+        $x\in  L\Leftrightarrow \exists y: A(x,y)=1\Leftrightarrow f(x)\in$ BH.
+    \end{enumerate}
+\end{proof}
+
+\subsection{Сведения, новые NP-полные задачи}
+
+Началось всё с того, что в 1972-м Карп опубликовал список из 21 полной задачи, и дерево сведений. Кстати, в его работе все сведения крайне лаконичны. Итак, приступим:
+
+Чтобы доказать, что $B\in$ NPh, нужно взять любую $A\in$ NPh и свести $A$ к $B$ полиномиально. Пока такая задача $A$ у нас одна – BH. На самом деле их очень много.
+
+Чтобы доказать, что $B\in$ NPc, нужно ещё не забыть проверить, что $B$ $\in$ NP.
+
+Во всех теоремах ниже эта проверка очевидна, мы проведём её только в доказательстве первой.
+
+\begin{theorem}
+    BH $\leq_p$ CIRCUIT-SAT $\leq_p$ SAT $\leq_p$ 3-SAT $\leq_p$ $k$-INDEPENDENT $\leq_p$ $k$-CLIQUE
+\end{theorem}
+
+BH$=\{(A,x,1^k)\mid A(x)\}$
+
+\begin{definition}
+    CIRCUIT-SAT. Дана схема, состоящая из входов, выхода, гейтов AND, OR, NOT. Проверить, существует ли набор значений на входах, дающий $true$ на выходе.
+\end{definition}
+
+\begin{theorem}
+    CIRCUIT-SAT $\in$ NPc.
+\end{theorem}
+
+\begin{proof}
+    $\{C_{\text{схема}}\mid \exists \vec{x}: C(\vec{x})=1\},\ \vec{x}=(x_1,...,x_n)$
+
+    \begin{enumerate}
+        \item[\circ] $\in$ NP
+
+        Подсказка – набор значений на входах $\Rightarrow$ CIRCUIT-SAT ∈ NP.
+
+        \item[\circ] $\in$ NPh
+
+        Сводим BH к CIRCUIT-SAT $\Rightarrow$ нам даны программа $A$, время выполнения $k$, вход $x'$.
+
+        $f(A,x,\underbrace{1..1}_{k})=C\ (A,x,1^k)\in$ BH $\Leftrightarrow C\in$ CIRCUIT-SAT
+
+        За время $k$ программа обратится не более чем к $k$ ячейкам памяти.
+
+        Обозначим за $s_{i,j}$ состояние true/false $j$-й ячейки памяти в момент времени $i$.
+        $s_{o,i}$ – вход, $s_{t,potput}$ – выход, $\forall i\in [1,k)\ s_{i,j}$ зависит от $\mathcal{O}(1)$ переменных $(i−1)$-го слоя.  $f$ запишем в КНФ, чтобы получить гейты вида AND, OR, NOT. Размер КНф $-$ $\mathcal{O}(1)$ (КНФ –частный случай схемы). Размер схемы вырастет в константу раз. Получили $\mathcal{O}(tn)$ булевых гейтов $\Rightarrow$ по $(A,x,k)$ за полином построили вход к CIRCUIT-SAT.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    SAT $\in$ NPc.
+\end{theorem}
+
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{theorem}
+    3-SAT $\in$ NPc.
+\end{theorem}
+
+\begin{proof}
+    Пусть есть клоз $(x_1\vee x_2 \vee ... \vee x_n)$, $n\geq 4$.
+    Введём новую переменную $w$ и заменим его на $(x_1\vee x_2 \vee w)\wedge (x_1\vee x_2 \vee ... \vee x_n \vee \overline{w})$.
+
+    $\phi(x_1,...,x_n)\rightarrow \psi(x_1,...,x_n, w)$. Хотим доказать, что $\phi$ выполнима $\Leftrightarrow\psi$ выполнима.
+
+    \begin{enumerate}
+        \item $\phi$ выполнима $\Rightarrow\psi$ выполнима.
+
+        Если $x_i=1$, то одна часть формулы равна 1, а вторую можно сделать равна 1, если $w$ (или $\overline{w}$) сделать равной 1.
+
+        \item $\psi$ выполнима $\Rightarrow\phi$ выполнима.
+
+        Посмотрим на скобку, в которой $w=0$. Значит, там есть $x_i=1\Rightarrow \phi(...)=1$.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    $k$-INDEPENDENT: $(G,k)\rightarrow\exists$ существует независимое множество размера $\geq k$?
+\end{definition}
+
+\begin{theorem}
+    $k$-INDEPENDENT $\in$ NPc.
+\end{theorem}
+
+\begin{proof}
+    Сведем: $3$-SAT $\leq_p k$-INDEPENDENT
+
+    Наша формула – $m$ клозов $(l_{i1}\vee l_{i2}\vee l_{i3})$, где $l_{ij}$ – литералы.
+
+    Построим граф из ровно $3m$ вершин – $l_{ij}$. $\forall i$ добавим треугольник $(l_{i1},l_{i2},l_{i3})$ (итого $3m$ рёбер). В любое независимое множество входит максимум одна вершина из каждого треугольника. $\forall k=1...n$ соединим все вершины $l_{ij}=x_k$ со всеми вершинами$l_{ij}=\overline{x}_k$.
+
+    Теперь $\forall k=1...n$ в независимое множество нельзя одновременно включить $x_k$ и $\overline{x}_k$.
+
+    Итог: $\exists$ независимое размера $m\Rightarrow$  у 3-SAT было решение.
+\end{proof}
+
+\begin{theorem}
+    $k$-CLIQUE $\in$ NPc.
+\end{theorem}
+
+\begin{proof}
+    Сведем: $k$-CLIQUE $\leq_p k$-INDEPENDENT.
+
+    $(G,k)\leftrightarrow (\overline{G},k),\ \overline{G}=(V,\overline{E})$
+
+    $(vu)\in E\Leftrightarrow (vu)\notin \overline{E}$
+\end{proof}
+
+TODO
+
+\begin{enumerate}
+    \item GI, $(G,H)$
+
+    $T=2^{\mathcal{O}(\log ^3n)}=n^{\mathcal{O}(\log^2n)}$
+\end{enumerate}
+
+\subsection{Задачи поиска}
+
+\begin{definition}
+    \overline{NP}, \overline{NPc}, \overline{NPh} – аналогичные классы для задач поиска подсказки.
+\end{definition}
+
+\subsection*{Сведение задач минимизации, максимизации к decision задачам}
+Пусть мы умеем проверять, есть ли в графе клика размера $k$. Чтобы найти размер максимальной клики, достаточно применить бинпоиск по ответу. Это общая техника, применимая для максимизации/минимизации численной характеристики.
+
+MAX-CLIQUE$\rightarrow k$-CLIQUE
+
+\subsection*{Сведение search задач к decision задачам}
+
+Последовательно фиксируются биты (части) подсказки $y$.
+
+\begin{example}
+    \begin{enumerate}
+        \item[]
+        \item 3-SAT
+
+        $\varphi(x_1,..,x_n),\ \varphi$ невыполнима $\Rightarrow$ +
+
+        Рассмотрим $x_n=0$.
+
+        $\varphi(x_1,..,x_{n-1},0)$ невыполнима $\Rightarrow x_n=1$.
+
+        $\varphi(x_1,..,x_{n-1},0)$ выполнима $\Rightarrow x_n=0$.
+
+        И перейдем к следующей переменной.
+        \item $k$-INDEPENDENT
+
+        $G'=G\setminus \{v\}$
+
+        $G'\ -$ есть $k$-IS $\Rightarrow G:=G'$
+
+        Иначе IS$=\{v\}\cup$ IS $(G\seiminus \{u\mid g[v]\})$ (соседи $v$)
+    \end{enumerate}
+\end{example}
+
+\subsection*{Решение NP-трудных задач}
+Если встретилась задача, которую не удается быстро решить, то:
+\begin{enumerate}
+    \item Поискать ее в списке трудных.
+    \item Свести трудную к ней.
+    \item Свести задачу к SAT (существуют SAT-solver'ы, которые могут ее решить).
+\end{enumerate}

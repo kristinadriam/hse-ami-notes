@@ -97,7 +97,7 @@
 
     Тогда: $\forall e_{i_1},...,e_{i_n}\ f_1(e_{i_1},...,e_{i_n})= c\cdot f_2(e_{i_1},...,e_{i_n})$.
 
-    Тогда по утверждению 1 $f_1\c\cdot f_2$ всегда.
+    Тогда по утверждению 1 $f_1 \cdot сf_2$ всегда.
 \end{proof}
 
 \begin{definition}
@@ -125,9 +125,9 @@
 \begin{proof}
     Индукция по $n$.
 
-    Переход: $n\rightarrow n + 1:\pi\in S_{n+1},\ \pi(n+1)=x$
+    Переход: $n\rightarrow n + 1:\pi\in S_{n+1},\ ,\pi(n+1)=x$
 
-    Рассмотрим $s_{n+1, x}\circ \pi=\overline{\pi};\ \overline{\pi}(n+1)=\pi(x)=n+1\overset{\text{забываем про $n$}}{\Rightarrow}\overline{\pi}\mid_{\{1,...,n\}}$ по и.п. это $s_{i_1,j_1}\circ...\circ s_{i_k,j_k}\Rightarrow \pi = s_{n+1,x}\circ s_{i_1,j_1}\circ...\circ s_{i_k, j_k}$
+    Рассмотрим $s_{n+1, x}\circ \pi=\overline{\pi};\ \overline{\pi}(n+1)=,\pi(x)=n+1\overset{\text{забываем про $n$}}{\Rightarrow}\overline{\pi}\mid_{\{1,...,n\}}$ по и.п. это $s_{i_1,j_1}\circ...\circ s_{i_k,j_k}\Rightarrow \pi = s_{n+1,x}\circ s_{i_1,j_1}\circ...\circ s_{i_k, j_k}$
 \end{proof}
 
 \begin{definition}
@@ -140,7 +140,7 @@
 
 \begin{theorem}
     \textbf{Явная формула для определителя}
-    $A=(a_{i,j})_{i,j=1..n}$. Тогда функция $\det A=\sum\limits_{\pi\in S_n}(-1)^{\varepsilon(\pi)}a_{1,\pi(1)}\cdot a_{2,\pi(2)}\cdot...\cdot a_{n,\pi(n)}$, где $\varepsilon(\pi)\ -$ четность перестановки $\pi$ полилинейная, кососимметричная и нормальная (т.е. $\det$ в прежнем смысле).
+    $A=(a_{i,j})_{i,j=1..n}$. Тогда функция $\det A=\sum\limits_{\pi\in S_n}(-1)^{\varepsilon(\pi)}a_{1,,\pi(1)}\cdot a_{2,,\pi(2)}\cdot...\cdot a_{n,,\pi(n)}$, где $\varepsilon(\pi)\ -$ четность перестановки $\pi$ полилинейная, кососимметричная и нормальная (т.е. $\det$ в прежнем смысле).
 \end{theorem}
 
 \begin{remark}
@@ -156,7 +156,7 @@
 \end{example}
 
 \begin{definition}
-    Четность через инверсии: $\Tilde{\varepsilon}(\pi)=\bigg|\{(i,j)\mid i<j \And \pi(i)<\pi(j)\}\bigg|$.
+    Четность через инверсии: $\Tilde{\varepsilon}(\pi)=\bigg|\{(i,j)\mid i<j \And ,\pi(i)<,\pi(j)\}\bigg|$.
 \end{definition}
 
 \begin{example}
@@ -172,12 +172,230 @@
     Это следует из леммы.
 
     \begin{lemma}
-        Если $s\ -$ транспозиция, то $\Tilde{\varepsilon}(s\pi)$ и $\Tilde{\varepsilon}(\pi)$ различны.
+        Если $t\ -$ транспозиция, то  у $\Tilde{\varepsilon}(t\pi)$ и $\Tilde{\varepsilon}(\pi)$ число инверсий по модулю 2 различно.
     \end{lemma}
 
     \begin{proof}
         По индукции: $\Tilde{\varepsilon}(s_1,...,s_{2k})= 0, \Tilde{\varepsilon}(s_1,...,s_{2k+1})= 0$
 
         База: $\Tilde{\varepsilon}(id)=0$
+
+        Переход:
+        $\pi:,\pi(1)...,\pi(k)=i...,\pi(l)=j...,\pi(n)$
+
+        $\Tilde{\pi}=t_{i,j}\circ\pi:\Tilde{\pi}(1)...\Tilde{\pi}(k)=j...\Tilde{\pi}(l)=i...\Tilde{\pi}(n)$
+
+        Какие пары поменяли статус: их $l-k+1$ с участием $k$, $l-k+1$ с участием $l$ и пара $(k,l)$. Итого: $2(l-k+1)+1ё -$ нечеттное число смен статуса $\Rightarrow$ четность поменялась.
     \end{proof}
+\end{proof}
+
+\begin{theorem}
+    $\det\ -$ полилинейная кососиметричная функция, $\det(E)=1$ (то есть $\det$ в аксиоматическом смысле существует).
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item $\underline{\det(E)}=\det\begin{pmatrix}
+                                           1 & & 0 \\ & \ddots & \\ 0 & & 1
+        \end{pmatrix}=a_{11}a_{22}...a_{nn}\cdot(-1)^{\varepsilon(id)}=1\cdot...\cdot 1=1$
+
+        Одна ненулевая ладейная расстановка.
+        \item \underline{Полилинейность:} $A=(C_1\mid C_2\mid ...\mid C'_i + a\cdot C''_i \mid ...\mid C_n),\ A=(a_{ij}),\ a_{ki}=a'_{ki}+a\cdot a''_{ki}$
+
+        Тогда $\forall \pi\in S_n:\ (-1)^{\varepsilon(\pi)}a_{1,\pi(1)}\cdot a_{2,\pi(2)}\cdot ... \cdot (a'_{\pi^{-1}(i)i}+a\cdot a''_{\pi^{-1}(i)i})\cdot ...\cdot a_{n,\pi(n)}=(-1)^{\varepsilon(\pi)}a_{1,\pi(1)}\cdot a_{2,\pi(2)}\cdot ... \cdot a'_{\pi^{-1}(i)i}\cdot ...\cdot a_{n,\pi(n)}+a\cdot (-1)^{\varepsilon(\pi)}a_{1,\pi(1)}\cdot a_{2,\pi(2)}\cdot ... \cdot a''_{\pi^{-1}(i)i}\cdot ...\cdot a_{n,\pi(n)}$
+
+        Теперь сложим равенства для всех $\pi$ и получим линейность (по $i$-ому аргументу)
+
+        \item \underline{Кососимметричность:} (!) $A=(C_1\mid C_2\mid ...\mid \overset{i}{C_i} \mid ...\mid \overset{j}{C_j} \mid ...\mid C_n)\Rightarrow \det A=0,\ a_{ki}=a_{kj}\ \forall k$
+
+        Разобьем слагаемые в $\det A$ на пары $(\pi, t_{i,j}\circ \pi)$
+
+        $(-1)^{\varepsilon(\pi)}\cdot a_{1,\pi(1)}\cdot ...\cdot a_{\pi^{-1}(i), i}\cdot ...\cdot a_{\pi^{-1}(j), j}\cdot ...\cdot a_{n,\pi(n)} + (-1)^{\varepsilon(t_{i,j}\circ\pi)}\cdot a_{1,\pi(1)}\cdot ...\cdot \overset{=a_{\pi^{-1}(i), i}}{a_{\pi^{-1}(i), j}}\cdot ...\cdot \overset{=a_{\pi^{-1}(j), j}}{a_{\pi^{-1}(j), i}}\cdot ...\cdot a_{n,\pi(n)}=\prod\limits_{k=1}^na_{k,\pi(k)}\underbrace{((-1)^{\varepsilon(\pi)}+(-1)^{\varepsilon(t_{i,j}\circ\pi)})}_{=0\text{ по лемме}}\Rightarrow$ весь $\det=0$.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    \textbf{Определитель и элементарные преобразования}
+    \begin{enumerate}
+        \item $\det(A\circ t_{i,j}(a))=\det A$.
+        \item $\det(A\circ m_{i}(a))=a\cdot \det A$.
+        \item $\det(A\circ s_{i,j})=-\det A$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[3.] Это вторая формулировка кососимметричности: $f(x,y)=-f(y,x)$.
+        \item[2.] Это линейность по $i$-ому столбцу.
+        \item[1.] $A=(C_1\mid C_2\mid ...\mid C_n)$
+
+        $\det (A\circ t_{j,i}(a))=\det(C_1\mid ...\mid C_i\mid ...\mid C_j+a\cdot C_i\mid ...\mid C_n)=\overset{\text{лин-ть по }j}{=}\underbrace{\det(C_1\mid ...\mid C_i\mid ...\mid C_j\mid ...\mid C_n)}_{=a\cdot \det A}+\underbrace{\det(C_1\mid ...\mid C_i\mid ...\mid C_i\mid ...\mid C_n)}_{=0}$
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    $\det$ можно посчитать так: $A\overset{t_{i,j}}{\rightarrow}\Tilde{A}=\begin{pmatrix}
+                                                                              \Tilde{a}_{11} & & * \\ & \ddots & \\ 0 & & \Tilde{a}_{nn}
+    \end{pmatrix}$
+\end{corollary}
+
+\begin{proof}
+    По th: $\det A=\det \Tilde{A};\ \det \Tilde{A}=\Tilde{a_{11}}\cdot ...\cdot \Tilde{a_{nn}}\ (\Tilde{a_{11}},...,\Tilde{a_{nn}}\ -$ единственная возможножно ненулевая ладейная расстановка)
+\end{proof}
+
+\begin{corollary}
+    $A$ обратима $\Leftrightarrow \det A\neq 0$.
+\end{corollary}
+
+\begin{proof}
+    $A$ обратима $\Leftrightarrow \Tilde{A}$ обратима $\Leftrightarrow$ все $\Tilde{a_{ii}}$ не равны $0\Leftrightarrow \det \Tilde{A}=\Tilde{a_{11}}\cdot ...\cdot \Tilde{a_{nn}}\neq 0$.
+\end{proof}
+
+\begin{theorem}
+    $\det A=\det A^T$
+
+    То есть любые свойства $\det$, верные для столбцов, верны и для строк и наоборот.
+\end{theorem}
+
+\begin{proof}
+    $A=(a_{ij}),\ A^T=(a'_{ij}),\ a'_{ij}=a_{ji}$
+
+    $(-1)^{\varepsilon(\pi)}a_{1,\pi(1)}\cdot ...\cdot a_{n,\pi(n)}=(-1)^{\varepsilon(\pi)}a_{\pi^{-1}(1),1}\cdot ...\cdot a_{\pi^{-1}(n),n}=(-1)^{\varepsilon(\pi)}a'_{1,\pi(1)}\cdot ...\cdot a'_{n,\pi(n)}\overset{(*)}{=}(-1)^{\varepsilon(\pi^{-1})}a_{1,\pi(1)}\cdot ...\cdot a_{n,\pi(n)}$
+
+    Сложим по всем $\pi$ и получим $\det A=\det A^T$.
+
+    $(*):\varepsilon(\pi)=\varepsilon(\pi^{-1})$, т.к. $\pi=t_1...t_k;\ \pi^{-1}=(t_1...t_k)^{-1}=t^{-1}...t^{-1}_1=t_k...t_1$ тоже $k$.
+\end{proof}
+
+\begin{theorem}
+    \textbf{Разложение по строке/столбцу}
+
+    $A=(a_{ij}),\ A_{i,j}\ -\ \det$ матрицы6 полученной из $A$ удалением $i$-ой строки и $j$-ого столюца (минор).
+
+    Тогда $\forall i=1...n:$
+
+    \begin{enumerate}
+        \item $\det A=\sum\limits_{j=1}^n(-1)^{i+j}\cdot a_{i,j}\cdot A_{i,j}\ -$ по строке.
+        \item $ \forall i=1...n:\ \det A=\sum\limits_{j=1}^n(-1)^{i+j}\cdot a_{j,i}\cdot A_{j,i}\ -$ по столбцу.
+    \end{enumerate}
+
+    Выразим $\det A$ через $n$ определителей $(n-1)$-ого порядка.
+\end{theorem}
+
+\begin{proof}
+(для строки)
+
+    $i$-ая строка: $(a_{i,1},...,a_{i,n})=\sum\limits_{j=1}^n a_{i,j}(0,...,0,\overset{j}{1},0,...,0)$
+
+    Тогда по линейности $\det A=\sum a_{i,j}\cdot \det \begin{pmatrix}
+                                                           a_{1,1} & \overset{j}{...} & a_{1,n} \\ 0 & ..\ 1\ .. & 0 \\
+    \end{pmatrix}\ i=($переставим $a_{i,j}$ на позицию $(1,1)$ $i-1$ транспозиции строк и $j-1$ транспозиции столюцов$)=\sum a_{i,j}\cdot  (-1)^{i+j}\cdot \det \left(
+    \begin{array}{c|ccc}
+        1 & 0 & ... & 0\\
+        \hline
+        & & \Tilde{A}_{i,j}
+    \end{array}
+    \right)=\sum a_{i,j}\cdot  (-1)^{i+j}\cdot \det (\Tilde{A}_{i,j})=\sum a_{i,j}\cdot  (-1)^{i+j}\cdot A_{i,j}$
+\end{proof}
+
+\begin{example}
+    $\det\begin{pmatrix}
+             a & b & c \\ d & e & f \\ g & h & i
+    \end{pmatrix}=a\cdot \det \begin{pmatrix}
+                                  e & f \\ h & i
+    \end{pmatrix}-b\cdot \det \begin{pmatrix}
+                                  d & f \\ g & i
+    \end{pmatrix}+c\cdot \det \begin{pmatrix}
+                                  d & e \\ g & h
+    \end{pmatrix}$
+\end{example}
+
+\begin{corollary}
+    Пусть $i\neq i'$. Тогда $\sum\limits_{j=1}^n (-1)^{i+j}a'_{i,j}\cdot A_{i,j}=0\ (*)$.
+\end{corollary}
+
+\begin{proof}
+    По предыдущей th $*\ -$ определитель $A'\ -$ матрица, у которой $i$-ая строка заменена на $i'$-ую строку; $\det A'=0$, т.к. есть совпадающие строки.
+\end{proof}
+
+\begin{definition}
+    $A^{adj}=((-1)^{i+j}A_{j,i})_{i=1...n,\ j=1...n}\ -$ \textit{присоединенная матрица} к $A$.
+\end{definition}
+
+\begin{statement}
+    $A\cdot A^{adj}=A^{adj}\cdot A=(\det A)\cdot E$
+\end{statement}
+
+\begin{proof}
+    Это предыдущая теорема и ее следствия:
+
+    th: у $A\cdot A^{adj}$ на диагонали стоит $\det A$.
+
+    cons: у $A\cdot A^{adj}$ вне диагонали стоят 0.
+
+    $\sum\limits_j (-1)^{i+j}\cdot a'_{i,j}\cdot A_{i,j}=\sum\limits_j (A_{i,j})(A^{adj})_{j,i}$
+\end{proof}
+
+\begin{corollary}
+    $\det A\neq 0$. Тогда $A^{-1}=\frac{1}{\det A}\cdot A^{adj}$.
+\end{corollary}
+
+\begin{theorem}
+    \textbf{Формула Крамера}
+
+    $AX=B\ -$ СЛУ, $A\in M_n(K),\ \det A\neq 0\ (\Leftrightarrow $решение существует и единственно $\forall B)$. Тогда $X=\begin{pmatrix}
+                                                                                                                              x_1 \\ ... x_n
+    \end{pmatrix},$ где $x_i=\frac{\Delta_i}{\Delta}$, где $\Delta=\det A,\ \Delta_i=\det$ матрицы, полученной из $A$ заменой $i$-ого столбца на столбец $B$.
+\end{theorem}
+
+\begin{proof}
+    $\begin{pmatrix}
+         x_1 \\ ... x_n
+    \end{pmatrix} = A^{-1}\cdot \begin{pmatrix}
+                                    b_1 \\ ... \\ b_n
+    \end{pmatrix}$
+
+    $x_i=\sum\limits_{k=1}^n(A^{-1})_{i,k}\cdot b_k=\frac{1}{\det A}\cdot \sum\limits_{k=1}^nA^{adj}_{i,k}\cdot b_k=\frac{1}{\Delta}\cdot \sum\limits_{k=1}^n(-1)^{i+k}\cdot A_{k,i}\cdot b_k\overset{\text{разложение по $i$-ому столбцу}}{=}\begin{pmatrix}
+                                                                                                                                                                                                                                                  a_{1,1} & ... & \overset{i}{b_1} & ... & a_{1,n} \\
+                                                                                                                                                                                                                                                  \\
+                                                                                                                                                                                                                                                  a_{n,1} & ... & b_k & ... & a_{n,n}
+    \end{pmatrix}$
+
+    $x_i=\frac{\Delta_i}{\Delta}$
+\end{proof}
+
+\begin{definition}
+    $A_{k,i}$ называется \textit{алгебраическим дополнением}. $a_{k,i}\ -$ \textit{миноры} $(n-1)$-ого порядка.
+\end{definition}
+
+\begin{theorem}
+    \textbf{Явная формула для ранга: минорный ранг}
+
+    Ранг матрицы равен порядку максимального ненулевого минора, т.е. размеру max подматрицы с ненулевым определителем.
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item Столбцовый ранг $\geq$ минорного.
+
+        $\exists$ ненулевой минор $k\times k$. НУО это первые $k$ строк и $k$ столбцов: $\left(\begin{array}{c|c}
+                                                                                                   \Tilde{A} & \\
+                                                                                                   \hline
+                                                                                                   &
+        \end{array}\right)$
+
+        $\det \Tilde{A}\neq 0\Rightarrow \Tilde{A}$ обратима $\Rightarrow$ столбцы $\Tilde{A}\ -$ ЛНЗ $\Rightarrow k$ столбцов $A$ ЛНЗ $\Rightarrow\rk A\geq k$.
+
+        \item Столбцовый ранг $\leq$ минорного.
+
+        Пусть $\rk A=k$. НУО первые $k$ столбцов ЛНЗ: $\left(\begin{array}{c|c}
+                                                                 \Tilde{A} &
+        \end{array}\right)$
+
+        $\rk \Tilde{A}=k\Rightarrow$ в $\Tilde{A}$ есть $k$ ЛНЗ строк, т.е. подматрица $\Tilde{\Tilde{A}}\ k\times k$ с ЛНЗ строками $\Rightarrow \Tilde{\Tilde{A}}$ обратима $\Rightarrow\det\Tilde{\Tilde{A}}\neq 0$
+
+        Нашли ненулевой минор $k$-ого порядка $\Rightarrow$ минорный ранг $\geq \rk A$.
+    \end{enumerate}
 \end{proof}
