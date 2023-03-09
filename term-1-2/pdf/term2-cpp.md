@@ -2554,5 +2554,1102 @@ Some projects disabled exceptions altogether due to:
 
 Example: Google.
 Enabling exceptions back is hard due to the lack of exception safety. They did not.
-
 Stereotype about hardware engineers: `-fno-exceptions`
+---
+## 20.02.23
+## Потоки 
+### promise и future
+Задача: есть два потока consumer и producer (один что-то читает, а второй – обрабатывает или один генерирует ответы, а второй – что-то выводит и так далее).
+
+Как перекидывать между ними значения?
+
+Стандартное решение – `std::promise<...>` (то, что будем передавать), `std::future<...>` (то, что получаем).
+
+std::promise – некая очередь длины один, кладем туда ("обещаем") с помощью set_value().
+
+std::future получает обещанное значение с помощью get().
+
+Помогает, когда нужно передавать одно значение. Если больше, то скорее всего придется писать
+свою многопоточную очередь.
+
+```c++
+#include <chrono>
+#include <future>
+#include <iostream>
+#include <string>
+#include <thread>
+
+int main() {
+    std::promise<std::string> input_promise;
+    std::future<std::string> input_future = input_promise.get_future();
+
+    std::thread producer([&]() {
+        std::string input;
+        std::cin >> input;
+        input_promise.set_value(std::move(input));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::cout << "producer after set_value-1\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::cout << "producer after set_value-2\n";
+    });
+
+    std::thread consumer([&]() {
+        std::cout << "Consumer started\n";
+        std::string input = input_future.get();
+        std::cout << "Consumed!\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::cout << "Processed string: " << input << "\n";
+    });
+
+    consumer.join();
+    producer.join();
+}
+```
+По сути promise – это std::optional + std::mutex, get – взять mutex и вернуть значение. Но если значения нет,
+то надо как-то уснуть, пока оно не появится. Но как..?
+
+## conditional_variable
+std::condition_variable – еще один примитив синхронизации. Должен быть жестко связан с каким-то mutex и 
+каким-то условием, то есть позволяет быть уверенным, что условие true.
+
+wait(l) –> жди, пока кто-нибудь не скажет notify_one(). wait пишется в while (особенность языка, что позволяет
+разбудить случайный поток).
+
+```c++
+#include <chrono>
+#include <condition_variable>
+#include <iostream>
+#include <mutex>
+#include <string>
+#include <thread>
+
+int main() {
+    std::mutex m;
+    std::string input;
+    bool input_available = false;
+    std::condition_variable cond;
+
+    std::thread producer([&]() {
+//        while (true) {
+            std::cin >> input;
+            std::unique_lock l(m);
+            input_available = true;
+            cond.notify_one();  // Разбудит один случайный поток. Важно, чтобы это было ему по делу.
+//        }
+    });
+
+    std::thread consumer([&]() {
+//        while (true) {
+            std::unique_lock l(m);
+            while (!input_available) {  // while, не if!
+                cond.wait(l);
+            }
+            // Эквивалентная while конструкция, чтобы было сложнее набагать и были понятнее намерения.
+            cond.wait(l, []() { return input_available; });  // "ждём выполнения предиката".
+            std::string input_snapshot = input;
+            input_available = false;
+            l.unlock();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::cout << "Got string: " << input_snapshot << "\n";
+//        }
+    });
+
+    consumer.join();
+    producer.join();
+}
+```
+---
+## 27.02.23
+## Потоки
+### promise, future
+Как можно передать значение?
+
+Наивная реализация ожидания: сделать в producer флаг, помечающий пришедший input, в consumer взять mutex, проверять флаг,
+продолжить, если ничего не пришло.
+
+Чем решение плохо: бесконечно жрет процессор, даже когда ничего не происходит. Потому что
+mutex не умеет рассказывать потокам, что ничего не произошло.
+```c++
+int main() {
+    std::mutex m;
+    std::string input;
+    bool input_available = false;
+
+    std::thread producer([&]() {
+        while (true) {
+            std::cin >> input;
+
+            std::unique_lock l(m);
+            input_available = true;
+        }
+    });
+
+    std::thread consumer([&]() {
+        while (true) {
+            std::string input_snapshot;
+            {
+                std::unique_lock l(m);
+                if (!input_available) {
+                    continue;
+                }
+                input_snapshot = input;  // Не хотим, чтобы input изменился, пока мы ждём две секунды.
+                input_available = false;
+            }  // l.unlock();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::cout << "Got string: " << input_snapshot << "\n";
+        }
+    });
+
+    consumer.join();
+    producer.join();
+}
+```
+### condition_variable
+Ровно для таких случаев (когда есть какое-то условие) придумали `condition_variable`.
+
+(можно вместо while (spurious wakeup) писать `cond.wait(l, []() { return input_available; });`)
+
+notify_one() – разбудить они случайный поток.
+
+notify_all() – разбудить все потоки.
+
+Баги в многопоточных программах ищутся или с помощью санитайзеров, или при помощи доказательства,
+что каждая переменная или используется ровно одним потоком, или используется разными
+потоками всегда под mutex'ом, или ей все равно.
+
+Сверху вниз:
+
+* mutex – сам себя синхронизирует.
+* std::cin >> input; – запись идет просто так, то есть producer может записывать когда угодно. Даже при чтении input из consumer. Фактически UB (чтобы поймать, надо чтобы cin записывал прямо одновременно с чтением из input, что очень маловероятно)
+
+Пофиксить – поменять местами строки std::cin >> input; и std::unique_lock l(m);
+
+* mutex разблокирован очень-очень мало времени, не успеваем переключиться на consumer и схватить.
+
+Пофиксить (плохой вариант) – попросить систему потупить.
+```c++
+std::this_thread::yield();  // Просьба ОС что-то поделать
+```
+Костыльно, но никаких гарантий, сколько работает и что делает.
+
+Пофиксить (плохой вариант-2) – задержка.
+```c++
+std::this_thread::sleep_for(std::chrono::milliseconds(1));
+```
+
+Но на самом деле, если программа работает только с задержками и/или не помогает yeild, то 
+что-то в ней не так. Например, здесь mutex хватается на слишком малое время.
+
+! чем меньше времени под mutex, тем лучше (чтобы не заставлять потоки голодать, когда одному досталось все , а другим ничего).
+
+````c++
+int main() {
+    std::mutex m;
+    std::string input;
+    bool input_available = false;
+    std::condition_variable cond;
+
+    std::thread producer([&]() {
+        while (true) {
+            std::cin >> input;
+            std::unique_lock l(m);
+            input_available = true;
+            cond.notify_one();  // Разбудит один случайный поток. Важно, чтобы это было ему по делу.
+            // cond.notify_all();  // Разбудит все потоки.
+        }
+    });
+
+    std::thread consumer([&]() {
+        while (true) {
+            std::unique_lock l(m);
+            while (!input_available) {  // while, не if! spurious wakeup
+                cond.wait(l);
+            }
+            // Эквивалентная while конструкция, чтобы было сложнее набагать и были понятнее намерения.
+            // cond.wait(l, []() { return input_available; });  // "ждём выполнения предиката".
+            std::string input_snapshot = input;
+            input_available = false;
+            l.unlock();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::cout << "Got string: " << input_snapshot << "\n";
+        }
+    });
+
+    consumer.join();
+    producer.join();
+}
+````
+
+Решение:
+
+Читать вне mutex в перменную, используемую в одном потоке, потом под mutex сделать
+быстрый move, сбросить флаг и прочие быстрые операции.
+
+Все еще не очень (очередь длины 1), но уже неплохо.
+
+```c++
+#include <chrono>
+#include <condition_variable>
+#include <iostream>
+#include <mutex>
+#include <string>
+#include <thread>
+
+int main() {
+    std::mutex m;
+    std::string input;
+    bool input_available = false;
+    std::condition_variable cond;
+
+    std::thread producer([&]() {
+        while (true) {
+            std::string input_buf;
+            std::cin >> input_buf;  // Не держим мьютекс на долгих операциях.
+
+            std::unique_lock l(m);
+            input = std::move(input_buf);
+            input_available = true;
+            cond.notify_one();
+        }
+    });
+
+    std::thread consumer([&]() {
+        while (true) {
+            std::unique_lock l(m);
+            cond.wait(l, [&]() { return input_available; });
+            std::string input_snapshot = std::move(input);  // Тут тоже можно соптимизировать и добавить move.
+            input_available = false;
+            l.unlock();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::cout << "Got string: " << input_snapshot << "\n";
+        }
+    });
+
+    consumer.join();
+    producer.join();
+}
+```
+### Важное про condition variable
+* `wait()` — это оптимизация. Если её заменить на "отпустили мьютекс, подождали, взяли мьютекс обратно", то всё ещё должно работать.
+* Следствие: condition variable никогда не используются без какого-то отслеживаемого условия или мьютекса.
+
+### Мораль
+* Никогда не модифицируйте ничего без мьютекса!
+  Даже если сейчас не стреляет, ловить потом будет сложно.
+* Не надо брать мьютекс надолго.
+* Обычно проще писать не через condvar'ы, а через future или каналы (потокобезопасная очередь сообщений).
+    * Но ещё лучше вообще писать без потоков или хотя бы не синхронизировать ничего руками.
+
+### async
+Берет лямбду и запускает лямбду в каком-то потоке (новом, зарезервированном, существующем, неясно).
+
+С одной стороны, удобно, написать и поехали. С другой, мы ничего не можем сделать с потоком, кроме как получить значение.
+А еще нет гарантий, что в новом потоке запустится. Так что создает ложно впечатление, что вы обо всм подумали...
+
+А еще считается плохим стилем!
+```c++
+#include <chrono>
+#include <future>
+#include <iostream>
+#include <string>
+#include <thread>
+
+int main() {
+    // Может запустить код как в этом(!) потоке, так и в каком-нибудь соседнем. Без гарантий.
+    std::future<std::string> input_future = std::async([]() {
+        std::string input;
+        std::cin >> input;
+        return input;
+    });
+    // Похоже на команду go в языке Go, что может быть не очень хорошим стилем,
+    // даже если накрутить всяких .then()/.map()/.flatMap(); это слишком низкоуровнево.
+    // Например, отмену вычислений самому писать.
+    // https://vorpus.org/blog/notes-on-structured-concurrency-or-go-statement-considered-harmful/
+    // https://ericniebler.com/2020/11/08/structured-concurrency/
+
+    std::thread consumer([&]() {
+        std::cout << "Consumer started\n";
+        std::string input = input_future.get();
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::cout << "Got string: " << input << "\n";
+    });
+
+    consumer.join();
+}
+```
+### mutable
+
+Пишется рядом с полями класса. Означает, что можно менять даже в const-qualified методах.
+
+Применения:
+1. для mutex'а в каком-то классе, чтобы использовать его в методах (например, для get).
+
+```c++
+#include <mutex>
+
+struct atomic_int {
+    int get() const {
+        std::unique_lock l(m);
+        return value;
+    }
+
+    void set(int new_value) {
+        std::unique_lock l(m);
+        value = new_value;
+    }
+
+private:
+    mutable std::mutex m;  // Can be changed even in const-qualified methods.
+    int value;
+};
+
+int main() {
+}
+```
+
+2. чтобы что-то закешировать посчитанное значение.
+```c++
+struct matrix {
+    int determinant() const {
+    }
+
+private:
+    int n;
+    std::vector<int> data;
+    mutable std::optional<int> last_determinant;
+};
+```
+## Сеть
+We need TCP/IP.
+### IP (Internet Protocol)
+* Each device has zero or more IP addresses 
+  * IPv4: 4 bytes, typically in decimal, point-separated. Only 4B addresses. 
+  * IPv4: 127.0.0.1 is "local host", means "this device"
+  * IPv6: 16 bytes, not covered, e.g. [::1] or [2607:f8b0:4004:c1b::65]
+* Domain Name System (DNS) is a special system which translates "host name" like hse.ru to IP addresses (and other stuff)
+  * Not demonstrated: nslookup tool 
+  * Translation is not unique 
+* Similar IP addresses for physically connected devices form a network 
+  * E.g. my Wi-Fi router is 192.168.10.254, my computer is 192.168.10.20, they see each other
+  * My computer also has a separate IP address and a separate network for WSL
+* IP can send small packages (~2-64 KiB), one-way only. 
+* If you would like to go to an IP far away, you may need to hop through multiple devices (routers)
+  * Demonstrated: tracert -w 100 mirror.yandex.ru (traceroute on Linux/macOS)
+  * Note how there are multiple "local" IP addresses: see Network Address Translation (NAT) for TCP 
+  * Note that this is one-way road: you cannot reach my computer at 192.168.10.20 if you're not in my network 
+  * Global IPs are typically reachable from anywhere with "Internet Access"
+### TCP
+New term: _connection_.
+
+  client (initiates)           server (accepts)
+  ┌───────────────────┐  bytes  ┌────────────────┐
+  │      ip:port      ├────────►│     ip:port    │
+  │95.161.246.38:65124│◄────────┤186.2.163.228:80│
+  └───────────────────┘  bytes  └────────────────┘ 
+* TCP port is an integer between 1 and 65535 
+* TCP socket is a (ip, port) pair 
+* Bytes reliably flow in both directions (no duplicates, no reordering, no misses).
+* (source ip, source port, destination ip, destination port) is a unique connection identifier
+
+  server                       clients
+  ┌─────────95.161.246.48:65124
+  ▼
+  186.2.163.228:443◄────────95.161.246.48:61536
+  ▲
+  └─────────217.66.156.214:53612
+* Source IP address and source port are typically automatically chosen (e.g. port is random, IP is the best to connect to the destination)
+* One has to know destination IP address and the destination port 
+  * There are some standard TCP ports for servers: https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+
+### Command line tools
+See exercises
+
+* Netcat 
+  * Start server which waits for a single client: nc -l -p 10000 
+  * Connect client: nc localhost 10000 (127.0.0.1 is better so localhost is not accidentally IPv6)
+  * Reads/writes data line-by-line just like your typical C++ program
+* Telnet 
+  * Client only: telnet localhost 10000 
+  * Sends key strokes immediately, does not display them on the screen.
+* Web browser 
+  * Client only: http://localhost:10000 (not https, it's encrytped)
+
+### Сервер
+Работа с сетью с помощью стандартного С++ невоможна, пока только через сторонние библиотеки. 
+На курсе пользуемся библиотекой ```<boost/asio.hpp>```. Библиотека мощно, но будем использовать в простом, блокирующем режиме (поток
+блокируется до поступления байт). Есть еще асинхронный режим.
+
+`boost::asio::io_context io_context` – один раз создать, которая занимается обработкой взаимодействия по сети и не только в случае boost.
+
+`tcp::acceptor acceptor(
+io_context, tcp::endpoint(tcp::v4(), std::atoi(argv[1]))` – подключение, принимает контекст, где слушать (`tcp::()` везде)) и кого слушать. 
+
+`.local_endpoint()` – на каком порту и на каком IP-адресе принимаются подключения.
+
+`.accept` – блокирует выполнение потока, пока кто-нибудь не подключился. После подключения возвращает сокет (подключение).
+
+`tcp::iostream` – превращение сокета в что-то похожее на cin/cout.
+
+Такой сервер умеет обрабатывать только одного клиента (из-за блокирующего `.accept()`) –>
+вылезла многопоточность, чтобы создавать поток на клиента.
+
+```c++
+#include <boost/asio.hpp>
+#include <cassert>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
+#include <sstream>
+#include <utility>
+
+using boost::asio::ip::tcp;
+
+int main(int argc, char *argv[]) {
+    assert(argc == 2);
+
+    boost::asio::io_context io_context;  // TODO: once per thread or per app?
+    tcp::acceptor acceptor(
+        io_context, tcp::endpoint(tcp::v4(), std::atoi(argv[1]))
+    );
+    std::cout << "Listening at " << acceptor.local_endpoint() << "\n";
+
+    tcp::iostream client([&]() {
+        tcp::socket s = acceptor.accept();
+        std::cout << "Connected " << s.remote_endpoint() << " --> "
+                  << s.local_endpoint() << "\n";
+        return s;
+    }());
+
+    while (client) {
+        std::string s;
+        client >> s;
+        client << "string: " << s << "\n";
+    }
+    std::cout << "Completed\n";
+}
+```
+### Клиент
+Похоже на север, но вместо создания асептора создаем подключение:
+```c++
+auto create_connection = [&]() {
+tcp::socket s(io_context);
+boost::asio::connect(
+s, tcp::resolver(io_context).resolve(argv[1], argv[2])
+);
+return tcp::iostream(std::move(s));
+}
+```
+
+`tcp::resolver(io_context).resolve(host, port)` – преобразование в IP-адрес host и port.
+
+`.local_endpoint()` – откуда, `.remote_endpoint()` – куда подсоединились.
+
+`.shutdown()` – метод и у клиента, и у сервера, говорящий о том, что больше не будут отсылаться пакеты.
+
+`.get()` – прочитать байты от сервера.
+
+```c++
+#include <boost/asio.hpp>
+#include <cassert>
+#include <exception>
+#include <iostream>
+#include <sstream>
+#include <utility>
+
+using boost::asio::ip::tcp;
+
+int main(int argc, char *argv[]) {
+    assert(argc == 3);
+
+    boost::asio::io_context io_context;
+
+    auto create_connection = [&]() {
+        tcp::socket s(io_context);
+        boost::asio::connect(
+            s, tcp::resolver(io_context).resolve(argv[1], argv[2])
+        );
+        return tcp::iostream(std::move(s));
+    };
+    tcp::iostream conn = create_connection();
+    std::cout << "Connected " << conn.socket().local_endpoint() << " --> "
+              << conn.socket().remote_endpoint() << "\n";
+
+    conn << "hello world 123\n";
+    conn.socket().shutdown(tcp::socket::shutdown_send);
+    std::cout << "Shut down\n";
+
+    int c;
+    while ((c = conn.get()) != std::char_traits<char>::eof()) {
+        std::cout << static_cast<char>(c);
+    }
+
+    std::cout << "Completed\n";
+    return 0;
+}
+```
+
+### Передача данных
+Передача данных – это передача БАЙТОВ, при этом нет гарантий, что байты приходят заявленными группами/сообщениями. 
+
+```c++
+for (;;) {
+    std::vector<char> buf(50);
+    std::size_t read = client.receive(buffer(buf), 0);  // reads _something_
+    std::string s(buf.begin(), buf.begin() + read);
+    std::cout << "string of length " << read << ": " << s << "\n";
+}
+```
+
+`.send()` отправляет сколько-то байт, `.receive()` – принимает сколько-то байт. 
+
+! В TCP нет понятия сообщения, поэтому нужно специально договариваться/обрабатывать, что является корректным вводом.
+```c++
+for (int i = 0; i < 20; i++) {
+        s.send(buffer("hello\n"));  // bad
+        // write(s, buffer("hello\n"));  // good, but does not matter
+    }
+```
+
+### Баг в GCC
+Boost так написан, что (client << "x\n") выкидывает исключение при завершении ввода, но оно вызывается как-то хитро, что в итоге программа
+падает по std::terminate.
+```c++
+try {
+    try {
+        boost::asio::io_context io_context;
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 10000));
+        std::cout << "Listening at " << acceptor.local_endpoint() << "\n";
+
+        tcp::iostream client(acceptor.accept());
+        client.exceptions(
+            std::ios_base::failbit | std::ios_base::badbit |
+            std::ios_base::eofbit
+        );  // (1)
+        while (client << "x\n") {
+        }
+        std::cout << "Completed\n";
+    } catch (std::exception &e) {
+        std::cout << "Exception: " << e.what() << "\n";
+    }
+} catch (...) {
+    std::cout << "Unknown exception\n";
+}
+```
+---
+## 06.03.23
+## Сети
+### NAT (Network Address Translation)
+```
+  client (initiates)            router local     router internet              server (accepts)
+┌───────────────────┐         ┌──────────────┬───────────────────┐         ┌────────────────┐
+│      ip:port      ├────────►│      ip      │      ip:port      ├────────►│     ip:port    │
+│192.168.10.20:65124│◄────────┤192.168.10.254│95.161.246.38:23768│◄────────┤186.2.163.228:80│
+└───────────────────┘         └──────────────┴───────────────────┘         └────────────────┘
+     other client
+┌───────────────────┐
+│      ip:port      │
+│192.168.10.21:44234│
+└───────────────────┘
+```
+
+1. Router intercepts the connection request from the client.
+2. Initiates a new one "on behalf" of the client.
+3. Remembers that data flowing to `:23768` should go to the local network to `192.168.10.20:65124`.
+
+Now:
+
+* Client thinks it talks to the server.
+* Server thinks it talks to `95.161.246.38:23768`.
+
+But you cannot initiate connection from the outside.
+
+### Port forwarding
+If you want to overcome NAT, do like in old local network games:
+
+1. Easiest way: buy(!) a public IP address as a part of VDS/VPS (Virtual Dedicated/Private Server).
+   I may set up an instance for your projects, if you wish.
+   SSH reverse tunnel (GUI clients should support it as well):
+* https://habr.com/ru/company/ruvds/blog/676596/
+* https://timeweb.cloud/tutorials/network-security/ssh-tunnels#obratnyj-tunnel
+2. Use Hamachi or other VPN (Virtual Private Network) _for local network gaming_, not for "private browsing".
+3. For HTTP(S) protocol only (subset of TCP): ngrok and alternatives: https://github.com/anderspitman/awesome-tunneling
+4. Configure your router with "port forwarding"
+
+Different styles of writing networking (not only) code: https://stackoverflow.com/a/31298006/767632
+Actually, any code with two participants, e.g. your program and the networking library.
+
+Typically APIs only support one style, sometimes all.
+
+### Blocking
+You call a function, it does something and returns the result.
+May _block_ your thread for a while or indefinitely.
+Sometimes you may ask it to do multiple things and/or not block more than _a timeout_.
+
+```
+x = s.readInt();
+cout << "Read: " << x;
+
+if (s.readInt(y, 100ms)) {
+    cout << "Read: " << y;
+} else {
+    cout << "Timed out\n";
+}
+```
+
+Easier to code, impossible to interrupt, needs a thread per action.
+
+### Callbacks
+Also called: ~non-blocking, ~event-based, ~asynchronous.
+
+You ask the library to do something, it starts doing in the background.
+Your code proceeds.
+It "calls you back" when it's done or failed.
+You can take the next action then.
+
+The library decides everything: when to call and what to do next.
+You don't have "the next statement".
+
+Much harder to code, easy to intermix and interrupt, only a single thread is needed (but there may be more).
+
+### In frameworks
+```
+class MySocketHandler : public SocketHandler {
+    void onConnected() override {
+        this->startReadingInt();
+        cout << "Started reading int\n";
+    }
+
+    void intRead(int x) override {
+        cout << "Read: " << x << "\n";
+        if (x % 2 == 0) {
+            this->startReadingInt();
+        } else {
+            this->shutdown();
+        }
+    }
+};
+```
+
+In Qt you have to manually connect signals with slots.
+
+### In libraries
+```
+int main() {
+    s1.startReadingInt([&](int x) {
+        cout << "Read from s1: " << x;
+        s1.startReadingInt([&](int y) {
+            cout << "Read from s1: " << x << " " << y;
+        });
+    });
+    s2.startReadingInt([](int x) {
+        cout << "Read from s2: " << x;
+    });
+    // ...
+    framework.run();
+}
+```
+
+### Unanswered questions
+* What thread do lambda/callback runs in?
+  Typically there is a single dedicated "event thread" or "UI thread" which handles all events (including mouse and keyboard), you should never do anything long there.
+* What mutexes are held? What operations are permitted?
+* Can the callback run before `startReadingInt` returns?
+
+### Polling
+Also called: ~non-blocking, ~event-based, ~synchronous
+
+Almost never happens in frameworks, they use it under the hood.
+See `select` and `epoll` in Linux, `WaitForMultipleObjects` in Windows.
+
+For a project: use less libraries than more.
+If you use Qt, it already has almost anything you need, including sockets.
+Principles are the same, I don't recommend trying to set up both Boost and Qt. You can, though.
+
+## Потоки
+### Deadlock
+Потоку нужно захватить оба mutex'а –> возможно зависание из-за образовавшегося deadlock'а: оба потока
+выполнили по одной строке и ждут, пока другой отпустит mutex m1.
+```c++
+std::mutex m1, m2;
+std::thread t1([&]() {
+    for (int i = 0; i < N; i++) {
+        std::unique_lock a(m1);
+        std::unique_lock b(m2);
+    }
+});
+std::thread t2([&]() {
+    for (int i = 0; i < N; i++) {
+        std::unique_lock b(m2);
+        std::unique_lock a(m1);
+    }
+});
+// N=10'000: уже deadlock: пусть сначала каждый поток схватил себе m1/m2, а потом ждёт второй. А он занят.
+t2.join();
+t1.join();
+```
+
+Решение костыльное: `scoped_lock(m1, m2)`.
+
+Другой способ: программисту сделать глобальный порядок на mutex'ах.
+```c++
+std::mutex m1, m2;
+std::thread t1([&]() {
+    for (int i = 0; i < N; i++) {
+        std::scoped_lock a(m1, m2);
+        // Под капотом вызывает std::lock.
+        // Он пытается избежать deadlock, например:
+        // while (true) {
+        //     m1.lock();
+        //     if (m2.try_lock()) break;
+        //     m1.unlock();
+        // }
+        // 
+        // При этом &m1 < &m2 — UB (нельзя сравнивать указатели не из одного массива/объекта), но можно через std::less<std::mutex*>
+    }
+});
+std::thread t2([&]() {
+    for (int i = 0; i < N; i++) {
+        std::scoped_lock b(m2, m1);
+    }
+});
+t2.join();
+t1.join();
+```
+
+### Атомарные операции
+Внутрь double_foo может влезть какая-нибудь еще операция.
+```c++
+void foo(int x) {  // Атомарная операция, atomic.
+    std::unique_lock l(m);
+    std::cout << "foo(" << x << ")\n";
+}
+
+void double_foo(int x) {  // Неатомарная операция :(
+    foo(x);
+    foo(x + 1);
+}
+```
+
+Можно было бы взять mutex два раза, но так поток заблокирует сам себя.
+```c++
+void foo(int x) {  // Атомарная операция, atomic.
+    std::unique_lock l(m);
+    std::cout << "foo(" << x << ")\n";
+}
+
+void double_foo(int x) {    // Неатомарная операция :(
+    std::unique_lock l(m);  // Берём мьютекс первый раз.
+    foo(x);  // Берём мьютекс второй раз, deadlock :( Можно было бы взять
+             // recursive_mutex, но это обычно плохой стиль.
+    foo(x + 1);
+}
+```
+
+Можно взять два разных mutex, но операции все еще могут пересекаться между собой.
+```c++
+std::mutex m;
+std::mutex m2;
+    
+void foo(int x) {  // Атомарная операция, atomic.
+    std::unique_lock l(m);
+    std::cout << "foo(" << x << ")\n";
+}
+
+void double_foo(int x) {  // Неатомарная операция :(
+    std::unique_lock l(m2);  // Берём другой мьютекс, deadlock отсутствует.
+    foo(x);
+    foo(x + 1);
+}
+```
+
+
+Как принято делать: выносить повторную часть в отдельный приватный метод, который предполагает, что
+блокировка уже взята.
+
+```c++
+private:
+    std::mutex m;
+
+    void foo_lock_held(int x) {
+        std::cout << "foo(" << x << ")\n";
+    }
+
+public:
+    // Публичный интерфейс из атомарных операций.
+    // Над ним надо очень хорошо думать, потому что комбинация двух атомарных
+    // операций неатомарна.
+    void foo(int x) {
+        std::unique_lock l(m);
+        foo_lock_held(x);
+    }
+
+    void double_foo(int x) {
+        std::unique_lock l(m);
+        foo_lock_held(x);
+        foo_lock_held(x + 1);
+    }
+```
+
+Проблема: возвращается ссылка на `v[i]`, но после снятия mutex могло оказаться, что 
+в вектор добавили очень много элементов и он переехал в памяти.
+
+```c++
+template <typename T>
+struct atomic_vector {
+private:
+    mutable std::mutex m;
+    std::vector<T> v;
+
+public:
+    void push_back(T x) {
+        std::unique_lock l(m);
+        v.push_back(std::move(x));
+    }
+
+    // UB is imminent!
+    const T &operator[](std::size_t i) const {
+        std::unique_lock l(m);
+        return v[i];
+    }
+};
+```
+
+### TIC-TOU (Time of Check, Time of Use)
+Между проверкой баланса и снятием денег могло успеть произойти несколько операций....
+
+Реальный пример: 1'000'000 запросов по возвращению денег на счет в секунду -> вернулось больше, чем было.
+
+В потоках не млжет быть геттеров – как только значение вернулось, то оно уже устарело.
+```c++
+struct User {
+private:
+    mutable std::mutex m_;
+    int balance_ = 1'000'000;
+
+public:
+    // TOC-TOU is imminent! Just by looking at the API.
+    int balance() const {
+        std::unique_lock l(m_);
+        return balance_;
+    }
+
+    void decrease_balance(int decrease_by) {
+        std::unique_lock l(m_);
+        balance_ -= decrease_by;
+    }
+
+int main() {
+    User u;
+    std::thread t([&u]() {
+        while (u.balance() >= 3) {  // time of check
+            u.decrease_balance(3);  // time of use
+        }
+    });
+    while (u.balance() >= 4) {  // time of check
+        u.decrease_balance(4);  // time of use
+    }
+    t.join();
+    std::cout << u.balance() << "\n";  // Should be >= 0, but can be < 0
+}
+```
+
+Решение: использовать более сложные операции. 
+```c++
+struct User {
+private:
+    mutable std::mutex m_;
+    int balance_ = 1'000'000;
+
+public:
+    // TOC-TOU is imminent! But the name suggests likewise.
+    int approximate_balance() const {
+        std::unique_lock l(m_);
+        return balance_;
+    }
+
+    // No need to check before.
+    bool decrease_balance(int decrease_by) {
+        std::unique_lock l(m_);
+        if (balance_ < decrease_by) {
+            return false;
+        }
+        balance_ -= decrease_by;
+        return true;
+    }
+};
+
+int main() {
+    User u;
+    std::thread t([&u]() {
+        while (u.decrease_balance(3))
+            ;  // single operation
+    });
+    while (u.decrease_balance(4))
+        ;  // single operation
+    t.join();
+    std::cout << u.approximate_balance() << "\n";
+    assert(u.approximate_balance() >= 0);
+}
+```
+
+### shared pointer
+Можно безопасно копировать в разных потоках (счетчик количества копий увеличивает атомарно).
+```c++
+#include <iostream>
+#include <memory>
+#include <thread>
+
+int main() {
+    std::shared_ptr<int> p = std::make_unique<int>(10);
+
+    // Each shared_ptr<int> p is actually three objects with different semantics:
+    // 1. `p` itself is not thread-safe, but you can a) read-only; b) use mutex; or c) use std::atomic_* functions.
+    // 2. Reference counter inside `p` is thread-safe (probably via atomic)
+    // 3. `*p` is not thread-safe, but you can use mutex
+
+    std::thread t1([p]() {
+        for (int i = 0; i < 100'000; i++) {
+            auto p2 = p;  // Thread-safe, even though it increases reference counter.
+            ++*p;  // Non thread-safe.
+        }
+    });
+
+    std::thread t2([p]() {
+        for (int i = 0; i < 100'000; i++) {
+            auto p2 = p;
+            ++*p;
+        }
+    });
+
+    t1.join();
+    t2.join();
+
+    std::cout << *p << std::endl;  // race-y.
+    std::cout << p.use_count() << std::endl;  // non-race-y, always 1 here.
+    p = nullptr;  // No leaks.
+}
+```
+
+### thread_local
+Переменная, которая создается один раз на весь поток. Инициализируется либо в момент начала потока,
+либо в момент первого обращения. Новый тип storage duration.
+
+```c++
+#include <chrono>
+#include <iostream>
+#include <thread>
+
+struct Foo {
+    Foo(int id) {
+        std::cout << "Foo(" << id << ")@" << std::this_thread::get_id() << "\n";
+    }
+    ~Foo() {
+        std::cout << "~Foo()@" << std::this_thread::get_id() << "\n";
+    }
+};
+
+thread_local Foo foo(10);  // new kind of storage duration.
+
+int main() {
+    std::cout << "T1 &foo=" << &foo << "\n";  // Компилятор может проинициализировать лениво, но может и в момент начала потока.
+    std::thread t([&]() {
+        thread_local Foo bar(20);  // Инициализирует при проходе через эту строчку.
+        std::cout << "Before wait\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        std::cout << "T2 &foo=" << &foo << "\n";  // Компилятор может проинициализировать лениво, но может и в момент начала потока.
+        std::cout << "T2 &bar=" << &bar << "\n";  // Уже точно проинициализировано выше.
+    });
+    std::cout << "Waiting for it...\n";
+    t.join();
+    std::cout << "Joined\n";
+    return 0;
+}
+
+/*
+Зачем можно использовать: отслеживать стэк вызовов в каждом потоке.
+
+TEST_CASE() {  // Запомнили в thread-local переменную текущий test case
+    SUBCASE() {  // Запомнили текущий SUBCASE
+       CHECK(....)  // Можем выводить красивое сообщение
+    }
+}
+*/
+```
+
+### Немного о потоках и параллельности
+* Процессоры с 2004 года не увеличивают принципиально частоту (Pentium 4 Prescott - 2.8 ГГц).
+* С тех пор скорость работы повышается другими методами: размер кэша, скорость памяти, периферии.
+* Уже уткнулись в ограничения размера процессора из-за скорости света.
+
+Что делают для ускорения автоматически:
+
+* Выполнять команды параллельно, если они независимы:
+```с++
+int x = a * b;
+int y = a / b;
+```
+* В том числе команды, читающие из памяти.
+* Многоканальная память.
+* Переставить команды так, чтобы параллельности было побольше.
+
+Что делают руками:
+
+* Векторизация SIMD (Single-Instruction-Multiple-Data): обрабатываем 8 интов за раз.
+  Можно жёстко эксплуатировать: https://habr.com/ru/company/ruvds/blog/551060/
+* Учесть кэши и обращения к памяти.
+* Несколько физических ядер процессора.
+* Несколько процессоров.
+* Несколько компьютеров.
+
+Потоки можно применять не только для ускорения.
+Можно для замедления, зато с упрощением кода (блокирующий ввод-вывод) или многозадачностью (много окон).
+
+Параллельные алгоритмы:
+
+* Параллелятся почти как угодно:
+```с++
+int sum = 0;
+for (int x : values) sum += x;
+```
+* Не параллелятся вообще:
+```с++
+int steps = 0;
+for (int x = 1; x != 0; x = f(x)) steps++;
+```
+* Параллелятся, но не очень: компиляция.
+* Надо придумывать что-то хитрое, чтобы запустить на тысячах ядер:
+  * Иногда выгоднее распараллелить перебор, потому что умный алгоритм не параллелится
+  * Merge sort. https://compscicenter.ru/courses/video_cards_computation/2020-autumn/classes/
+
+
+### Шаблонный метод у класса
+Шаблонный метод нужно реализовывать внутри заголовочных файлов (так как инстанцирование
+шаблона происходит в момент компиляции). При этом возможно объявление и в cpp-шнике, ODR не нарушится. 
+```c++
+struct Applier {
+    int value;
+
+    // We only know how to write it inside the class, no ODR violations here surprisingly.
+    template<typename F>
+    void apply(F operation) {
+        std::cout << "Calling with " << value << "\n";
+        operation(value);
+    }
+};
+
+struct Print {
+    void operator()(int x) {
+        std::cout << x << "\n";
+    }
+};
+
+int main() {
+    Applier a{10};
+    Print p;
+    a.apply(p);
+}
+```
